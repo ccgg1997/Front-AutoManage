@@ -3,10 +3,10 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
 const navigation = [
-  { name: 'Dashboard', href: '#', current: true },
-  { name: 'Team', href: '#', current: false },
-  { name: 'Projects', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false },
+  { name: 'Piezas', href: '#', current: true },
+  { name: 'Productos', href: '#', current: false },
+  { name: '', href: '#', current: false },
+  { name: 'Citas', href: '#', current: false },
 ]
 
 function classNames(...classes) {
@@ -36,7 +36,7 @@ export default function Example() {
                 <div className="flex flex-shrink-0 items-center">
                   <img
                     className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuIYAvJHYa-r1hIYwpitpSCPJaYzW2DDDwxMpG5Ps&s"
                     alt="Your Company"
                   />
                 </div>
