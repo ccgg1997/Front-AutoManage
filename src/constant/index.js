@@ -1,12 +1,14 @@
-import {
-  model3,
-  modelS,
-  modelX,
-  modelY,
-  solarPanel,
-  solarRoof,
-  accessories,
-} from "../assets";
+const imagePathPrefix = "src/assets/images/";
+const imagePaths = [
+  "image1.jpg",
+  "image2.jpg",
+  "image3.jpg",
+  "image4.jpg",
+  "image5.jpg", 
+  "image6.jpg",
+  "image7.jpg",
+];
+
 
 export const navLinks = [
   {
@@ -38,49 +40,49 @@ export const navLinks = [
 export const hero = [
   {
     id: "modelM",
-    img: "../assets/images/Default_A_carousel_of_photos_for_a_car_dealership_featuring_ne_1.jpg",
-    title: "Model 3",
+    img: imagePathPrefix + imagePaths[0],
+    title: "Model M",
     desc: "Leasing starting at $349/mo",
     button: ["Custom Order", "Demo Drive"],
   },
   {
-    id: "modelY",
-    img: modelY,
+    id: "modelJ",
+    img: imagePathPrefix + imagePaths[1],
     title: "Model Y",
     desc: "Order Online for Touchless Delivery",
     button: ["Custom Order", "Demo Drive"],
   },
   {
-    id: "modelS",
-    img: modelS,
-    title: "Model S",
+    id: "modelJ",
+    img: imagePathPrefix + imagePaths[2],
+    title: "model J",
     desc: "Order Online for Touchless Delivery",
     button: ["Custom Order", "View Inventory"],
   },
   {
-    id: "modelX",
-    img: modelX,
-    title: "Model X",
+    id: "modelV",
+    img: imagePathPrefix + imagePaths[3],
+    title: "model V",
     desc: "Order Online for Touchless Delivery",
     button: ["Custom Order", "View Inventory"],
   },
   {
-    id: "solarPanels",
-    img: solarPanel,
-    title: "Solar Panels",
+    id: "modalC",
+    img: imagePathPrefix + imagePaths[4],
+    title: "modal C",
     desc: "Lowest Cost Solar Panels in America",
     button: ["Order Now", "Learn More"],
   },
   {
     id: "solarRoof",
-    img: solarRoof,
+    img: imagePathPrefix + imagePaths[5],
     title: "Solar Roof",
     desc: "Produce Clean Energy From Your Roof",
     button: ["Order Now", "Learn More"],
   },
   {
     id: "accessories",
-    img: accessories,
+    img: imagePathPrefix + imagePaths[6],
     title: "Accessories",
     desc: "",
     button: ["Shop More", "Order Now"],
