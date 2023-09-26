@@ -1,4 +1,4 @@
-const imagePathPrefix = "src/assets/images/";
+const imagePathPrefix = "src/assets/";
 const imagePaths = [
   "image1.jpg",
   "image2.jpg",
