@@ -1,7 +1,6 @@
 import { hero } from "../data/data";
 import { useNavigate } from "react-router-dom";
 const Hero = () => {
-  const navigate = useNavigate();
   return (
     <section>
       {hero.map(({ id, img, title, desc }) => (

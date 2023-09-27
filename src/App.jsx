@@ -13,8 +13,8 @@ function App() {
         <Navbar />
       <Router>
         <Routes>
-          <Route path="/" element={<Hero />}></Route>
-          <Route path="/Ventas" element={<Venta />}></Route>
+          <Route path="/" element={<Venta />}></Route>
+          <Route path="/Ventas" element={<Hero />}></Route>
           <Route path="/Ordenes" element={<OrdenesTrabajo />}></Route>
           <Route path="/Inventario" element={<Inventario />}></Route>
           <Route path="*" element={<Error error={"404"} />}></Route>

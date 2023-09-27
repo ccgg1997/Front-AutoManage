@@ -38,6 +38,14 @@ export const navLinks = [
 ];
 
 export const hero = [
+  
+  {
+    id: "modalC",
+    img: imagePathPrefix + imagePaths[4],
+    title: "modal C",
+    desc: "Lowest Cost Solar Panels in America",
+    button: ["Order Now", "Learn More"],
+  },
   {
     id: "modelM",
     img: imagePathPrefix + imagePaths[0],
@@ -65,13 +73,6 @@ export const hero = [
     title: "model V",
     desc: "Order Online for Touchless Delivery",
     button: ["Custom Order", "View Inventory"],
-  },
-  {
-    id: "modalC",
-    img: imagePathPrefix + imagePaths[4],
-    title: "modal C",
-    desc: "Lowest Cost Solar Panels in America",
-    button: ["Order Now", "Learn More"],
   },
   {
     id: "solarRoof",
