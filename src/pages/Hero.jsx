@@ -1,4 +1,4 @@
-import { hero } from "../data";
+import { hero } from "../data/data";
 import { useNavigate } from "react-router-dom";
 const Hero = () => {
   const navigate = useNavigate();
