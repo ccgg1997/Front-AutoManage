@@ -53,7 +53,7 @@ export const hero = [
     button: ["Custom Order", "Demo Drive"],
   },
   {
-    id: "modelJ",
+    id: "model A",
     img: imagePathPrefix + imagePaths[2],
     title: "model J",
     desc: "Order Online for Touchless Delivery",

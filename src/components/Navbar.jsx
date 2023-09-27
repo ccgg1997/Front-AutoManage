@@ -3,10 +3,10 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
 const navigation = [
-  { name: 'Partes', href: '#', current: true },
-  { name: 'Productos', href: '#', current: false },
-  { name: '', href: '#', current: false },
-  { name: 'Citas', href: '#', current: false },
+  { name: 'Inventario', href: '/Inventario', current: true },
+  { name: 'Ordenes Trabajo', href: '/Ordenes', current: false },
+  { name: 'Ventas', href: '/Ventas', current: false },
+  { name: 'Home', href: '/', current: false },
 ]
 
 function classNames(...classes) {
@@ -37,7 +37,7 @@ export default function Example() {
                   <img
                     className="h-8 w-auto"
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuIYAvJHYa-r1hIYwpitpSCPJaYzW2DDDwxMpG5Ps&s"
-                    alt="Your Company"
+                    alt="Auto-Manage"
                   />
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
