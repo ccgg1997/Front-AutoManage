@@ -5,13 +5,19 @@ import Venta from "./pages/Venta";
 import OrdenesTrabajo from "./pages/OrdenesTrabajo";
 import Inventario from "./pages/Inventario";
 import Error from "./pages/Error";
+import Login from "./pages/login";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
 function App() {
+  const [auth, setAuth] = React.useState(false);
+  const actualizarAuth = (auth) => {
+    setAuth(auth);
+  }
   return (
     <div className="App">
-      <Router>
-        <Navbar />
+      {!auth && <Login actualizar={actualizarAuth} />}
+      {auth && <Router>
+          <Navbar />
         <Routes>
           <Route path="/" element={<Hero />}></Route>
           <Route path="/Ventas" element={<Venta />}></Route>
@@ -19,7 +25,7 @@ function App() {
           <Route path="/Inventario" element={<Inventario />}></Route>
           <Route path="*" element={<Error error={"404"} />}></Route>
         </Routes>
-      </Router>
+      </Router>}
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import { hero } from "../data/data";
-import { useNavigate } from "react-router-dom";
 const Hero = () => {
   return (
     <section>
@@ -10,9 +9,9 @@ const Hero = () => {
         >
           <img src={img} alt={title} className="h-auto w-full object-cover" />
           <div className="absolute top-6 flex flex-col h-screen
-          w-full items-center justify-between">
-            <h1>{title}</h1>
-            <p>{desc}</p>
+          w-full items-center justify-between ">
+            <h1 className="text-5xl font-bold text-white">{title}</h1>
+            <p className="text-2xl font-bold text-white">{desc}</p>
           </div>
           <div className="">
           </div>
