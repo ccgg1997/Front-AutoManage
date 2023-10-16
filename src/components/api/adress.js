@@ -17,4 +17,21 @@ export const getVehiculos = async () => {
 
 }
 
+export const ApiLogin = async (login) => {
+  const loginAdress = apiAddress + "/token/";
+  console.log("loginadress "+loginAdress);
+  
+  try {
+    const response = await axios.post(loginAdress, {
+      email: login.email,
+      password: login.password,
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("error al obtener el token", error);
+  }
+  
+}
+
+
 

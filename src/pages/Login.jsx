@@ -1,11 +1,15 @@
 import { TextField } from "@mui/material";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import PropTypes from 'prop-types';
+import { useDispatch } from "react-redux";
+import { setAuthData } from "../store/features/auth/auth";
+import { ApiLogin } from "../components/api/adress";
+import { useSelector } from "react-redux";
 
 function Login({actualizar}) {
   const [passwordIncorrect,setPasswordIncorrect] = useState(false)
   const [emailIncorrect,setEmailIncorrect] = useState(false)
-  
+  const dispatch = useDispatch();
   const [login,setLogin] = useState({
     email: "",
     password: ""
@@ -20,12 +24,20 @@ function Login({actualizar}) {
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault()
-
-
-    if(login.email === "admin" && login.password === "admin"){
+    const response = await ApiLogin(login)
+    if(response!=null && response!=="" && response.access!==undefined ){
       actualizar(true)
+      dispatch(
+        setAuthData({
+          token: response.access,
+          usuario: login.email,
+          name: "prueba redux",
+          rol: "prueba admin",
+          timeExp: "MUCHAS HORAS",
+        })
+      );
     }
     if (login.email !== "admin") {
       setEmailIncorrect(true)
