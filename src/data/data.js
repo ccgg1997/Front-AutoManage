@@ -1,4 +1,4 @@
-const imagePathPrefix = "/public/";
+const imagePathPrefix = "/";
 const imagePaths = [
   "image1.jpg",
   "image2.jpg",
