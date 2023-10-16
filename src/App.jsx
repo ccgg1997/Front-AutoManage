@@ -5,7 +5,7 @@ import Venta from "./pages/Venta";
 import OrdenesTrabajo from "./pages/OrdenesTrabajo";
 import Inventario from "./pages/Inventario";
 import Error from "./pages/Error";
-import Login from "./pages/login";
+import Login from "./pages/Login";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 function App() {
