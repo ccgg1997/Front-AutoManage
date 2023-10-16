@@ -2,8 +2,7 @@
 
 const Inventario = () => {
   return (
-    <div>
-        <h1>CONTENIDO INVENTARIO</h1>
+    <div className="flex items-center justify-center h-screen">
     </div>
   )
 }
