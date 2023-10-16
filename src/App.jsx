@@ -6,6 +6,7 @@ import OrdenesTrabajo from "./pages/OrdenesTrabajo";
 import Inventario from "./pages/Inventario";
 import Error from "./pages/Error";
 import Login from "./pages/Login";
+import Usuarios from "./pages/Usuarios";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/Ventas" element={<Venta />}></Route>
           <Route path="/Ordenes" element={<OrdenesTrabajo />}></Route>
           <Route path="/Inventario" element={<Inventario />}></Route>
+          <Route path="/Usuarios" element={<Usuarios />}></Route>
           <Route path="*" element={<Error error={"404"} />}></Route>
         </Routes>
       </Router>}
