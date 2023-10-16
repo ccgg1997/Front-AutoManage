@@ -6,10 +6,10 @@ export const getVehiculos = async () => {
   try {
     const response = await axios.get(vehiculosAdress,{
       headers: {
-        Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk3NDg0ODQ3LCJpYXQiOjE2OTc0ODMwNDcsImp0aSI6ImJmOWFmODUwYmUxODRkYzY5NGNlOTdmNDMyN2ZjNGY4IiwidXNlcl9pZCI6MiwidXNlcl9lbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInVzZXJfbm9tYnJlIjoiYWRtaW5pc3RyYWRvciIsInVzZXJfYXBlbGxpZG8iOiIiLCJ1c2VyX3JvbCI6IkplZmVfVGFsbGVyIn0.S1Xmu_CV8yg3_f1I1jmG5A9Ra4lDNe8q9NPDzH0WTNU",
+        Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk3NDkwNjM3LCJpYXQiOjE2OTc0ODg4MzcsImp0aSI6IjQ1OGQ2NDUzYTgwMzQxZTRhMGQzNmQ0YTRiN2U1MmRhIiwidXNlcl9pZCI6MiwidXNlcl9lbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInVzZXJfbm9tYnJlIjoiYWRtaW5pc3RyYWRvciIsInVzZXJfYXBlbGxpZG8iOiIiLCJ1c2VyX3JvbCI6IkplZmVfVGFsbGVyIn0.TEaS6f7qF4w0JAcdJsp-GAWSE6G9VMnGiFCuJAeIRGs",
       },
     });
-    console.log(response.data)
+
     return response.data
   } catch (error) {
     throw new Error("error al obtener los vehiculos",error);
