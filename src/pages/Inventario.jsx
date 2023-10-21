@@ -2,6 +2,7 @@ import { getVehiculos } from '../components/api/adress';
 import BasicTable from '../components/Table';
 import { useState } from 'react';
 import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Inventario = () => {
   const [data, setData] = useState([]);
@@ -14,16 +15,20 @@ const Inventario = () => {
       console.log("hola es mi atuh"+ auth);
       const response = await getVehiculos();
       setData(response);
-    }catch(error){
-      console.log(error);
+    } catch (error) {
+      console.error(error);
     }
   }
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <button onClick={onClick}>Get Vehiculos</button>
-      <BasicTable data={data} titles={titles}/>
-    </div>
+    <>
+      <div className='flex justify-left'>
+        <button className="mt-10 mb-5 p-5 bg-lime-600 rounded" onClick={onClick}>Get Vehiculos</button>
+      </div>
+      <div className="flex justify-center h-screen p-20 pt-0">
+        <BasicTable data={data} titles={titles} />
+      </div>
+    </>
   )
 }
 

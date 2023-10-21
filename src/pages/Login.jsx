@@ -1,5 +1,5 @@
 import { TextField } from "@mui/material";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import { useDispatch } from "react-redux";
 import { setAuthData } from "../store/features/auth/auth";
@@ -7,11 +7,11 @@ import { ApiLogin } from "../components/api/adress";
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
 
-function Login({actualizar}) {
-  const [passwordIncorrect,setPasswordIncorrect] = useState(false)
-  const [emailIncorrect,setEmailIncorrect] = useState(false)
+function Login({ actualizar }) {
+  const [passwordIncorrect, setPasswordIncorrect] = useState(false)
+  const [emailIncorrect, setEmailIncorrect] = useState(false)
   const dispatch = useDispatch();
-  const [login,setLogin] = useState({
+  const [login, setLogin] = useState({
     email: "",
     password: ""
   })
@@ -25,7 +25,7 @@ function Login({actualizar}) {
     })
   }
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const response = await ApiLogin(login)
     console.log(response)
@@ -58,7 +58,7 @@ function Login({actualizar}) {
         <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
           <div className="shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12">
             <div className="z-10 mb-6 text-4xl font-bold text-black">
-            Welcome to AutoManage
+              Welcome to AutoManage
             </div>
             <img
               src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
@@ -183,7 +183,7 @@ function Login({actualizar}) {
                   <button
                     type="button"
                     className="inline-block rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                    onClick={handleSubmit}    
+                    onClick={handleSubmit}
                   >
                     Login
                   </button>
