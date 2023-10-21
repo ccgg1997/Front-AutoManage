@@ -2,7 +2,7 @@ import { getVehiculos } from '../components/api/adress';
 import BasicTable from '../components/Table';
 import { useState } from 'react';
 import { useSelector } from "react-redux";
-import { useSelector } from "react-redux";
+
 
 const Inventario = () => {
   const [data, setData] = useState([]);
