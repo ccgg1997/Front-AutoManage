@@ -18,7 +18,7 @@ function App() {
     <div className="App">
       {!auth && <Login actualizar={actualizarAuth} />}
       {auth && <Router>
-          <Navbar />
+        <Navbar />
         <Routes>
           <Route path="/" element={<Hero />}></Route>
           <Route path="/Ventas" element={<Venta />}></Route>
