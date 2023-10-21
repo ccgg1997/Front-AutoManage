@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import { useDispatch } from "react-redux";
 import { setAuthData } from "../store/features/auth/auth";
 import { ApiLogin } from "../components/api/adress";
-import { useSelector } from "react-redux";
+import Cookies from 'js-cookie';
+import jwt_decode from 'jwt-decode';
 
 function Login({actualizar}) {
   const [passwordIncorrect,setPasswordIncorrect] = useState(false)
@@ -27,23 +28,25 @@ function Login({actualizar}) {
   const handleSubmit = async(e) => {
     e.preventDefault()
     const response = await ApiLogin(login)
+    console.log(response)
     if(response!=null && response!=="" && response.access!==undefined ){
       actualizar(true)
+      const data = {
+        token: response.access,
+        usuario: login.email,
+        name: "prueba redux",
+        rol: "prueba admin",
+        timeExp: "MUCHAS HORAS",
+      }
       dispatch(
-        setAuthData({
-          token: response.access,
-          usuario: login.email,
-          name: "prueba redux",
-          rol: "prueba admin",
-          timeExp: "MUCHAS HORAS",
-        })
+        setAuthData(data)
       );
+      Cookies.set('userData', JSON.stringify(data));
+      var decode1 =jwt_decode(response.access);
+      console.log(decode1)
     }
-    if (login.email !== "admin") {
+   else{
       setEmailIncorrect(true)
-    }
-    if (login.password !== "admin") {
-      setPasswordIncorrect(true)
     }
 
   }

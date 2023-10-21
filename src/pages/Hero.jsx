@@ -1,5 +1,8 @@
 import { hero } from "../data/data";
+import { useSelector } from "react-redux";
 const Hero = () => {
+  const { token } = useSelector((state) => state.auth);
+  console.log("hola es mi atuh"+ token);
   return (
     <section>
       {hero.map(({ id, img, title, desc }) => (

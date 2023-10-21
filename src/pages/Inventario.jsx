@@ -1,14 +1,17 @@
 import { getVehiculos } from '../components/api/adress';
 import BasicTable from '../components/Table';
 import { useState } from 'react';
+import { useSelector } from "react-redux";
 
 const Inventario = () => {
   const [data, setData] = useState([]);
+  const { auth } = useSelector((state) => state.auth);
 
   const titles = ["ID", "Marca", "Linea", "Tipo", "Precio"];
 
   const onClick = async () => {
     try{
+      console.log("hola es mi atuh"+ auth);
       const response = await getVehiculos();
       setData(response);
     }catch(error){
