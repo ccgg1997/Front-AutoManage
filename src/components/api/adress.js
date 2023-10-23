@@ -19,19 +19,23 @@ export const getVehiculos = async (userToken) => {
 
 export const ApiLogin = async (login) => {
   const loginAdress = apiAddress + "/token/";
-  console.log("loginadress " + loginAdress);
-
+  if (login.email === "" || login.password === "") {
+    throw new Error("Datos vacios");
+  }
   try {
     const response = await axios.post(loginAdress, {
       email: login.email,
       password: login.password,
     });
-    return response.data;
+      return response.data;
   } catch (error) {
-    throw new Error("error al obtener el token", error);
+    if (error.response.status === 401) {
+      throw new Error("Usuario o contraseña incorrectos");
+    }
+    throw new Error("Error en el servidor");
   }
-
 }
+
 
 
 

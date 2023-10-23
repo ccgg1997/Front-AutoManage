@@ -6,10 +6,9 @@ import { setAuthData } from "../store/features/auth/auth";
 import { ApiLogin } from "../components/api/adress";
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
+import { Toaster, toast } from 'sonner'
 
 function Login({ actualizar }) {
-  const [passwordIncorrect, setPasswordIncorrect] = useState(false)
-  const [emailIncorrect, setEmailIncorrect] = useState(false)
   const dispatch = useDispatch();
   const [login, setLogin] = useState({
     email: "",
@@ -17,8 +16,6 @@ function Login({ actualizar }) {
   })
 
   const handleChange = (e) => {
-    setEmailIncorrect(false)
-    setPasswordIncorrect(false)
     setLogin({
       ...login,
       [e.target.name]: e.target.value
@@ -27,9 +24,8 @@ function Login({ actualizar }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    try{
     const response = await ApiLogin(login)
-    console.log(response)
-    if(response!=null && response!=="" && response.access!==undefined ){
       actualizar(true)
       const data = {
         token: response.access,
@@ -43,16 +39,22 @@ function Login({ actualizar }) {
       );
       Cookies.set('userData', JSON.stringify(data));
       var decode1 =jwt_decode(response.access);
-      console.log(decode1)
+    } catch (error) {
+      if (error.message === "Datos vacios") {
+        toast.error(error.message);
+      } else if (error.message === "Usuario o contraseña incorrectos") {
+        toast.error(error.message);
+      } else {
+        // Manejar otros errores de solicitud aquí
+        console.error("Error en la solicitud:", error.message);
+        toast.error("Error Interno, lamentamos los inconvenientes");
+      }
     }
-   else{
-      setEmailIncorrect(true)
-    }
-
   }
 
   return (
     <section className="flex items-center justify justify-center h-screen center ">
+      <Toaster/>
       <div className="h-full">
         {/* <!-- Left column container with background--> */}
         <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
@@ -135,10 +137,7 @@ function Login({ actualizar }) {
                 <TextField
                   type="email"
                   label="Email address"
-                  className={`camposTextos ${emailIncorrect ? 'error' : ''}`}
                   size="lg"
-                  error={emailIncorrect}
-                  helperText={emailIncorrect && 'Usuario incorrecto'}
                   onChange={handleChange}
                   name="email"
                 ></TextField>
@@ -147,9 +146,6 @@ function Login({ actualizar }) {
                 <TextField
                   type="password"
                   label="Password"
-                  className={`camposTextos ${passwordIncorrect ? 'error' : ''}`}
-                  error={passwordIncorrect}
-                  helperText={passwordIncorrect && 'Contraseña incorrecta'}
                   size="lg mt-3"
                   onChange={handleChange}
                   name="password"
