@@ -9,7 +9,6 @@ import Login from "./pages/Login";
 import Usuarios from "./pages/Usuarios";
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Toaster } from "sonner";
 function App() {
   const [auth, setAuth] = React.useState(false);
   const actualizarAuth = (auth) => {
@@ -17,7 +16,6 @@ function App() {
   }
   return (
     <div className="App">
-      <Toaster/>
       {!auth && <Login actualizar={actualizarAuth} />}
       {auth && <Router>
         <Navbar />

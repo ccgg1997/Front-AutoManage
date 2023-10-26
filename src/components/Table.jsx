@@ -13,12 +13,12 @@ export default function BasicTable({ data, titles }) {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            {titles.map((row) => (
+            {titles.map((title) => (
               <TableCell
-                key={row}
+                key={title}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                {row}
+                {title}
               </TableCell>
             ))}
           </TableRow>
@@ -29,15 +29,11 @@ export default function BasicTable({ data, titles }) {
               key={row.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
-                {row.id}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {row.marca}
-              </TableCell>
-              <TableCell align="right">{row.linea}</TableCell>
-              <TableCell align="right">{row.tipo}</TableCell>
-              <TableCell align="right">{row.precio}</TableCell>
+              {titles.map((title) => (
+                <TableCell align="left" key={title}>
+                  {row[title.toLowerCase()]} {/* Usa el título para acceder a los datos correspondientes */}
+                </TableCell>
+              ))}
             </TableRow>
           ))}
         </TableBody>

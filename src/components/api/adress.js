@@ -1,21 +1,36 @@
 import axios from "axios";
 export const apiAddress = "http://localhost:8000/api/v1";
 
-export const getVehiculos = async (userToken) => {
+export const createVehiculo = async (vehiculo,useToken) => {
+  const vehiculosAdress = apiAddress + "/vehiculos/";
+  try {
+    const response = await axios.post(vehiculosAdress, vehiculo, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Error al crear el vehiculo", error);
+  }
+}
+
+export const getVehiculos = async (useToken) => {
   const vehiculosAdress = apiAddress + "/vehiculos/";
   try {
     const response = await axios.get(vehiculosAdress, {
       headers: {
-        Authorization: "Bearer " + userToken,
+        Authorization: "Bearer " + useToken,
       },
     });
-    console.log(response)
     return response.data
   } catch (error) {
-    throw new Error("error al obtener los vehiculos", error);
+    console.log(error);
+    throw new Error("Error al obtener los vehiculos", error);
   }
 
 }
+
 
 export const ApiLogin = async (login) => {
   const loginAdress = apiAddress + "/token/";

@@ -1,5 +1,5 @@
 import { TextField } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import PropTypes from 'prop-types';
 import { useDispatch } from "react-redux";
 import { setAuthData } from "../store/features/auth/auth";
