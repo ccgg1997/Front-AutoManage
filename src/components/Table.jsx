@@ -5,16 +5,29 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 
-export default function BasicTable({ data, titles }) {
-  return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+export default function BasicTable({ data, titles, active }) {
+  const [isActive, setIsActive] = React.useState(false);
+
+  React.useEffect(() => {
+    if (active) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
+  }, [active]);
+
+  return isActive ? (
+    <TableContainer>
+      <Table
+        className="dark:bg-slate-950 outline-white"
+        aria-label="simple table"
+      >
         <TableHead>
           <TableRow>
             {titles.map((title) => (
               <TableCell
+                className="dark:text-white"
                 key={title}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
@@ -30,8 +43,13 @@ export default function BasicTable({ data, titles }) {
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               {titles.map((title) => (
-                <TableCell align="left" key={title}>
-                  {row[title.toLowerCase()]} {/* Usa el título para acceder a los datos correspondientes */}
+                <TableCell
+                  align="left"
+                  key={title}
+                  className="text-black dark:text-white"
+                >
+                  {row[title.toLowerCase()]}{" "}
+                  {/* Usa el título para acceder a los datos correspondientes */}
                 </TableCell>
               ))}
             </TableRow>
@@ -39,5 +57,5 @@ export default function BasicTable({ data, titles }) {
         </TableBody>
       </Table>
     </TableContainer>
-  );
+  ) : null;
 }

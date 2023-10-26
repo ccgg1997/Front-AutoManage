@@ -1,44 +1,42 @@
 import { TextField } from "@mui/material";
 import { useState } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { setAuthData } from "../store/features/auth/auth";
 import { ApiLogin } from "../components/api/adress";
-import Cookies from 'js-cookie';
-import jwt_decode from 'jwt-decode';
-import { Toaster, toast } from 'sonner'
+import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
+import { Toaster, toast } from "sonner";
 
 function Login({ actualizar }) {
   const dispatch = useDispatch();
   const [login, setLogin] = useState({
     email: "",
-    password: ""
-  })
+    password: "",
+  });
 
   const handleChange = (e) => {
     setLogin({
       ...login,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    try{
-    const response = await ApiLogin(login)
-      actualizar(true)
+    e.preventDefault();
+    try {
+      const response = await ApiLogin(login);
+      actualizar(true);
       const data = {
         token: response.access,
         usuario: login.email,
         name: "prueba redux",
         rol: "prueba admin",
         timeExp: "MUCHAS HORAS",
-      }
-      dispatch(
-        setAuthData(data)
-      );
-      Cookies.set('userData', JSON.stringify(data));
-      var decode1 =jwt_decode(response.access);
+      };
+      dispatch(setAuthData(data));
+      Cookies.set("userData", JSON.stringify(data));
+      var decode1 = jwt_decode(response.access);
     } catch (error) {
       if (error.message === "Datos vacios") {
         toast.error(error.message);
@@ -50,11 +48,11 @@ function Login({ actualizar }) {
         toast.error("Error Interno, lamentamos los inconvenientes");
       }
     }
-  }
+  };
 
   return (
     <section className="flex items-center justify justify-center h-screen center ">
-      <Toaster/>
+      <Toaster />
       <div className="h-full">
         {/* <!-- Left column container with background--> */}
         <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">

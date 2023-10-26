@@ -7,6 +7,7 @@ import Inventario from "./pages/Inventario";
 import Error from "./pages/Error";
 import Login from "./pages/Login";
 import Usuarios from "./pages/Usuarios";
+import Profile from "./pages/profile"; 
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 function App() {
@@ -15,7 +16,7 @@ function App() {
     setAuth(auth);
   }
   return (
-    <div className="App">
+    <div className="App dark:bg-slate-950">
       {!auth && <Login actualizar={actualizarAuth} />}
       {auth && <Router>
         <Navbar />
@@ -25,6 +26,7 @@ function App() {
           <Route path="/Ordenes" element={<OrdenesTrabajo />}></Route>
           <Route path="/Inventario" element={<Inventario />}></Route>
           <Route path="/Usuarios" element={<Usuarios />}></Route>
+          <Route path="/Profile" element={<Profile />}></Route>
           <Route path="*" element={<Error error={"404"} />}></Route>
         </Routes>
       </Router>}
