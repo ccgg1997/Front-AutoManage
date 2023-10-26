@@ -45,7 +45,7 @@ export default function UserUpdate() {
 
   return (
     <section className="flex flex-col items-center justify-center w-full h-screen py-12 bg-gray-50 dark:bg-slate-950 sm:px-6 lg:px-8">
-      <form className=" w-1/2 mx-auto " onSubmit={handleSubmit}>
+      <ul className=" w-1/2 mx-auto ">
         <div className="border-b border-gray-900/10 pb-12">
           <h2
             className="text-base font-semibold leading-7 text-gray-900
@@ -60,8 +60,8 @@ export default function UserUpdate() {
         </div>
 
         <div className="mt-10 mb-10 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <fieldset>
-            <legend className="text-xl mb-5">
+          <li>
+            <legend className="text-xl mb-5 dark:text-slate-300">
               Modificar informacion
             </legend>
             <label
@@ -75,9 +75,9 @@ export default function UserUpdate() {
                 </button>
               </div>
             </label>
-          </fieldset>
+          </li>
 
-          <fieldset className="mt-4 sm:col-span-4">
+          <li className="mt-4 sm:col-span-4">
             <label
               htmlFor="correo"
               className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
@@ -89,9 +89,9 @@ export default function UserUpdate() {
                 </button>
               </div>
             </label>
-          </fieldset>
+          </li>
 
-          <fieldset className="mt-4 sm:col-span-4">
+          <li className="mt-4 sm:col-span-4">
             <label
               htmlFor="contrasena"
               className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
@@ -103,14 +103,11 @@ export default function UserUpdate() {
                 </button>
               </div>
             </label>
-          </fieldset>
+          </li>
         </div>
 
-        <button className=" mb-5 p-2 bg-lime-600 rounded" type="submit">
-          Submit
-        </button>
         <Toaster />
-      </form>
+      </ul>
     </section>
   );
 }
