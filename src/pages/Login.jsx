@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { Input } from "@mui/material";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -51,13 +51,13 @@ function Login({ actualizar }) {
   };
 
   return (
-    <section className="flex items-center justify justify-center h-screen center ">
+    <section className="flex items-center justify justify-center h-screen center dark:bg-slate-950">
       <Toaster />
-      <div className="h-full">
+      <div className="h-full ">
         {/* <!-- Left column container with background--> */}
         <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
-          <div className="shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12">
-            <div className="z-10 mb-6 text-4xl font-bold text-black">
+          <div className="shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12 dark:bg-slate-950">
+            <div className="z-10 mb-6 text-4xl font-bold text-black dark:text-white ">
               Welcome to AutoManage
             </div>
             <img
@@ -72,7 +72,9 @@ function Login({ actualizar }) {
             <form>
               {/* <!--Sign in section--> */}
               <div className="flex flex-row items-center justify-center lg:justify-center">
-                <p className="mb-0 mr-4 text-lg">Sign in with</p>
+                <p className="mb-0 mr-4 text-lg dark:text-white">
+                  Sign in with
+                </p>
 
                 {/* <!-- Facebook button--> */}
                 <button
@@ -131,26 +133,25 @@ function Login({ actualizar }) {
               </div>
 
               {/* <!-- Email input --> */}
-              <div className="mb-6 flex flex-col ">
-                <TextField
+              <div className="mb-6 flex flex-col">
+                <Input
                   type="email"
-                  label="Email address"
-                  size="lg"
+                  placeholder="Email address"
                   onChange={handleChange}
                   name="email"
-                ></TextField>
+                ></Input>
 
                 {/* <!--Password input--> */}
-                <TextField
+                <Input
                   type="password"
-                  label="Password"
+                  placeholder="Password"
                   size="lg mt-3"
                   onChange={handleChange}
                   name="password"
-                ></TextField>
+                ></Input>
               </div>
 
-              <div className="mb-6 flex items-center justify-between">
+              <div className="mb-6 flex items-center justify-between dark:text-white">
                 {/* <!-- Remember me checkbox --> */}
                 <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
                   <input
@@ -163,7 +164,7 @@ function Login({ actualizar }) {
                     className="inline-block pl-[0.15rem] hover:cursor-pointer"
                     htmlFor="exampleCheck2"
                   >
-                    Remember me
+                    Remember
                   </label>
                 </div>
 
@@ -184,12 +185,13 @@ function Login({ actualizar }) {
                 </div>
 
                 {/* <!-- Register link --> */}
-                <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
+                <p className="mb-0 mt-2 pt-1 text-sm font-semibold dark:text-white">
                   Don&rsquo;t have an account yet?
                   <a
                     href="#!"
                     className="text-danger transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700"
                   >
+                    {" "}
                     Register
                   </a>
                 </p>

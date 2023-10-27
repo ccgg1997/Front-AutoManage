@@ -9,17 +9,28 @@ import Login from "./pages/Login";
 import Usuarios from "./pages/Usuarios";
 import Profile from "./pages/profile"; 
 import React from "react";
+import { clearAuthData } from "./store/features/auth/auth";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Cookies from "js-cookie";
 function App() {
   const [auth, setAuth] = React.useState(false);
+
   const actualizarAuth = (auth) => {
     setAuth(auth);
   }
+
+  const logOut = () => {
+    Cookies.remove("token");
+    clearAuthData();
+    setAuth(false);
+  };
+
   return (
     <div className="App dark:bg-slate-950">
       {!auth && <Login actualizar={actualizarAuth} />}
       {auth && <Router>
-        <Navbar />
+        <Navbar logOut={logOut} />
         <Routes>
           <Route path="/" element={<Hero />}></Route>
           <Route path="/Ventas" element={<Venta />}></Route>

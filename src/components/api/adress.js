@@ -16,6 +16,7 @@ export const createVehiculo = async (vehiculo,useToken) => {
 }
 
 export const getVehiculos = async (useToken) => {
+
   const vehiculosAdress = apiAddress + "/vehiculos/";
   try {
     const response = await axios.get(vehiculosAdress, {
@@ -49,8 +50,7 @@ export const ApiLogin = async (login) => {
     }
     throw new Error("Error en el servidor");
   }
-}
-
+};
 
 
 
