@@ -7,10 +7,9 @@ import Inventario from "./pages/Inventario";
 import Error from "./pages/Error";
 import Login from "./pages/Login";
 import Usuarios from "./pages/Usuarios";
-import Profile from "./pages/profile"; 
+import Profile from "./pages/Profile"; 
 import React from "react";
 import { clearAuthData } from "./store/features/auth/auth";
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Cookies from "js-cookie";
 function App() {
@@ -27,7 +26,7 @@ function App() {
   };
 
   return (
-    <div className="App dark:bg-slate-950">
+    <div className=" dark:bg-slate-950">
       {!auth && <Login actualizar={actualizarAuth} />}
       {auth && <Router>
         <Navbar logOut={logOut} />

@@ -15,6 +15,21 @@ export const createVehiculo = async (vehiculo,useToken) => {
   }
 }
 
+export const getVehiculo = async (id,useToken) => {
+  const vehiculoAdress = apiAddress + "/vehiculos/" + id;
+  try {
+    const response = await axios.get(vehiculoAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error al obtener el vehiculo", error);
+  }
+}
+
 export const getVehiculos = async (useToken) => {
 
   const vehiculosAdress = apiAddress + "/vehiculos/";
@@ -32,6 +47,19 @@ export const getVehiculos = async (useToken) => {
 
 }
 
+export const deleteVehiculo = async (id,useToken) => {
+  const vehiculosAdress = apiAddress + "/vehiculos/" + id;
+  try {
+    const response = await axios.delete(vehiculosAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Error al eliminar el vehiculo", error);
+  }
+}
 
 export const ApiLogin = async (login) => {
   const loginAdress = apiAddress + "/token/";

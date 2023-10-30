@@ -62,7 +62,7 @@ export default function VehiculoForm() {
         </p>
       </div>
 
-      <div className="mt-10">
+      <div className="mt-10 grid grid-rows-2">
         <label
           htmlFor="marca"
           className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
@@ -70,7 +70,7 @@ export default function VehiculoForm() {
           Marca
         </label>
         <div className="mt-2">
-          <div className="mx-auto flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-md dark:text-slate-300">
+          <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
             <input
               {...marca}
               id="marca"
@@ -82,8 +82,8 @@ export default function VehiculoForm() {
           </div>
         </div>
 
-        <div className="mt-10 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <div className="sm:col-span-4">
+        <div className="mt-10 ">
+          <div className="">
             <label
               htmlFor="linea"
               className=" text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
@@ -91,7 +91,7 @@ export default function VehiculoForm() {
               Linea
             </label>
             <div className="mt-2">
-              <div className="mx-auto flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300  sm:max-w-md ">
+              <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md ">
                 <input
                   {...linea}
                   id="linea"
@@ -103,7 +103,7 @@ export default function VehiculoForm() {
             </div>
           </div>
 
-          <div className="mt-10 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div className="mt-10 sm:grid-cols-6">
             <div className="sm:col-span-4">
               <label
                 htmlFor="tipo"
@@ -112,7 +112,7 @@ export default function VehiculoForm() {
                 Tipo
               </label>
               <div className="mt-2">
-                <div className="mx-auto flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300  sm:max-w-md">
+                <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
                   <input
                     {...tipo}
                     id="tipo"
@@ -124,7 +124,7 @@ export default function VehiculoForm() {
               </div>
             </div>
 
-            <div className="mt-10 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div className="mt-10 sm:grid-cols-6">
               <div className="sm:col-span-4">
                 <label
                   htmlFor="precio"
@@ -133,7 +133,7 @@ export default function VehiculoForm() {
                   Precio
                 </label>
                 <div className="mt-2">
-                  <div className="mx-auto flex mb-12 rounded-md shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-md">
+                  <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
                     <input
                       {...precio}
                       id="precio"
@@ -149,7 +149,7 @@ export default function VehiculoForm() {
         </div>
       </div>
 
-      <button className=" mb-5 p-2 bg-lime-600 rounded" type="submit">
+      <button className=" mb-5 mt-5 p-2 bg-lime-600 rounded " type="submit">
         Submit
       </button>
       <Toaster />

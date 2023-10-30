@@ -6,21 +6,12 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
-export default function BasicTable({ data, titles, active }) {
-  const [isActive, setIsActive] = React.useState(false);
+export default function BasicTable({ data, titles }) {
 
-  React.useEffect(() => {
-    if (active) {
-      setIsActive(true);
-    } else {
-      setIsActive(false);
-    }
-  }, [active]);
-
-  return isActive ? (
+  return ( 
     <TableContainer>
       <Table
-        className="dark:bg-slate-950 outline-white"
+        className=" outline-white"
         aria-label="simple table"
       >
         <TableHead>
@@ -57,5 +48,6 @@ export default function BasicTable({ data, titles, active }) {
         </TableBody>
       </Table>
     </TableContainer>
-  ) : null;
+  );
+  
 }
