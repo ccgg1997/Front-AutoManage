@@ -26,6 +26,8 @@ export default function VehiculoDeleteForm() {
     } catch (error) {
       toast.error(error.message);
       console.error(error);
+    } finally {
+      setIsOpen(false);
     }
   };
 
@@ -89,6 +91,12 @@ export default function VehiculoDeleteForm() {
 }
 
 const SureModal = ({ isOpen, setIsOpen, handleDelete }) => {
+
+  const handleClose = () => {
+    setIsOpen(false);
+    handleDelete();
+  }
+
   return (
     <Modal
       className="flex items-center justify-center"
@@ -96,29 +104,29 @@ const SureModal = ({ isOpen, setIsOpen, handleDelete }) => {
       onClose={() => setIsOpen(false)}
       aria-labelledby="modal-modal-title"
     >
-      <form onSubmit={handleDelete}>
-        <Box className="bg-white dark:bg-slate-950 rounded-lg p-8 ">
+      <form onSubmit={handleClose}>
+        <Box className="bg-white dark:bg-gray-800 rounded-xl p-5 sm:p-10 sm:px-6">
           <Typography
             id="modal-modal-title"
             variant="h6"
             component="h2"
-            className="text-xl mb-5 dark:text-slate-300"
+            className="text-xl mb-3 sm:mb-5 dark:text-slate-300"
           >
             Eliminar Vehiculo
           </Typography>
-          <div className="mb-5 mt-5">
-            <Typography className=" text-sm font-medium leading-6 text-gray-900 dark:text-slate-300">
+          <div className="mb-3 sm:mb-5 mt-3 sm:mt-5">
+            <Typography className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300 whitespace-normal">
               Está seguro que desea eliminar el vehiculo?
             </Typography>
           </div>
-          <div className="flex justify-between">
+          <div className="flex flex-col sm:flex-row sm:justify-between">
             <button
               onClick={() => setIsOpen(false)}
-              className="mb-5 p-2 bg-lime-600 rounded "
+              className="mb-3 sm:mb-0 p-2 bg-lime-600 rounded w-full sm:w-auto"
             >
               Cancel
             </button>
-            <button className="mb-5 p-2 bg-lime-600 rounded" type="submit">
+            <button className="mb-3 sm:mb-0 p-2 bg-lime-600 rounded w-full sm:w-auto" type="submit">
               Eliminar
             </button>
           </div>

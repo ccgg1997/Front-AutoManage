@@ -25,7 +25,6 @@ export const getVehiculo = async (id,useToken) => {
     });
     return response.data
   } catch (error) {
-    console.log(error);
     throw new Error("Error al obtener el vehiculo", error);
   }
 }
@@ -45,6 +44,20 @@ export const getVehiculos = async (useToken) => {
     throw new Error("Error al obtener los vehiculos", error);
   }
 
+}
+
+export const updateVehiculo = async (vehiculo,useToken) => {
+  const vehiculosAdress = apiAddress + "/vehiculos/" + vehiculo.id + "/";
+  try {
+    const response = await axios.put(vehiculosAdress, vehiculo, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Error al actualizar el vehiculo", error);
+  }
 }
 
 export const deleteVehiculo = async (id,useToken) => {

@@ -150,7 +150,7 @@ export default function VehiculoForm() {
       </div>
 
       <button className=" mb-5 mt-5 p-2 bg-lime-600 rounded " type="submit">
-        Submit
+        Crear
       </button>
       <Toaster />
     </form>
