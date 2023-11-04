@@ -16,7 +16,7 @@ export const createVehiculo = async (vehiculo,useToken) => {
 }
 
 export const getVehiculo = async (id,useToken) => {
-  const vehiculoAdress = apiAddress + "/vehiculos/" + id;
+  const vehiculoAdress = apiAddress + "/vehiculos/" + id + "/";
   try {
     const response = await axios.get(vehiculoAdress, {
       headers: {
@@ -61,7 +61,7 @@ export const updateVehiculo = async (vehiculo,useToken) => {
 }
 
 export const deleteVehiculo = async (id,useToken) => {
-  const vehiculosAdress = apiAddress + "/vehiculos/" + id;
+  const vehiculosAdress = apiAddress + "/vehiculos/" + id + "/";
   try {
     const response = await axios.delete(vehiculosAdress, {
       headers: {
