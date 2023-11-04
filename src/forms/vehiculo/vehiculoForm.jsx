@@ -47,7 +47,7 @@ export default function VehiculoForm() {
   };
 
   return (
-    <form className=" w-1/2 mx-auto " onSubmit={handleSubmit}>
+    <form className=" w-1/2 mx-auto dark:bg-black" onSubmit={handleSubmit}>
       <div className="border-b border-gray-900/10 pb-12">
         <h2
           className="text-base font-semibold leading-7 text-gray-900
@@ -62,7 +62,7 @@ export default function VehiculoForm() {
         </p>
       </div>
 
-      <div className="mt-10 grid grid-rows-2">
+      <div className="mt-10 sm:grid-cols-6">
         <label
           htmlFor="marca"
           className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"

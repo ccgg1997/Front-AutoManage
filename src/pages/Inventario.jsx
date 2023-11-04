@@ -5,12 +5,19 @@ import { useSelector } from "react-redux";
 import VehiculoForm from "../forms/vehiculo/vehiculoForm";
 import VehiculoUpdate from "../forms/vehiculo/vehiculoUpdateForm";
 import VehiculoDelete from "../forms/vehiculo/vehiculoDeleteForm";
+import { Button } from "@mui/material";
+import { useRef } from "react";
 const Inventario = () => {
   const [data, setData] = useState([]);
+  const createRef = useRef();
+  const editRef = useRef();
+  const deteleRef = useRef();
+  const tableRef = useRef();
+
   const [active, setActive] = useState(false);
   const [createActive, setCreateActive] = useState(false);
   const [editActive, setEditActive] = useState(false);
-  const  [deleteActive, setDeleteActive] = useState(false);
+  const [deleteActive, setDeleteActive] = useState(false);
   const titles = ["ID", "Marca", "Linea", "Tipo", "Precio"];
 
   const { token } = useSelector((state) => state.auth);
@@ -24,6 +31,8 @@ const Inventario = () => {
         setCreateActive(false);
         setEditActive(false);
         setDeleteActive(false);
+
+        tableRef.current.scrollIntoView({ behavior: "smooth" });
       }
     } catch (error) {
       console.error(error);
@@ -36,6 +45,8 @@ const Inventario = () => {
       setActive(false);
       setEditActive(false);
       setDeleteActive(false);
+
+      createRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -45,6 +56,8 @@ const Inventario = () => {
       setActive(false);
       setCreateActive(false);
       setDeleteActive(false);
+
+      editRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -54,48 +67,154 @@ const Inventario = () => {
       setActive(false);
       setCreateActive(false);
       setEditActive(false);
+
+      deteleRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }
+  };
 
   return (
-    <>
-      <div className="flex justify-center space-x-4 sm:space-x-8 ">
-        <button
-          className="mt-10 mb-5 p-5 bg-lime-600 rounded"
-          onClick={onClick}
-        >
-          Obtener Vehiculos
-        </button>
-        <button
-          className="mt-10 mb-5 p-5 bg-lime-600 rounded"
-          onClick={onClickAdd}
-        >
-          Agregar Vehiculo
-        </button>
-        <button
-          className="mt-10 mb-5 p-5 bg-lime-600 rounded"
-          onClick={onClickEdit}
-        >
-          Editar Vehiculo
-        </button>
-        <button
-          className="mt-10 mb-5 p-5 bg-lime-600 rounded"
-          onClick={onClickDelete}
-        >
-          Eliminar Vehiculo
-        </button>
-      </div>
-      <div className="mt-4">
-      {active && (
-        <div className="flex justify-center">
-          <BasicTable data={data} titles={titles} />
+    <section className="w-full h-screen bg-white dark:bg-black">
+      <div className="container mx-auto px-6 py-8">
+        <h1 className="text-4xl font-bold text-center text-black dark:text-white">
+          Gestión de vehiculos
+        </h1>
+        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="flex flex-col items-center justify-center p-6 border-2 border-black dark:border-white rounded-lg">
+            <svg
+              className=" h-12 w-12 text-black dark:text-white"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M5 12h14" />
+              <path d="M12 5v14" />
+            </svg>
+            <h2 className="mt-2 text-xl font-semibold text-black dark:text-white">
+              Crear vehiculo
+            </h2>
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              Agregar un nuevo vehiculo al sistema
+            </p>
+            <Button
+              className="mt-4 text-black border-black dark:text-white dark:border-white"
+              variant="outline"
+              onClick={onClickAdd}
+            >
+              Crear
+            </Button>
+          </div>
+          <div className="flex flex-col items-center justify-center p-6 border-2 border-black dark:border-white rounded-lg">
+            <svg
+              className=" h-12 w-12 text-black dark:text-white"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.3-4.3" />
+            </svg>
+            <h2 className="mt-2 text-xl font-semibold text-black dark:text-white">
+              Leer informacion de vehiculos
+            </h2>
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              Ver los detalles de vehiculos existentes
+            </p>
+            <Button
+              className="mt-4 text-black border-black dark:text-white dark:border-white"
+              variant="outline"
+              onClick={onClick}
+            >
+              Ver
+            </Button>
+          </div>
+          <div className="flex flex-col items-center justify-center p-6 border-2 border-black dark:border-white rounded-lg">
+            <svg
+              className=" h-12 w-12 text-black dark:text-white"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+              <path d="m15 5 4 4" />
+            </svg>
+            <h2 className="mt-2 text-xl font-semibold text-black dark:text-white">
+              Actualizar vehiculos
+            </h2>
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              Modificar los detalles de vehiculos existentes
+            </p>
+            <Button
+              className="mt-4 text-black border-black dark:text-white dark:border-white"
+              variant="outline"
+              onClick={onClickEdit}
+            >
+              Actualizar
+            </Button>
+          </div>
+          <div className="flex flex-col items-center justify-center p-6 border-2 border-black dark:border-white rounded-lg">
+            <svg
+              className=" h-12 w-12 text-black dark:text-white"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M3 6h18" />
+              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+            </svg>
+            <h2 className="mt-2 text-xl font-semibold text-black dark:text-white">
+              Eliminar vehiculo
+            </h2>
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+              Remover vehiculos del sistema
+            </p>
+            <Button
+              className="mt-4 text-black border-black dark:text-white dark:border-white"
+              variant="outline"
+              onClick={onClickDelete}
+            >
+              Eliminar
+            </Button>
+          </div>
         </div>
-      )}
-      <div>{createActive && <VehiculoForm />}</div>
-      <div>{editActive && <VehiculoUpdate />}</div>
-      <div>{deleteActive && <VehiculoDelete />}</div>
+        <div className="mt-4" ref={tableRef}>
+          {active && (
+            <div className="flex justify-center">
+              <BasicTable data={data} titles={titles} />
+            </div>
+          )}
+          <div className="mt-9">
+          <div ref={createRef}>{createActive && <VehiculoForm />}</div>
+          <div ref={editRef}>{editActive && <VehiculoUpdate />}</div>
+          <div ref={deteleRef}>{deleteActive && <VehiculoDelete />}</div>
+          </div>
+        </div>
       </div>
-    </>
+    </section>
   );
 };
 
