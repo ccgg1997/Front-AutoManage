@@ -13,6 +13,11 @@ const useField = ({ type, placeholder }) => {
 };
 
 export default function VehiculoForm() {
+  /**
+   * Renders a form for editing a vehicle.
+   *
+   * @returns {JSX.Element} The rendered form for editing a vehicle.
+   */
   const [seeForm, setSeeForm] = useState(false);
   const [seeIdForm, setSeeIdForm] = useState(true);
 
@@ -32,7 +37,7 @@ export default function VehiculoForm() {
 
   if (seeIdForm) {
     return (
-      <form className=" w-1/2 mx-auto " onSubmit={handleSubmit}>
+      <form className="dark:text-white dark:bg-black " onSubmit={handleSubmit}>
         <div className="border-b border-gray-900/10 pb-12">
           <h2
             className="text-base font-semibold leading-7 text-gray-900
@@ -82,6 +87,14 @@ export default function VehiculoForm() {
   return <div> Cargando....</div>;
 }
 
+/**
+ * Renders a form for editing vehicle information.
+ *
+ * @param {Object} props - The component props.
+ * @param {number} props.id - The id of the vehicle to edit.
+ * @param {function} props.clearForm - A function to clear the form.
+ * @returns {JSX.Element} The rendered form for editing a vehicle.
+ */
 const InfoForm = ({ id, clearForm }) => {
   const [dataVehiculo, setDataVehiculo] = useState("");
   const [loading, setLoading] = useState(true);
@@ -118,26 +131,25 @@ const InfoForm = ({ id, clearForm }) => {
       tipo: tipo.value,
       precio: precio.value,
     };
-    console.log(vehiculo.id)
+    console.log(vehiculo.id);
     try {
       await updateVehiculo(vehiculo, token);
       toast.success("Vehiculo actualizado con exito, Redirigiendo...");
       setTimeout(() => {
         clearForm();
-      }
-      , 2000);
+      }, 2000);
     } catch (error) {
       toast.error(error.message);
       console.error(error);
     }
-  }
+  };
 
   return (
-    <div className="mt-10 overflow-auto">
+    <div className="mt-10 dark:bg-black dark:text-white overflow-auto">
       {loading ? (
         <div>Cargando...</div>
       ) : dataVehiculo ? (
-        <div className="mt-10 overflow-auto px-6">
+        <div className="mt-10 dark:bg-black overflow-auto px-6">
           <div className="flex flex-wrap">
             <div className="w-full sm:w-1/2 md:w-1/3 p-2 " onSubmit={onSubmit}>
               <label
@@ -229,7 +241,7 @@ const InfoForm = ({ id, clearForm }) => {
           </div>
         </div>
       ) : (
-        <div className="text-center">
+        <div className="text-center dark:bg-black dark:text-white">
           No se encontró el vehículo
           <div>
             <button

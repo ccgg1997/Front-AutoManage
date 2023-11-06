@@ -1,8 +1,9 @@
 import React from "react";
 import { Toaster, toast } from "sonner";
 import { useSelector } from "react-redux";
-import { Modal, Typography, Box, Button } from "@mui/material";
+import { Modal, Typography, Box } from "@mui/material";
 import { useState } from "react";
+import { userUpdate } from "../../components/api/adress"
 
 const useField = ({ type, placeholder }) => {
   const [value, setValue] = React.useState("");
@@ -12,8 +13,21 @@ const useField = ({ type, placeholder }) => {
   return { type, placeholder, value, onChange };
 };
 
+/**
+ * The `UserUpdate` function is a React component that allows users to update their personal information such as name, email, and password.
+ * It uses Redux for state management and Material-UI for styling.
+ * The function renders a form with input fields for each piece of information and handles the submission of the form to update the user's data.
+ *
+ * @example
+ * ```javascript
+ * <UserUpdate />
+ * ```
+ * This component can be used in a React application to provide a user interface for updating user information.
+ *
+ * @returns {JSX.Element} The rendered UserUpdate component.
+ */
 export default function UserUpdate() {
-  const { token } = useSelector((state) => state.auth);
+  const { usuario, name, lastname } = useSelector((state) => state.auth);
   const [openNombreModal, setOpenNombreModal] = useState(false);
   const [openCorreoModal, setOpenCorreoModal] = useState(false);
   const [openContrasenaModal, setOpenContrasenaModal] = useState(false);
@@ -37,6 +51,18 @@ export default function UserUpdate() {
     contrasenaAnterior.onChange({ target: { value: "" } });
     confirmarContrasena.onChange({ target: { value: "" } });
   };
+
+  React.useEffect(() => {
+    const getUserData = async () => {
+      try {
+        nombre.onChange({ target: { value: name } });
+        correo.onChange({ target: { value: usuario } });
+      } catch (error) {
+        toast.error(error.message); // Muestra el mensaje de error en la interfaz de usuario
+      }
+    };
+    getUserData();
+  }, []);
 
   return (
     <section className="flex flex-col items-center justify-center w-full h-screen py-12 bg-gray-50 dark:bg-slate-950 sm:px-6 lg:px-8">
@@ -134,21 +160,34 @@ export default function UserUpdate() {
 }
 
 /**
- * Modal correspondiente al cambio de nombre de usuario
- * @param {*} param0
- * @returns
+ * Renders a modal for changing the user's name.
+ *
+ * @param {boolean} openNombreModal - Controls the visibility of the modal.
+ * @param {function} setOpenNombreModal - Updates the value of openNombreModal.
+ * @param {object} nombre - Contains the current name value and an onChange function to update it.
+ * @returns {JSX.Element} - Modal dialog for changing the user's name.
  */
 const ModalName = ({ openNombreModal, setOpenNombreModal, nombre }) => {
+  const { token } = useSelector((state) => state.auth);
+  const { id } = useSelector((state) => state.auth);
+  const user = {
+    nombre: nombre.value,
+  };
   const handleOnClick = async (e) => {
     e.preventDefault();
     try {
-      //const response = await updateVehiculo(vehiculo, token);
-      //console.log(response);
+      if (nombre.value !== "") {
+      const response = await userUpdate(id, user, token);
+      console.log(response);
       toast.success("Informacion actualizada con exito");
-    } catch (error) {
-      toast.error(error.message);
-      console.error(error);
+    }else{
+      toast.error("introduzca un nombre valido")
     }
+  } catch (error) {
+    toast.error(error.message);
+    console.error(error);
+  }
+  console.log(user)
   };
 
   return (
@@ -195,9 +234,13 @@ const ModalName = ({ openNombreModal, setOpenNombreModal, nombre }) => {
 };
 
 /**
- * Modal correspondiente al cambio de correo electronico
- * @param {*} param0
- * @returns
+ * Renders a modal dialog for changing the email address and handles the form submission.
+ *
+ * @param {boolean} openCorreoModal - Determines whether the modal is open or closed.
+ * @param {function} setOpenCorreoModal - Updates the value of openCorreoModal.
+ * @param {object} correo - Contains the current email address value and an onChange function to update it.
+ *
+ * @returns {JSX.Element} The rendered modal dialog.
  */
 const ModalCorreo = ({ openCorreoModal, setOpenCorreoModal, correo }) => {
   const handleOnClick = async (e) => {
@@ -256,18 +299,30 @@ const ModalCorreo = ({ openCorreoModal, setOpenCorreoModal, correo }) => {
 };
 
 /**
- * Modal correspondiente al cambio de contraseña
- * @param {*} param0
- * @returns
+ * Displays a modal for changing the user's password.
+ *
+ * @param {boolean} openContrasenaModal - Controls the visibility of the modal.
+ * @param {function} setOpenContrasenaModal - Updates the value of openContrasenaModal.
+ * @param {object} contrasenaAnterior - Contains the input field value and onChange function for the previous password.
+ * @param {object} contrasena - Contains the input field value and onChange function for the new password.
+ * @param {object} confirmarContrasena - Contains the input field value and onChange function for confirming the new password.
+ * @param {function} clearForm - Clears the values of all input fields.
  */
-const ModalContrasena = ({ openContrasenaModal, setOpenContrasenaModal,contrasenaAnterior,contrasena, confirmarContrasena,clearForm }) => {
+const ModalContrasena = ({
+  openContrasenaModal,
+  setOpenContrasenaModal,
+  contrasenaAnterior,
+  contrasena,
+  confirmarContrasena,
+  clearForm,
+}) => {
   const handleOnClick = async (e) => {
     e.preventDefault();
     try {
-      if(verifyPasswords()){
-      toast.success("Informacion actualizada con exito");
-      clearForm();
-      }else{
+      if (verifyPasswords()) {
+        toast.success("Informacion actualizada con exito");
+        clearForm();
+      } else {
         toast.error("Las contraseñas no coinciden");
         clearForm();
       }

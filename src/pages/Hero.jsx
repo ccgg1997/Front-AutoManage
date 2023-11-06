@@ -1,4 +1,22 @@
 import { hero } from "../data/data";
+/**
+ * Renders a section containing a list of hero items.
+ * Each hero item is rendered as a div element with an image, title, and description.
+ * The data for the hero items is obtained from an imported array named `hero`.
+ *
+ * @returns {JSX.Element} The section element containing the rendered hero items.
+ *
+ * @example
+ * import Hero from './Hero';
+ *
+ * const App = () => {
+ *   return (
+ *     <div>
+ *       <Hero />
+ *     </div>
+ *   );
+ * }
+ */
 const Hero = () => {
   return (
     <section>

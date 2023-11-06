@@ -2,6 +2,12 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 export default function Error({ error }) {
+  /**
+   * Renders an error message and image based on the error type.
+   *
+   * @param {string} error - The type of error. Can be "404" or "500".
+   * @returns {JSX.Element} - The rendered error message, description, button, and images.
+   */
   let errorTypeMessage;
   switch (error) {
     case "404":

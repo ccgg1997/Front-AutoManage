@@ -7,13 +7,16 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
 export default function BasicTable({ data, titles }) {
-
-  return ( 
-    <TableContainer>
-      <Table
-        className=" outline-white"
-        aria-label="simple table"
-      >
+  /**
+   * Renders a table based on the provided data and titles.
+   *
+   * @param {Array} data - An array of objects representing the rows of the table.
+   * @param {Array} titles - An array of strings representing the titles of the table columns.
+   * @returns {JSX.Element} - The rendered table.
+   */
+  return (
+    <TableContainer className="dark:bg-black">
+      <Table className="outline-white" aria-label="simple table">
         <TableHead>
           <TableRow>
             {titles.map((title) => (
@@ -40,7 +43,7 @@ export default function BasicTable({ data, titles }) {
                   className="text-black dark:text-white"
                 >
                   {row[title.toLowerCase()]}{" "}
-                  {/* Usa el título para acceder a los datos correspondientes */}
+                  {/* Use the title to access the corresponding data */}
                 </TableCell>
               ))}
             </TableRow>
@@ -49,5 +52,4 @@ export default function BasicTable({ data, titles }) {
       </Table>
     </TableContainer>
   );
-  
 }

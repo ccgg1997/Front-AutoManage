@@ -11,6 +11,11 @@ const useField = ({ type, placeholder }) => {
   return { type, placeholder, value, onChange };
 };
 
+/**
+ * Renders a form for creating a vehicle.
+ *
+ * @returns {JSX.Element} The rendered form component.
+ */
 export default function VehiculoForm() {
   const { token } = useSelector((state) => state.auth);
 
@@ -47,7 +52,7 @@ export default function VehiculoForm() {
   };
 
   return (
-    <form className=" w-1/2 mx-auto dark:bg-black" onSubmit={handleSubmit}>
+    <form className=" dark:bg-black" onSubmit={handleSubmit}>
       <div className="border-b border-gray-900/10 pb-12">
         <h2
           className="text-base font-semibold leading-7 text-gray-900

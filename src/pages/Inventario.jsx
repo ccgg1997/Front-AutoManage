@@ -7,6 +7,14 @@ import VehiculoUpdate from "../forms/vehiculo/vehiculoUpdateForm";
 import VehiculoDelete from "../forms/vehiculo/vehiculoDeleteForm";
 import { Button } from "@mui/material";
 import { useRef } from "react";
+/**
+ * The `Inventario` function is a React component that manages the inventory of vehicles.
+ * It displays a user interface with options to create, read, update, and delete vehicles.
+ * It uses state and ref hooks to manage the visibility of different sections of the interface.
+ * It also uses the useSelector hook from the react-redux library to access the authentication token from the Redux store.
+ *
+ * @returns {JSX.Element} JSX element representing the user interface for managing the inventory of vehicles.
+ */
 const Inventario = () => {
   const [data, setData] = useState([]);
   const createRef = useRef();
@@ -208,9 +216,9 @@ const Inventario = () => {
             </div>
           )}
           <div className="mt-9">
-          <div ref={createRef}>{createActive && <VehiculoForm />}</div>
-          <div ref={editRef}>{editActive && <VehiculoUpdate />}</div>
-          <div ref={deteleRef}>{deleteActive && <VehiculoDelete />}</div>
+            <div ref={createRef}>{createActive && <VehiculoForm />}</div>
+            <div ref={editRef}>{editActive && <VehiculoUpdate />}</div>
+            <div ref={deteleRef}>{deleteActive && <VehiculoDelete />}</div>
           </div>
         </div>
       </div>

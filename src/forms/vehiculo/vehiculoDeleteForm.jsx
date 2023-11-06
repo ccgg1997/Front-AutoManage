@@ -13,12 +13,17 @@ const useField = ({ type, placeholder }) => {
 };
 
 export default function VehiculoDeleteForm() {
+  /**
+   * Renders a form for deleting a vehicle.
+   *
+   * @returns {JSX.Element} The delete vehicle form component.
+   */
   const { token } = useSelector((state) => state.auth);
   const [isOpen, setIsOpen] = React.useState(false);
   const id = useField({ type: "number" });
 
   const handleSubmit = async () => {
-    const idVehiculo = id.value
+    const idVehiculo = id.value;
     try {
       await deleteVehiculo(idVehiculo, token);
       toast.success("Vehiculo eliminado con exito");
@@ -41,7 +46,7 @@ export default function VehiculoDeleteForm() {
   };
 
   return (
-    <form className=" w-1/2 mx-auto " onSubmit={openModal}>
+    <form className="dark:bg-black" onSubmit={openModal}>
       <div className="border-b border-gray-900/10 pb-12">
         <h2
           className="text-base font-semibold leading-7 text-gray-900
@@ -90,12 +95,19 @@ export default function VehiculoDeleteForm() {
   );
 }
 
+/**
+ * Renders a modal dialog box with a confirmation message and two buttons: "Cancel" and "Eliminar" (Spanish for "Delete").
+ *
+ * @param {boolean} isOpen - Indicates whether the modal is open or closed.
+ * @param {function} setIsOpen - A callback function to update the `isOpen` state.
+ * @param {function} handleDelete - A callback function to handle the delete action.
+ * @returns {JSX.Element} - The rendered modal dialog box.
+ */
 const SureModal = ({ isOpen, setIsOpen, handleDelete }) => {
-
   const handleClose = () => {
     setIsOpen(false);
     handleDelete();
-  }
+  };
 
   return (
     <Modal
@@ -126,7 +138,10 @@ const SureModal = ({ isOpen, setIsOpen, handleDelete }) => {
             >
               Cancel
             </button>
-            <button className="mb-3 sm:mb-0 p-2 bg-lime-600 rounded w-full sm:w-auto" type="submit">
+            <button
+              className="mb-3 sm:mb-0 p-2 bg-lime-600 rounded w-full sm:w-auto"
+              type="submit"
+            >
               Eliminar
             </button>
           </div>

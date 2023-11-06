@@ -8,6 +8,17 @@ import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 import { Toaster, toast } from "sonner";
 
+/**
+ * Summary: This code defines a React functional component called 'Login' that handles the login functionality of a user.
+ *
+ * @param {Object} props - The props object containing the 'actualizar' prop.
+ * @param {boolean} props.actualizar - A prop that determines whether to update the state after successful login.
+ *
+ * @returns {JSX.Element} The JSX element representing the login component.
+ *
+ * @example
+ * <Login actualizar={true} />
+ */
 function Login({ actualizar }) {
   const dispatch = useDispatch();
   const [login, setLogin] = useState({
@@ -27,16 +38,19 @@ function Login({ actualizar }) {
     try {
       const response = await ApiLogin(login);
       actualizar(true);
+      var decode = jwt_decode(response.access);
       const data = {
         token: response.access,
         usuario: login.email,
-        name: "prueba redux",
-        rol: "prueba admin",
-        timeExp: "MUCHAS HORAS",
+        id: decode.user_id,
+        name: decode.user_nombre,
+        lastname: decode.user_apellido,
+        rol: decode.user_rol,
+        timeExp: decode.exp,
       };
-      dispatch(setAuthData(data));
       Cookies.set("userData", JSON.stringify(data));
-      var decode1 = jwt_decode(response.access);
+      dispatch(setAuthData(data));
+      console.log(decode);
     } catch (error) {
       if (error.message === "Datos vacios") {
         toast.error(error.message);

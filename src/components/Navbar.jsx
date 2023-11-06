@@ -15,7 +15,14 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Navbar({ logOut}) {
+/**
+ * Renders a navigation bar component with various elements and functionality.
+ *
+ * @param {Function} logOut - Callback function to handle the logout action.
+ *
+ * @returns {JSX.Element} The rendered navigation bar component.
+ */
+export default function Navbar({ logOut }) {
   const navigate = useNavigate();
   const [theme, setTheme] = useState("light");
 
