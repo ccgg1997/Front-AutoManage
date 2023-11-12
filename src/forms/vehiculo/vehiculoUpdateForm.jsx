@@ -37,8 +37,8 @@ export default function VehiculoForm() {
 
   if (seeIdForm) {
     return (
-      <form className="dark:text-white dark:bg-black " onSubmit={handleSubmit}>
-        <div className="border-b border-gray-900/10 pb-12">
+      <form onSubmit={handleSubmit}>
+        <div className="border-t pt-12 border-b border-gray-900/10 pb-12">
           <h2
             className="text-base font-semibold leading-7 text-gray-900
         dark:text-slate-300 sm:text-3xl sm:truncate
@@ -145,11 +145,11 @@ const InfoForm = ({ id, clearForm }) => {
   };
 
   return (
-    <div className="mt-10 dark:bg-black dark:text-white overflow-auto">
+    <div className="mt-10 dark:text-white overflow-auto">
       {loading ? (
         <div>Cargando...</div>
       ) : dataVehiculo ? (
-        <div className="mt-10 dark:bg-black overflow-auto px-6">
+        <div className="mt-10overflow-auto px-6">
           <div className="flex flex-wrap">
             <div className="w-full sm:w-1/2 md:w-1/3 p-2 " onSubmit={onSubmit}>
               <label

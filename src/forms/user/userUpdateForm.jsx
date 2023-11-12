@@ -67,7 +67,7 @@ export default function UserUpdate() {
   return (
     <section className="flex flex-col items-center justify-center w-full h-screen py-12 bg-gray-50 dark:bg-slate-950 sm:px-6 lg:px-8">
       <ul className=" w-1/2 mx-auto ">
-        <div className="border-b border-gray-900/10 pb-12">
+        <div className="border-b border-slate-900 dark:border-slate-50 pb-12">
           <h2
             className="text-base font-semibold leading-7 text-gray-900
         dark:text-slate-300 sm:text-3xl sm:truncate
@@ -93,7 +93,7 @@ export default function UserUpdate() {
               <div className="mt-3 mx-auto block rounded-md shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-md dark:text-slate-300">
                 <button
                   onClick={() => setOpenNombreModal(true)}
-                  className="display flex-1 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+                  className="display flex-1 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white "
                 >
                   Editar
                 </button>
@@ -106,7 +106,7 @@ export default function UserUpdate() {
             </label>
           </li>
 
-          <li className="mt-4 sm:col-span-4">
+          <li className="mt-4 sm:col-span-4 border-t border-b border-slate-900 dark:border-slate-50 py-3">
             <label
               htmlFor="correo"
               className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
@@ -128,13 +128,13 @@ export default function UserUpdate() {
             </label>
           </li>
 
-          <li className="mt-4 sm:col-span-4">
+          <li className="mt-4 sm:col-span-4 px-3  dark:border-slate-50 ">
             <label
               htmlFor="contrasena"
               className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
             >
               contraseña: ********
-              <div className="mt-2 mx-auto flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300  sm:max-w-md">
+              <div className="mt-2 mx-auto flex px-3 rounded-md shadow-sm ring-1 ring-inset ring-gray-300  sm:max-w-md">
                 <button
                   onClick={() => setOpenContrasenaModal(true)}
                   className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"

@@ -19,7 +19,7 @@ import { hero } from "../data/data";
  */
 const Hero = () => {
   return (
-    <section>
+    <section className="min-h-screen">
       {hero.map(({ id, img, title, desc }) => (
         <div
           key={id}

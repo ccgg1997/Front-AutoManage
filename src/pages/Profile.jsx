@@ -12,7 +12,7 @@ function Profile() {
   useEffect(() => {}, []);
 
   return (
-    <div className="dark:bg-slate-950">
+    <div className="min-h-screen">
       <UserUpdate />
     </div>
   );

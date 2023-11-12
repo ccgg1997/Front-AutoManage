@@ -2,7 +2,7 @@
 
 const OrdenesTrabajo = () => {
   return (
-    <div>
+    <div className="min-h-screen dark:text-white">
         <h1>CONTENIDO ORDENES DE TRABAJO</h1>
     </div>
   )

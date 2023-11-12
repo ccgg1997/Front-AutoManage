@@ -30,6 +30,13 @@ export default function Navbar({ logOut }) {
     setTheme((preview) => (preview === "light" ? "dark" : "light"));
   };
 
+  useEffect (() => {
+    if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setTheme("dark");
+    }
+  }, []);
+
+
   useEffect(() => {
     if (theme === "dark") {
       document.querySelector("html").classList.add("dark");

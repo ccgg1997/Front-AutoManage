@@ -65,13 +65,13 @@ function Login({ actualizar }) {
   };
 
   return (
-    <section className="flex items-center justify justify-center h-screen center dark:bg-slate-950">
+    <section className="flex items-center justify justify-center h-screen center ">
       <Toaster />
       <div className="h-full ">
         {/* <!-- Left column container with background--> */}
         <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
-          <div className="shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12 dark:bg-slate-950">
-            <div className="z-10 mb-6 text-4xl font-bold text-black dark:text-white ">
+          <div className="shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12">
+            <div className="z-10 mb-6 text-4xl font-bold dark:text-white ">
               Welcome to AutoManage
             </div>
             <img

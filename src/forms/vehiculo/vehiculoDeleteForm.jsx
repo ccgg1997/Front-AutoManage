@@ -46,8 +46,8 @@ export default function VehiculoDeleteForm() {
   };
 
   return (
-    <form className="dark:bg-black" onSubmit={openModal}>
-      <div className="border-b border-gray-900/10 pb-12">
+    <form onSubmit={openModal}>
+      <div className="border-t pt-12 border-b border-gray-900/10 pb-12">
         <h2
           className="text-base font-semibold leading-7 text-gray-900
         dark:text-slate-300 sm:text-3xl sm:truncate

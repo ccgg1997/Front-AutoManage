@@ -15,7 +15,7 @@ export default function BasicTable({ data, titles }) {
    * @returns {JSX.Element} - The rendered table.
    */
   return (
-    <TableContainer className="dark:bg-black">
+    <TableContainer >
       <Table className="outline-white" aria-label="simple table">
         <TableHead>
           <TableRow>
