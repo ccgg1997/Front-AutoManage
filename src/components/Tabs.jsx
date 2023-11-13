@@ -27,7 +27,7 @@ function CustomTabs({ tabs }) {
         </Tabs>
       </Box>
       {tabs.map((tab, index) => (
-        <CustomTabPanel key={index} value={value} index={index} className>
+        <CustomTabPanel key={index} value={value} index={index}>
           {tab.content}
         </CustomTabPanel>
       ))}
