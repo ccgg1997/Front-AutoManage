@@ -8,6 +8,7 @@ import Error from "./pages/Error";
 import Login from "./pages/Login";
 import Usuarios from "./pages/Usuarios";
 import Profile from "./pages/Profile"; 
+import Producto from "./pages/Producto";
 import React from "react";
 import { clearAuthData } from "./store/features/auth/auth";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -37,6 +38,7 @@ function App() {
           <Route path="/Inventario" element={<Inventario />}></Route>
           <Route path="/Usuarios" element={<Usuarios />}></Route>
           <Route path="/Profile" element={<Profile />}></Route>
+          <Route path="/Productos" element={<Producto />}></Route>
           <Route path="*" element={<Error error={"404"} />}></Route>
         </Routes>
       </Router>}
