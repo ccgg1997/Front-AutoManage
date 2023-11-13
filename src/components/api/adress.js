@@ -1,5 +1,5 @@
 import axios from "axios";
-export const apiAddress = "https://jose-manuel.tech/api/v1";
+export const apiAddress = " ";
 
 /* ------------------------------------Vehiculo----------------------------------------------*/
 /**
