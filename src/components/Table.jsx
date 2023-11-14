@@ -1,39 +1,51 @@
-import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import * as React from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 
-export default function BasicTable({data,titles}) {
+export default function BasicTable({ data, titles }) {
+  /**
+   * Renders a table based on the provided data and titles.
+   *
+   * @param {Array} data - An array of objects representing the rows of the table.
+   * @param {Array} titles - An array of strings representing the titles of the table columns.
+   * @returns {JSX.Element} - The rendered table.
+   */
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead >
-        {titles.map((row) => (
-            <TableCell
-            key={row}
-            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >{row}</TableCell>
-        ))}
+    <TableContainer >
+      <Table className="outline-white" aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            {titles.map((title) => (
+              <TableCell
+                className="dark:text-white"
+                key={title}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                {title}
+              </TableCell>
+            ))}
+          </TableRow>
         </TableHead>
         <TableBody>
           {data.map((row) => (
             <TableRow
               key={row.id}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
-                {row.id}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {row.marca}
-              </TableCell>
-              <TableCell align="right">{row.linea}</TableCell>
-              <TableCell align="right">{row.tipo}</TableCell>
-              <TableCell align="right">{row.precio}</TableCell>
+              {titles.map((title) => (
+                <TableCell
+                  align="left"
+                  key={title}
+                  className="text-black dark:text-white"
+                >
+                  {row[title.toLowerCase()]}{" "}
+                  {/* Use the title to access the corresponding data */}
+                </TableCell>
+              ))}
             </TableRow>
           ))}
         </TableBody>

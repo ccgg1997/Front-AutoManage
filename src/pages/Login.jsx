@@ -1,49 +1,78 @@
-import { TextField } from "@mui/material";
+import { Input } from "@mui/material";
 import { useState } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import { setAuthData } from "../store/features/auth/auth";
+import { ApiLogin } from "../components/api/adress";
+import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
+import { Toaster, toast } from "sonner";
 
-function Login({actualizar}) {
-  const [passwordIncorrect,setPasswordIncorrect] = useState(false)
-  const [emailIncorrect,setEmailIncorrect] = useState(false)
-  
-  const [login,setLogin] = useState({
+/**
+ * Summary: This code defines a React functional component called 'Login' that handles the login functionality of a user.
+ *
+ * @param {Object} props - The props object containing the 'actualizar' prop.
+ * @param {boolean} props.actualizar - A prop that determines whether to update the state after successful login.
+ *
+ * @returns {JSX.Element} The JSX element representing the login component.
+ *
+ * @example
+ * <Login actualizar={true} />
+ */
+function Login({ actualizar }) {
+  const dispatch = useDispatch();
+  const [login, setLogin] = useState({
     email: "",
-    password: ""
-  })
+    password: "",
+  });
 
   const handleChange = (e) => {
-    setEmailIncorrect(false)
-    setPasswordIncorrect(false)
     setLogin({
       ...login,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-
-
-    if(login.email === "admin" && login.password === "admin"){
-      actualizar(true)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await ApiLogin(login);
+      actualizar(true);
+      var decode = jwt_decode(response.access);
+      const data = {
+        token: response.access,
+        usuario: login.email,
+        id: decode.user_id,
+        name: decode.user_nombre,
+        lastname: decode.user_apellido,
+        rol: decode.user_rol,
+        timeExp: decode.exp,
+      };
+      Cookies.set("userData", JSON.stringify(data));
+      dispatch(setAuthData(data));
+      console.log(decode);
+    } catch (error) {
+      if (error.message === "Datos vacios") {
+        toast.error(error.message);
+      } else if (error.message === "Usuario o contraseña incorrectos") {
+        toast.error(error.message);
+      } else {
+        // Manejar otros errores de solicitud aquí
+        console.error("Error en la solicitud:", error.message);
+        toast.error("Error Interno, lamentamos los inconvenientes");
+      }
     }
-    if (login.email !== "admin") {
-      setEmailIncorrect(true)
-    }
-    if (login.password !== "admin") {
-      setPasswordIncorrect(true)
-    }
-
-  }
+  };
 
   return (
     <section className="flex items-center justify justify-center h-screen center ">
-      <div className="h-full">
+      <Toaster />
+      <div className="h-full ">
         {/* <!-- Left column container with background--> */}
         <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
           <div className="shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12">
-            <div className="z-10 mb-6 text-4xl font-bold text-black">
-            Welcome to AutoManage
+            <div className="z-10 mb-6 text-4xl font-bold dark:text-white ">
+              Welcome to AutoManage
             </div>
             <img
               src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
@@ -57,7 +86,9 @@ function Login({actualizar}) {
             <form>
               {/* <!--Sign in section--> */}
               <div className="flex flex-row items-center justify-center lg:justify-center">
-                <p className="mb-0 mr-4 text-lg">Sign in with</p>
+                <p className="mb-0 mr-4 text-lg dark:text-white">
+                  Sign in with
+                </p>
 
                 {/* <!-- Facebook button--> */}
                 <button
@@ -116,32 +147,25 @@ function Login({actualizar}) {
               </div>
 
               {/* <!-- Email input --> */}
-              <div className="mb-6 flex flex-col ">
-                <TextField
+              <div className="mb-6 flex flex-col">
+                <Input
                   type="email"
-                  label="Email address"
-                  className={`camposTextos ${emailIncorrect ? 'error' : ''}`}
-                  size="lg"
-                  error={emailIncorrect}
-                  helperText={emailIncorrect && 'Usuario incorrecto'}
+                  placeholder="Email address"
                   onChange={handleChange}
                   name="email"
-                ></TextField>
+                ></Input>
 
                 {/* <!--Password input--> */}
-                <TextField
+                <Input
                   type="password"
-                  label="Password"
-                  className={`camposTextos ${passwordIncorrect ? 'error' : ''}`}
-                  error={passwordIncorrect}
-                  helperText={passwordIncorrect && 'Contraseña incorrecta'}
+                  placeholder="Password"
                   size="lg mt-3"
                   onChange={handleChange}
                   name="password"
-                ></TextField>
+                ></Input>
               </div>
 
-              <div className="mb-6 flex items-center justify-between">
+              <div className="mb-6 flex items-center justify-between dark:text-white">
                 {/* <!-- Remember me checkbox --> */}
                 <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
                   <input
@@ -154,7 +178,7 @@ function Login({actualizar}) {
                     className="inline-block pl-[0.15rem] hover:cursor-pointer"
                     htmlFor="exampleCheck2"
                   >
-                    Remember me
+                    Remember
                   </label>
                 </div>
 
@@ -168,19 +192,20 @@ function Login({actualizar}) {
                   <button
                     type="button"
                     className="inline-block rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                    onClick={handleSubmit}    
+                    onClick={handleSubmit}
                   >
                     Login
                   </button>
                 </div>
 
                 {/* <!-- Register link --> */}
-                <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
+                <p className="mb-0 mt-2 pt-1 text-sm font-semibold dark:text-white">
                   Don&rsquo;t have an account yet?
                   <a
                     href="#!"
                     className="text-danger transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700"
                   >
+                    {" "}
                     Register
                   </a>
                 </p>

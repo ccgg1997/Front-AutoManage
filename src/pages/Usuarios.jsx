@@ -16,7 +16,7 @@ const Usuarios = () => {
       }
     }
   
-    return (
+  return (
       <div className="flex items-center justify-center h-screen">
         <button onClick={onClick}>Get Usuarios</button>
         <BasicTable data={data} titles={titles} />

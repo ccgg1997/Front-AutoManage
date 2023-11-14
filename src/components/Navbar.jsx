@@ -1,22 +1,50 @@
-import { Fragment } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Fragment, useEffect } from "react";
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
-
+import { useState } from "react";
 
 const navigation = [
-  { name: 'Inventario', href: '/Inventario', current: true },
-  { name: 'Ordenes Trabajo', href: '/Ordenes', current: false },
-  { name: 'Ventas', href: '/Ventas', current: false },
-  { name: 'Home', href: '/', current: false },
-  { name: 'Usuarios', href: '/Usuarios', current: false}
-]
+  { name: "Inventario", href: "/Inventario", current: true },
+  { name: "Ordenes Trabajo", href: "/Ordenes", current: false },
+  { name: "Ventas", href: "/Ventas", current: false },
+  { name: "Usuarios", href: "/Usuarios", current: false },
+  { name: "Productos", href: "/Productos", current: false },
+  { name: "Home", href: "/", current: false },
+];
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
-export default function Navbar() {
+/**
+ * Renders a navigation bar component with various elements and functionality.
+ *
+ * @param {Function} logOut - Callback function to handle the logout action.
+ *
+ * @returns {JSX.Element} The rendered navigation bar component.
+ */
+export default function Navbar({ logOut }) {
   const navigate = useNavigate();
+  const [theme, setTheme] = useState("light");
+
+  const handleChangeTheme = () => {
+    setTheme((preview) => (preview === "light" ? "dark" : "light"));
+  };
+
+  useEffect (() => {
+    if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setTheme("dark");
+    }
+  }, []);
+
+
+  useEffect(() => {
+    if (theme === "dark") {
+      document.querySelector("html").classList.add("dark");
+    } else {
+      document.querySelector("html").classList.remove("dark");
+    }
+  }, [theme]);
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -42,6 +70,7 @@ export default function Navbar() {
                     className="h-8 w-auto"
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuIYAvJHYa-r1hIYwpitpSCPJaYzW2DDDwxMpG5Ps&s"
                     alt="Auto-Manage"
+                    onClick={() => navigate("/")}
                   />
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
@@ -50,12 +79,13 @@ export default function Navbar() {
                       <div
                         key={item.name}
                         onClick={() => navigate(item.href)}
-                        
                         className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'rounded-md px-3 py-2 text-sm font-medium'
+                          item.current
+                            ? "bg-gray-900 text-white"
+                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                          "rounded-md px-3 py-2 text-sm font-medium"
                         )}
-                        aria-current={item.current ? 'page' : undefined}
+                        aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}
                       </div>
@@ -66,7 +96,21 @@ export default function Navbar() {
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <button
                   type="button"
-                  className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  className="fill-current focus:outline-none focus:ring-2  text-gray-400"
+                  onClick={handleChangeTheme}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    className="block w-5 h-5 sm:w-6 sm:h-6"
+                  >
+                    <path d="M12 22C10.93 22 9.86998 21.83 8.83998 21.48L7.41998 21.01L8.83998 20.54C12.53 19.31 15 15.88 15 12C15 8.12 12.53 4.69 8.83998 3.47L7.41998 2.99L8.83998 2.52C9.86998 2.17 10.93 2 12 2C17.51 2 22 6.49 22 12C22 17.51 17.51 22 12 22ZM10.58 20.89C11.05 20.96 11.53 21 12 21C16.96 21 21 16.96 21 12C21 7.04 16.96 3 12 3C11.53 3 11.05 3.04 10.58 3.11C13.88 4.81 16 8.21 16 12C16 15.79 13.88 19.19 10.58 20.89Z"></path>
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white 
+                  focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 ml-2"
                 >
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">View notifications</span>
@@ -99,8 +143,11 @@ export default function Navbar() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block px-4 py-2 text-sm text-gray-700"
+                            )}
+                            onClick={() => navigate("/profile")}
                           >
                             Your Profile
                           </a>
@@ -110,7 +157,10 @@ export default function Navbar() {
                         {({ active }) => (
                           <a
                             href="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block px-4 py-2 text-sm text-gray-700"
+                            )}
                           >
                             Settings
                           </a>
@@ -120,8 +170,11 @@ export default function Navbar() {
                         {({ active }) => (
                           <a
                             href="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                            onClick={() => navigate("/")}
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block px-4 py-2 text-sm text-gray-700"
+                            )}
+                            onClick={logOut}
                           >
                             Sign out
                           </a>
@@ -140,12 +193,14 @@ export default function Navbar() {
                 <Disclosure.Button
                   key={item.name}
                   as="a"
-                  href={item.href}
+                  onClick={() => navigate(item.href)}
                   className={classNames(
-                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                    'block rounded-md px-3 py-2 text-base font-medium'
+                    item.current
+                      ? "bg-gray-900 text-white"
+                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                    "block rounded-md px-3 py-2 text-base font-medium"
                   )}
-                  aria-current={item.current ? 'page' : undefined}
+                  aria-current={item.current ? "page" : undefined}
                 >
                   {item.name}
                 </Disclosure.Button>
@@ -155,5 +210,5 @@ export default function Navbar() {
         </>
       )}
     </Disclosure>
-  )
+  );
 }

@@ -7,24 +7,38 @@ import Inventario from "./pages/Inventario";
 import Error from "./pages/Error";
 import Login from "./pages/Login";
 import Usuarios from "./pages/Usuarios";
+import Profile from "./pages/Profile"; 
+import Producto from "./pages/Producto";
 import React from "react";
+import { clearAuthData } from "./store/features/auth/auth";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Cookies from "js-cookie";
 function App() {
   const [auth, setAuth] = React.useState(false);
+
   const actualizarAuth = (auth) => {
     setAuth(auth);
   }
+
+  const logOut = () => {
+    Cookies.remove("token");
+    clearAuthData();
+    setAuth(false);
+  };
+
   return (
-    <div className="App">
+    <div className=" dark:bg-slate-950">
       {!auth && <Login actualizar={actualizarAuth} />}
       {auth && <Router>
-          <Navbar />
+        <Navbar logOut={logOut} />
         <Routes>
           <Route path="/" element={<Hero />}></Route>
           <Route path="/Ventas" element={<Venta />}></Route>
           <Route path="/Ordenes" element={<OrdenesTrabajo />}></Route>
           <Route path="/Inventario" element={<Inventario />}></Route>
           <Route path="/Usuarios" element={<Usuarios />}></Route>
+          <Route path="/Profile" element={<Profile />}></Route>
+          <Route path="/Productos" element={<Producto />}></Route>
           <Route path="*" element={<Error error={"404"} />}></Route>
         </Routes>
       </Router>}

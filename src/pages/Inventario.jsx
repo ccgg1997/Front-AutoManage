@@ -1,6 +1,5 @@
-import { getVehiculos } from '../components/api/adress';
-import BasicTable from '../components/Table';
-import { useState } from 'react';
+import * as React from 'react';
+import Tabs from '../components/Tabs';
 
 const Inventario = () => {
   const [data, setData] = useState([]);
@@ -21,7 +20,7 @@ const Inventario = () => {
       <button onClick={onClick}>Get Vehiculos</button>
       <BasicTable data={data} titles={titles} />
     </div>
-  )
-}
+  );
+};
 
-export default Inventario
+export default Inventario;
