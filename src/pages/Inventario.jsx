@@ -8,10 +8,10 @@ const Inventario = () => {
   const titles = ["ID", "Marca", "Linea", "Tipo", "Precio"];
 
   const onClick = async () => {
-    try{
+    try {
       const response = await getVehiculos();
       setData(response);
-    }catch(error){
+    } catch (error) {
       console.log(error);
     }
   }
@@ -19,7 +19,7 @@ const Inventario = () => {
   return (
     <div className="flex items-center justify-center h-screen">
       <button onClick={onClick}>Get Vehiculos</button>
-      <BasicTable data={data} titles={titles}/>
+      <BasicTable data={data} titles={titles} />
     </div>
   )
 }
