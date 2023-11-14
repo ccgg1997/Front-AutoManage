@@ -3,7 +3,7 @@ import { Toaster, toast } from "sonner";
 import { useSelector } from "react-redux";
 import { Modal, Typography, Box } from "@mui/material";
 import { useState } from "react";
-import { userUpdate } from "../../components/api/adress"
+import { userUpdate,userUpdatePassword } from "../../components/api/adress"
 
 const useField = ({ type, placeholder }) => {
   const [value, setValue] = React.useState("");
@@ -27,7 +27,7 @@ const useField = ({ type, placeholder }) => {
  * @returns {JSX.Element} The rendered UserUpdate component.
  */
 export default function UserUpdate() {
-  const { usuario, name, lastname } = useSelector((state) => state.auth);
+  const { usuario, name } = useSelector((state) => state.auth);
   const [openNombreModal, setOpenNombreModal] = useState(false);
   const [openCorreoModal, setOpenCorreoModal] = useState(false);
   const [openContrasenaModal, setOpenContrasenaModal] = useState(false);
@@ -37,12 +37,6 @@ export default function UserUpdate() {
   const contrasenaAnterior = useField({ type: "password" });
   const contrasena = useField({ type: "password" });
   const confirmarContrasena = useField({ type: "password" });
-
-  const user = {
-    nombre: nombre.value,
-    correo: correo.value,
-    contrasena: contrasena.value,
-  };
 
   const clearForm = () => {
     nombre.onChange({ target: { value: "" } });
@@ -91,12 +85,12 @@ export default function UserUpdate() {
             >
               Nombre: {nombre.value}
               <div className="mt-3 mx-auto block rounded-md shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-md dark:text-slate-300">
-                <button
+                <div
                   onClick={() => setOpenNombreModal(true)}
-                  className="display flex-1 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white "
+                  className="display flex-1 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white cursor-pointer"
                 >
                   Editar
-                </button>
+                </div>
                 <ModalName
                   openNombreModal={openNombreModal}
                   setOpenNombreModal={setOpenNombreModal}
@@ -113,12 +107,12 @@ export default function UserUpdate() {
             >
               Correo electronico: {correo.value}
               <div className="mt-2 mx-auto block rounded-md shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-md dark:text-slate-300">
-                <button
+                <div
                   onClick={() => setOpenCorreoModal(true)}
-                  className="display flex-1 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+                  className="display flex-1 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white cursor-pointer"
                 >
                   Editar
-                </button>
+                </div>
                 <ModalCorreo
                   openCorreoModal={openCorreoModal}
                   setOpenCorreoModal={setOpenCorreoModal}
@@ -135,12 +129,12 @@ export default function UserUpdate() {
             >
               contraseña: ********
               <div className="mt-2 mx-auto flex px-3 rounded-md shadow-sm ring-1 ring-inset ring-gray-300  sm:max-w-md">
-                <button
+                <div
                   onClick={() => setOpenContrasenaModal(true)}
-                  className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+                  className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 cursor-pointer dark:text-white"
                 >
                   Editar
-                </button>
+                </div>
                 <ModalContrasena
                   openContrasenaModal={openContrasenaModal}
                   setOpenContrasenaModal={setOpenContrasenaModal}
@@ -177,9 +171,9 @@ const ModalName = ({ openNombreModal, setOpenNombreModal, nombre }) => {
     e.preventDefault();
     try {
       if (nombre.value !== "") {
-      const response = await userUpdate(id, user, token);
-      console.log(response);
+      await userUpdate(id, user, token);
       toast.success("Informacion actualizada con exito");
+      setOpenNombreModal(false);
     }else{
       toast.error("introduzca un nombre valido")
     }
@@ -187,7 +181,6 @@ const ModalName = ({ openNombreModal, setOpenNombreModal, nombre }) => {
     toast.error(error.message);
     console.error(error);
   }
-  console.log(user)
   };
 
   return (
@@ -243,12 +236,22 @@ const ModalName = ({ openNombreModal, setOpenNombreModal, nombre }) => {
  * @returns {JSX.Element} The rendered modal dialog.
  */
 const ModalCorreo = ({ openCorreoModal, setOpenCorreoModal, correo }) => {
+  
+  const { token } = useSelector((state) => state.auth);
+  const { id } = useSelector((state) => state.auth);
+  const user = {
+    email: correo.value,
+  };
   const handleOnClick = async (e) => {
     e.preventDefault();
     try {
-      //const response = await updateVehiculo(vehiculo, token);
-      //console.log(response);
-      toast.success("Informacion actualizada con exito");
+      if (correo.value !== "") {
+        await userUpdate(id, user, token);
+        toast.success("Informacion actualizada con exito");
+        setOpenCorreoModal(false);
+      }else{
+        toast.error("introduzca un correo valido")
+      }
     } catch (error) {
       toast.error(error.message);
       console.error(error);
@@ -316,19 +319,40 @@ const ModalContrasena = ({
   confirmarContrasena,
   clearForm,
 }) => {
+
+  const { token } = useSelector((state) => state.auth);
+  const user = {
+    old_password: contrasenaAnterior.value,
+    new_password: contrasena.value,
+  };
+
+  const differentPasswords = () => {
+    if (contrasenaAnterior.value !== confirmarContrasena.value) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const handleOnClick = async (e) => {
     e.preventDefault();
     try {
       if (verifyPasswords()) {
+        if (differentPasswords()) {
+        await userUpdatePassword(user, token);
         toast.success("Informacion actualizada con exito");
-        clearForm();
+        clearForm(); 
+        setOpenContrasenaModal(false);
+        } else {
+          toast.error("La contraseña anterior no puede ser igual a la nueva");
+          clearForm();
+        } 
       } else {
         toast.error("Las contraseñas no coinciden");
         clearForm();
       }
     } catch (error) {
       toast.error(error.message);
-      console.error(error);
     }
   };
 

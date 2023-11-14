@@ -217,7 +217,7 @@ export const ApiLogin = async (login) => {
 export const userUpdate = async (id,user, useToken) => {
   const userAdress = apiAddress + "/usuarios/" + id + "/";
   try {
-    const response = await axios.put(userAdress, user, {
+    const response = await axios.patch(userAdress, user, {
       headers: {
         Authorization: "Bearer " + useToken,
       },
@@ -225,6 +225,24 @@ export const userUpdate = async (id,user, useToken) => {
     return response.data;
   } catch (error) {
     throw new Error("Error al actualizar el usuario", error);
+  }
+}
+
+export const userUpdatePassword = async (user, useToken) => {
+  const userAdress = apiAddress + "/usuarios/change_password/"
+  try {
+    const response = await axios.post(userAdress, user, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response.status === 400) {
+      throw new Error("Contraseña anterior incorrecta");
+    }else{
+      throw new Error("Error al actualizar el usuario", error);
+    }
   }
 }
 
