@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from 'react';
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -6,7 +7,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
-export default function BasicTable({ data, titles }) {
+export default function BasicTable({ data, titles, editAction, deleteAction }) {
+
   /**
    * Renders a table based on the provided data and titles.
    *
@@ -42,7 +44,12 @@ export default function BasicTable({ data, titles }) {
                   key={title}
                   className="text-black dark:text-white"
                 >
-                  {row[title.toLowerCase()]}{" "}
+                  {title.toLowerCase() == 'acciones' ? (<>
+                    <button onClick={() => editAction(row)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Editar</button>
+                    <button onClick={() => deleteAction(row)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-2 rounded">Eliminar</button></>
+                  ) : (
+                    row[title.toLowerCase()]
+                  )}
                   {/* Use the title to access the corresponding data */}
                 </TableCell>
               ))}

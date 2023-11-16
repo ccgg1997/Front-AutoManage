@@ -11,6 +11,7 @@ const navigation = [
   { name: "Usuarios", href: "/Usuarios", current: false },
   { name: "Productos", href: "/Productos", current: false },
   { name: "Home", href: "/", current: false },
+  { name: "Piezas", href: "/Piezas", current: false },
 ];
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");

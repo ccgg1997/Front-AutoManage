@@ -1,5 +1,6 @@
 import axios from "axios";
 export const apiAddress = "https://jose-manuel.tech/api/v1";
+// export const apiAddress = "http://localhost:8000/api/v1";
 
 /* ------------------------------------Vehiculo----------------------------------------------*/
 /**
@@ -214,7 +215,7 @@ export const ApiLogin = async (login) => {
  *   console.error(error);
  * }
  */
-export const userUpdate = async (id,user, useToken) => {
+export const userUpdate = async (id, user, useToken) => {
   const userAdress = apiAddress + "/usuarios/" + id + "/";
   try {
     const response = await axios.patch(userAdress, user, {
@@ -240,7 +241,7 @@ export const userUpdatePassword = async (user, useToken) => {
   } catch (error) {
     if (error.response.status === 400) {
       throw new Error("Contraseña anterior incorrecta");
-    }else{
+    } else {
       throw new Error("Error al actualizar el usuario", error);
     }
   }
@@ -248,3 +249,120 @@ export const userUpdatePassword = async (user, useToken) => {
 
 
 
+/**
+ * Makes an HTTP GET request to retrieve a list of vehicles from a specific API endpoint.
+ * @param {string} useToken - The authorization token used in the request headers.
+ * @returns {object} - The response data containing a list of vehicles.
+ * @throws {Error} - If there is an error in the request.
+ * @example
+ * const vehicles = await getVehiculos(token);
+ * console.log(vehicles);
+ */
+export const getPiezas = async (useToken) => {
+  const piezasAdress = apiAddress + "/piezas/";
+  try {
+    const response = await axios.get(piezasAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error al obtener las piezas", error);
+  }
+}
+
+/**
+ * Sends a POST request to the specified API endpoint to create a new vehicle.
+ * @param {object} vehiculo - The vehicle object containing the details of the vehicle to be created.
+ * @param {string} useToken - The authorization token to be included in the request headers.
+ * @returns {object} The response data returned from the API after successfully creating the vehicle.
+ * @throws {Error} If an error occurs during the request.
+ * @example
+ * const newVehicle = {
+ *  "nombre": "Motor de Arranque",
+ *  "serie": "MARR_12",
+ *  "precio": "150000.000"
+    };
+ * const token = "abc123";
+ * try {
+ *   const createdVehicle = await createPieza(newVehicle, token);
+ * } catch (error) {
+ *   console.error(error);
+ * }
+ */
+export const createPieza = async (pieza, useToken) => {
+  const piezasAdress = apiAddress + "/piezas/";
+  try {
+    const response = await axios.post(piezasAdress, pieza, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Error al crear pieza", error);
+  }
+}
+
+/**
+ * Updates a vehicle record in an API.
+ * 
+ * @param {object} Pieza - The vehicle object containing the updated data.
+ * @param {boolean} useToken - A flag indicating whether to use a token for authorization.
+ * @returns {Promise<object>} - The updated vehicle data.
+ * @throws {Error} - If an error occurs during the update process.
+ * 
+ * @example
+ * const vehicle = {
+ *   id: 123,
+ *   // other vehicle properties
+ * };
+ * const useToken = true;
+ * try {
+ *   const updatedVehicle = await updatePieza(vehicle, useToken);
+ *   console.log(updatedVehicle);
+ * } catch (error) {
+ *   console.error(error);
+ * }
+ */
+export const updatePieza = async (Pieza, useToken) => {
+  const piezasAdress = apiAddress + "/piezas/" + Pieza.id + "/";
+  try {
+    const response = await axios.put(piezasAdress, Pieza, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Error al actualizar el Pieza", error);
+  }
+}
+
+/**
+ * Deletes a vehicle from the server using an HTTP DELETE request.
+ * @param {number} id - The ID of the vehicle to be deleted.
+ * @param {string} useToken - The authentication token used for authorization.
+ * @returns {Promise} - A promise that resolves with the response data from the server if the request is successful. Otherwise, it rejects with an Error object.
+ * @throws {Error} - If an error occurs during the request.
+ * @example
+ * const id = 123; // ID of the vehicle to be deleted
+ * const useToken = "abc123"; // Authentication token
+ * const result = await deletePieza(id, useToken);
+ * console.log(result); // Output: The response data from the server
+ */
+export const deletePieza = async (id, useToken) => {
+  const piezasAdress = apiAddress + "/piezas/" + id + "/";
+  try {
+    const response = await axios.delete(piezasAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Error al eliminar el pieza", error);
+  }
+}
