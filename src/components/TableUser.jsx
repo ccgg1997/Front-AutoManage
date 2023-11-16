@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
-export default function BasicTable({ data, titles, editAction, deleteAction }) {
+export default function TableUser({ data, titles, editAction, deleteAction }) {
 
   /**
    * Renders a table based on the provided data and titles.
@@ -47,6 +47,8 @@ export default function BasicTable({ data, titles, editAction, deleteAction }) {
                   {title.toLowerCase() == 'acciones' ? (<>
                     <button onClick={() => editAction(row)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Editar</button>
                     <button onClick={() => deleteAction(row)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-2 rounded">Eliminar</button></>
+                  ) : title === 'Rol' ? (
+                    row.rol.nombre // Accede al nombre del rol
                   ) : (
                     row[title.toLowerCase()]
                   )}

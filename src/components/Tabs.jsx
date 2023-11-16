@@ -13,7 +13,7 @@ function CustomTabs({ tabs }) {
   };
 
   return (
-    <section className="h-full dark:text-white" >
+    <section className="h-full dark:text-white">
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={value}
@@ -22,13 +22,18 @@ function CustomTabs({ tabs }) {
           className=" dark:text-white"
         >
           {tabs.map((tab, index) => (
-            <Tab key={index} label={tab.label} {...a11yProps(index)} className=" dark:text-white"/>
+            <Tab
+              key={index}
+              label={tab.label}
+              {...a11yProps(index)}
+              className=" dark:text-white"
+            />
           ))}
         </Tabs>
       </Box>
       {tabs.map((tab, index) => (
         <CustomTabPanel key={index} value={value} index={index}>
-          {tab.content}
+          <div key={index} >{tab.content}</div>
         </CustomTabPanel>
       ))}
     </section>
@@ -57,7 +62,7 @@ function CustomTabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+         {children}
         </Box>
       )}
     </div>

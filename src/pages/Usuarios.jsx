@@ -1,12 +1,12 @@
 import { getUsuarios } from '../components/api/adress';
-import BasicTable from '../components/Table';
+import TableUser from '../components/TableUser';
 import { useState } from 'react';
 import { useSelector } from "react-redux";
 
 const Usuarios = () => {
     const [data, setData] = useState([]);
   
-    const titles = ["id_usuario", "nombre", "password", "estado", "id_rol"];
+    const titles = ["ID", "Nombre", "Email", "Identificacion", "Estado", "Rol"];
   
     const { token } = useSelector((state) => state.auth);
 
@@ -22,7 +22,7 @@ const Usuarios = () => {
   return (
       <div className="flex items-center justify-center h-screen">
         <button onClick={onClick}>Get Usuarios</button>
-        <BasicTable data={data} titles={titles} />
+        <TableUser data={data} titles={titles} />
       </div>
     )
   }

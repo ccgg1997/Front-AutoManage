@@ -65,9 +65,9 @@ function Login({ actualizar }) {
   };
 
   return (
-    <section className="flex items-center justify justify-center h-screen center ">
+    <section className="flex mt-20 sm:mt-8 items-center justify justify-center min-h-screen center ">
       <Toaster />
-      <div className="h-full ">
+      <div className="min-h-screen">
         {/* <!-- Left column container with background--> */}
         <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
           <div className="shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12">
@@ -153,6 +153,7 @@ function Login({ actualizar }) {
                   placeholder="Email address"
                   onChange={handleChange}
                   name="email"
+                  className="dark:text-white mb-3"
                 ></Input>
 
                 {/* <!--Password input--> */}
@@ -162,6 +163,8 @@ function Login({ actualizar }) {
                   size="lg mt-3"
                   onChange={handleChange}
                   name="password"
+                  className="dark:text-white"
+
                 ></Input>
               </div>
 

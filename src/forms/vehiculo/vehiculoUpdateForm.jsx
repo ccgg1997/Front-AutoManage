@@ -241,7 +241,7 @@ const InfoForm = ({ id, clearForm }) => {
           </div>
         </div>
       ) : (
-        <div className="text-center dark:bg-black dark:text-white">
+        <div className="text-center dark:text-white">
           No se encontró el vehículo
           <div>
             <button
