@@ -18,8 +18,9 @@ const Inventario = () => {
   ];
 
   return (
-    <div className="h-screen dark:text-white">
-      <Tabs className="h-full" tabs={tabs} />
+    <div className="flex items-center justify-center h-screen">
+      <button onClick={onClick}>Get Vehiculos</button>
+      <BasicTable data={data} titles={titles} />
     </div>
   );
 };

@@ -229,6 +229,21 @@ export const userUpdate = async (id, user, useToken) => {
   }
 }
 
+export const getUsuarios = async (useToken) => {
+  const usuariosAdress = apiAddress + "/usuarios/";
+  try {
+    const response = await axios.get(usuariosAdress,{
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data
+  } catch (error) {
+    console.log(error);
+    throw new Error("error al obtener los usuarios", error);
+  }
+}
+
 export const userUpdatePassword = async (user, useToken) => {
   const userAdress = apiAddress + "/usuarios/change_password/"
   try {
@@ -246,6 +261,7 @@ export const userUpdatePassword = async (user, useToken) => {
     }
   }
 }
+
 
 
 
