@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import PiezaPostForm from "../forms/pieza/piezaPostForm";
 import PiezaDeleteForm from "../forms/pieza/piezaDeleteForm";
 import PiezaUpdateForm from "../forms/pieza/piezaUpdateForm";
-import { Button } from "@mui/material";
 
 
 const Pieza = () => {
@@ -21,7 +20,13 @@ const Pieza = () => {
     const [createActive, setCreateActive] = useState(false);
     const [editActive, setEditActive] = useState(false);
     const [deleteActive, setDeleteActive] = useState(false);
-    const titles = ["ID", "Nombre", "Serie", "Precio", "Acciones"];
+    const titles = [
+        { field: "id", headerName: "ID" },
+        { field: "nombre", headerName: "Nombre", width: 150 },
+        { field: "serie", headerName: "Serie", width: 150 },
+        { field: "precio", headerName: "Precio", width: 150, type: 'number' },
+        { field: "acciones", headerName: "Acciones", width: 150 },   
+    ]
 
     const { token } = useSelector((state) => state.auth);
 

@@ -1,13 +1,8 @@
 import * as React from "react";
-import { useState } from 'react';
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+import Box from '@mui/material/Box';
+import { DataGrid } from '@mui/x-data-grid';
 
-export default function BasicTable({ data, titles, editAction, deleteAction }) {
+export default function BasicTable({ data, titles}) {
 
   /**
    * Renders a table based on the provided data and titles.
@@ -17,46 +12,22 @@ export default function BasicTable({ data, titles, editAction, deleteAction }) {
    * @returns {JSX.Element} - The rendered table.
    */
   return (
-    <TableContainer >
-      <Table className="outline-white" aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            {titles.map((title) => (
-              <TableCell
-                className="dark:text-white"
-                key={title}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                {title}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.map((row) => (
-            <TableRow
-              key={row.id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              {titles.map((title) => (
-                <TableCell
-                  align="left"
-                  key={title}
-                  className="text-black dark:text-white"
-                >
-                  {title.toLowerCase() == 'acciones' ? (<>
-                    <button onClick={() => editAction(row)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Editar</button>
-                    <button onClick={() => deleteAction(row)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-2 rounded">Eliminar</button></>
-                  ) : (
-                    row[title.toLowerCase()]
-                  )}
-                  {/* Use the title to access the corresponding data */}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Box  className="h-80vh w-full ">
+      <DataGrid
+        className="bg-white"
+        rows={data}
+        columns={titles}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 10,
+            },
+          },
+        }}
+        pageSizeOptions={[10]}
+        disableRowSelectionOnClick
+        autoHeight 
+      />
+    </Box>
   );
 }
