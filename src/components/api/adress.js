@@ -1,5 +1,5 @@
 import axios from "axios";
-export const apiAddress = "https://jose-manuel.tech/api/v1";
+export const apiAddress = "http://127.0.0.1:8000/api/v1";
 // export const apiAddress = "http://localhost:8000/api/v1";
 
 /* ------------------------------------Vehiculo----------------------------------------------*/
@@ -215,6 +215,21 @@ export const ApiLogin = async (login) => {
  *   console.error(error);
  * }
  */
+
+export const createUsuario = async (user, useToken) => {
+  const usuariosAdress = apiAddress + "/usuarios/";
+  try {
+    const response = await axios.post(usuariosAdress, user, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Error al crear el usuario", error);
+  }
+}
+
 export const userUpdate = async (id, user, useToken) => {
   const userAdress = apiAddress + "/usuarios/" + id + "/";
   try {
@@ -262,8 +277,38 @@ export const userUpdatePassword = async (user, useToken) => {
   }
 }
 
+export const getUsuarioById = async (id, useToken) => {
+  const usuariosAdress = apiAddress + "/usuarios/" + id + "/";
+  try {
+    const response = await axios.get(usuariosAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data
+  } catch (error) {
+    throw new Error("Error al obtener el usuario", error);
+  }
+}
 
 
+
+export const deleteUsuario = async (id, useToken) => {
+  const usuariosAdress = apiAddress + "/usuarios/" + id + "/";
+  try {
+    const response = await axios.patch(usuariosAdress, { is_active: false }, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Error al eliminar el usuario", error);
+  }
+}
+
+
+/* ------------------------------------Piezas----------------------------------------------*/
 
 /**
  * Makes an HTTP GET request to retrieve a list of vehicles from a specific API endpoint.
