@@ -27,6 +27,7 @@ function classNames(...classes) {
 export default function Navbar({ logOut }) {
   const navigate = useNavigate();
   const [theme, setTheme] = useState("light");
+  const [currentNavItem, setCurrentNavItem] = useState("Inventario");
 
   const handleChangeTheme = () => {
     setTheme((preview) => (preview === "light" ? "dark" : "light"));
@@ -84,7 +85,7 @@ export default function Navbar({ logOut }) {
                           item.current
                             ? "bg-gray-900 text-white"
                             : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "rounded-md px-3 py-2 text-sm font-medium"
+                          "rounded-md px-3 py-2 text-sm font-medium cursor-pointer"
                         )}
                         aria-current={item.current ? "page" : undefined}
                       >

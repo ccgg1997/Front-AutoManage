@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import VehiculoForm from "../forms/vehiculo/vehiculoForm";
 import VehiculoUpdate from "../forms/vehiculo/vehiculoUpdateForm";
 import VehiculoDelete from "../forms/vehiculo/vehiculoDeleteForm";
-import { Button } from "@mui/material";
 import { useRef } from "react";
 /**
  * The `Producto` function is a React component that manages the inventory of vehicles.
@@ -26,7 +25,13 @@ const Producto = () => {
   const [createActive, setCreateActive] = useState(false);
   const [editActive, setEditActive] = useState(false);
   const [deleteActive, setDeleteActive] = useState(false);
-  const titles = ["ID", "Marca", "Linea", "Tipo", "Precio"];
+  const titles = [
+    { field: "id", headerName: "ID"},
+    { field: "marca", headerName: "Marca", width: 150},
+    { field: "linea", headerName: "Modelo", width: 150 },
+    { field: "tipo", headerName: "Color", width: 150 },
+    { field: "precio", headerName: "Precio", width: 150,type: 'number' },
+  ]
 
   const { token } = useSelector((state) => state.auth);
 

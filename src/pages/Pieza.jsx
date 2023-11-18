@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import PiezaPostForm from "../forms/pieza/piezaPostForm";
 import PiezaDeleteForm from "../forms/pieza/piezaDeleteForm";
 import PiezaUpdateForm from "../forms/pieza/piezaUpdateForm";
-import { Button } from "@mui/material";
 
 
 const Pieza = () => {
@@ -21,15 +20,35 @@ const Pieza = () => {
     const [createActive, setCreateActive] = useState(false);
     const [editActive, setEditActive] = useState(false);
     const [deleteActive, setDeleteActive] = useState(false);
-    const titles = ["ID", "Nombre", "Serie", "Precio", "Acciones"];
+    const titles = [
+        { field: "id", headerName: "ID" },
+        { field: "nombre", headerName: "Nombre", width: 150 },
+        { field: "serie", headerName: "Serie", width: 150 },
+        { field: "precio", headerName: "Precio", width: 150, type: 'number' },
+        {
+            field: 'accion',
+            headerName: 'Accion',
+            width: 200,
+            renderCell: (params) => (
+                <div>
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
+                onClick={() => editPiezaClick(params.row)}>
+                  Editar
+                </button>
+                <button className=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-2 rounded" 
+                onClick={() => deletePiezaClick(params.row)}>
+                  Eliminar
+                </button>
+              </div>
+            ),
+          },
+    ]
 
     const { token } = useSelector((state) => state.auth);
 
     useEffect(() => {
         listPiezas();
     }, []); // useEffect con un arreglo de dependencias vacío se ejecuta solo una vez al montar el componente
-
-
 
     const listPiezas = async () => {
         try {
@@ -40,7 +59,7 @@ const Pieza = () => {
         }
     };
 
-    const switchViewToList = async () => {
+    const switchViewToList = () => {
         listPiezas()
         setActive(true);
         setCreateActive(false);
@@ -50,7 +69,7 @@ const Pieza = () => {
         tableRef.current.scrollIntoView({ behavior: "smooth" });
     }
 
-    const switchViewToCreate = async () => {
+    const switchViewToCreate = () => {
         if (!createActive) {
             setCreateActive(true);
             setActive(false);
@@ -58,16 +77,6 @@ const Pieza = () => {
             setDeleteActive(false);
 
             createRef.current.scrollIntoView({ behavior: "smooth" });
-        }
-    };
-    const switchViewToEdit = async () => {
-        if (!editActive) {
-            setEditActive(true);
-            setActive(false);
-            setCreateActive(false);
-            setDeleteActive(false);
-
-            editRef.current.scrollIntoView({ behavior: "smooth" });
         }
     };
 
@@ -79,7 +88,6 @@ const Pieza = () => {
             setCreateActive(false);
             setDeleteActive(false);
 
-            //     editRef.current.scrollIntoView({ behavior: "smooth" });
         }
     };
     const deletePiezaClick = (piezaData) => {
@@ -156,7 +164,7 @@ const Pieza = () => {
                 <div className="mt-4" ref={tableRef}>
                     {active && (
                         <div className="flex">
-                            <BasicTable data={data} titles={titles} editAction={editPiezaClick} deleteAction={deletePiezaClick} />
+                            <BasicTable data={data} titles={titles} />
                         </div>
                     )}
                     <div className="mt-9">

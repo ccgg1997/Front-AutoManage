@@ -1,6 +1,6 @@
 import axios from "axios";
-export const apiAddress = "http://127.0.0.1:8000/api/v1";
-// export const apiAddress = "http://localhost:8000/api/v1";
+//export const apiAddress = "https://jose-manuel.tech/api/v1";
+export const apiAddress = "http://localhost:8000/api/v1";
 
 /* ------------------------------------Vehiculo----------------------------------------------*/
 /**
@@ -425,5 +425,81 @@ export const deletePieza = async (id, useToken) => {
     return response.data;
   } catch (error) {
     throw new Error("Error al eliminar el pieza", error);
+  }
+}
+
+//------------------------------------Inventario----------------------------------------------
+//endpoint: /inventario/
+export const getInventario = async (useToken) => {
+  const inventarioAdress = apiAddress + "/inventario_vehiculos/";
+  try {
+    const response = await axios.get(inventarioAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error al obtener el inventario", error);
+  }
+}
+
+//------------------------------------Ordenes----------------------------------------------
+//endpoint: /ordenes/
+export const getOrdenes = async (useToken) => {
+  const ordenesAdress = apiAddress + "/ordenes/";
+  try {
+    const response = await axios.get(ordenesAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error al obtener las ordenes", error);
+  }
+}
+
+export const createOrden = async (orden, useToken) => {
+  const ordenesAdress = apiAddress + "/ordenes/";
+  try {
+    const response = await axios.post(ordenesAdress, orden, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Error al crear la orden", error);
+  }
+}
+
+export const updateOrden = async (orden, useToken) => {
+  const ordenesAdress = apiAddress + "/ordenes/" + orden.id + "/";
+  try {
+    const response = await axios.put(ordenesAdress, orden, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Error al actualizar la orden", error);
+  }
+}
+
+export const deleteOrden = async (id, useToken) => {
+  const ordenesAdress = apiAddress + "/ordenes/" + id + "/";
+  try {
+    const response = await axios.delete(ordenesAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Error al eliminar la orden", error);
   }
 }
