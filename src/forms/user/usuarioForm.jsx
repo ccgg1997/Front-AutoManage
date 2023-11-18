@@ -11,7 +11,8 @@ const useField = ({ type, placeholder, options }) => {
   return { type, placeholder, value, onChange, options };
 };
 
-const roles = ["Gerente", "Vendedor", "Jefe de taller", "Cliente"]; //Posibles roles que puede tomar un usuario
+const roles = [{"id":"2","nombre":"Gerente"},{"id":"3","nombre":"Vendedor"},{"id":"4","nombre":"Jefe_Taller"}, {"id":"5","nombre":"Cliente"}]; //Posibles roles que puede tomar un usuario
+
 
 
 
@@ -31,17 +32,17 @@ export default function UsuarioForm() {
   const sucursal = useField({ type: "text" });
   const password = useField({ type: "password" });
   const [is_superuser, setIsSuperuser] = useState(false);
-  const rol = useField({ type: "select", options: roles });
+  const [opcionSeleccionada, setOpcionSeleccionada] = useState('');
 
   const usuario = {
     nombre: nombre.value,
     apellido: apellido.value,
     identificacion: identificacion.value,
     email: email.value,
-    sucursal: sucursal.value,
+    sucursal_id: null,
     is_superuser,
     password: password.value,
-    rol: rol.value,
+    rol_id: opcionSeleccionada,
   };
 
   const [showPassword, setShowPassword] = useState(false); //Controla la visibilidad de la contraseña
@@ -62,6 +63,12 @@ export default function UsuarioForm() {
       console.error(error);
     }
   };
+
+  const handleSelectChange = (event) => {
+    setOpcionSeleccionada(event.target.value);
+  };
+
+
 
   const clearForm = () => {
     nombre.onChange({ target: { value: "" } });
@@ -198,7 +205,8 @@ export default function UsuarioForm() {
                 <div className="mt-2">
                   <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
                     <select
-                      {...rol}
+                    onChange={handleSelectChange}
+                    value={opcionSeleccionada}
                       id="rol"
                       autoComplete="rol"
                       required
@@ -209,8 +217,8 @@ export default function UsuarioForm() {
                         Seleccione un rol
                       </option>
                       {roles.map((rol) => (
-                        <option key={rol} value={rol}>
-                          {rol}
+                        <option key={rol.id} value={rol.id}>
+                          {rol.nombre}
                         </option>
                       ))}
                     </select>
