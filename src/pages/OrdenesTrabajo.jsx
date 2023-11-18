@@ -1,8 +1,10 @@
 import React from 'react'
-
+import OrdenForm from '../forms/ordenes/ordenForm'
 const OrdenesTrabajo = () => {
   return (
-    <div>OrdenesTrabajo</div>
+    <div>
+      <OrdenForm />
+    </div>
   )
 }
 

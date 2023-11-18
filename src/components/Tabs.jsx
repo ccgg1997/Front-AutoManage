@@ -12,7 +12,7 @@ function CustomTabs({ tabs }) {
   };
 
   return (
-    <section className="h-full dark:text-white">
+    <section className="min-h-screen dark:text-white">
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={value}
