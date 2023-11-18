@@ -11,6 +11,8 @@ const Inventario = () => {
     { companyName: 'ghome', country: 'Switzerland', status: 'inactive' },
   ];
 
+  
+
   const tabs = [
     { label: 'Repuestos', content: <TableEditDelete data={datosDeLaTabla} editFunc={editItem} deleteFunc={deleteItem} /> },
     { label: 'Vehiculo', content: 'Contenido del Item Two' },
@@ -18,10 +20,7 @@ const Inventario = () => {
   ];
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <button onClick={onClick}>Get Vehiculos</button>
-      <BasicTable data={data} titles={titles} />
-    </div>
+    <Tabs tabs={tabs} />
   );
 };
 

@@ -5,7 +5,7 @@ import Tabs from '../components/Tabs.jsx';
 export default function Venta() {
   const tabs = [
     { label: 'Cotizacion', content: <Cotizacion /> },
-    { label: 'Venta', content: 'Contenido del Item Two' },
+    { label: 'Venta', content: <h1>Hola</h1> },
   ];
   return (
     <div className="min-h-screen dark:text-white">
