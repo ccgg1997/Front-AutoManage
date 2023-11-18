@@ -382,3 +382,20 @@ export const deletePieza = async (id, useToken) => {
     throw new Error("Error al eliminar el pieza", error);
   }
 }
+
+//------------------------------------Inventario----------------------------------------------
+//endpoint: /inventario/
+export const getInventario = async (useToken) => {
+  const inventarioAdress = apiAddress + "/inventario_vehiculos/";
+  try {
+    const response = await axios.get(inventarioAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error al obtener el inventario", error);
+  }
+}

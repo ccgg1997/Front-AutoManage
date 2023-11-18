@@ -50,7 +50,7 @@ function Login({ actualizar }) {
       };
       Cookies.set("userData", JSON.stringify(data));
       dispatch(setAuthData(data));
-      console.log(decode);
+    
     } catch (error) {
       if (error.message === "Datos vacios") {
         toast.error(error.message);
