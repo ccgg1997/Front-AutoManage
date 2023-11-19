@@ -1,31 +1,87 @@
 import React, { useEffect } from "react";
 import OrdenForm from "../forms/ordenes/ordenForm";
 import OrdenUpdateForm from "../forms/ordenes/ordenUpdateForm";
+import OrderDeleteForm from "../forms/ordenes/ordenDeleteForm";
 import Table from "../components/Table";
 import { useSelector } from "react-redux";
 import { getOrdenes } from "../components/api/adress";
 const OrdenesTrabajo = () => {
   const {token } = useSelector((state) => state.auth);
-  console.log(token);
   const [ordenFormActive, setOrdenFormActive] = React.useState(false);
   const [tableActive, setTableActive] = React.useState(false);
+  const [ordenUpdateFormActive, setOrdenUpdateFormActive] = React.useState(false);
+  const [deleteActive, setDeleteActive] = React.useState(false);
+  const [ordenes , setOrdenes] = React.useState([]);
+  const [targetOrden, setTargetOrden] = React.useState({});
+
+  const titles = [
+    { title: "Fecha de creacion", field: "fecha_creacion" },
+    { title: "Fecha de finalizacion", field: "fecha_finalizacion" },
+    { title: "Tipo", field: "tipo" },
+    { title: "Placa", field: "placa" },
+    { title: "Valor mano de obra", field: "valor_mano_obra" },
+    { title: "Valor total", field: "valor_total" },
+    { title: "Estado", field: "estado" },
+    { title: "Id cliente", field: "cliente" },
+    { title: "Id sucursal", field: "sucursal" },
+    { title: "Id vendedor", field: "vendedor" },
+    { title: "Acciones", field: "acciones",
+    headerName: 'Accion',
+    width: 300,
+    renderCell: (params) => (
+        <div>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
+        onClick={() => editTargetOrden(params.row)}>
+          Editar
+        </button>
+        <button className=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-2 rounded" 
+        onClick={() => deleteTargetOrden(params.row)}>
+          Eliminar
+        </button>
+      </div>
+    ),
+  },
+
+  ];
+
+  const editTargetOrden = (row) => {
+    setTargetOrden(row);
+    setOrdenUpdateFormActive(true);
+    setTableActive(false);
+
+  }
+
+  const deleteTargetOrden = (row) => {
+    setTargetOrden(row);
+    setDeleteActive(true);
+    setTableActive(false);
+  }
 
   useEffect(() => {
     try {
       const getOrdenesData = async () => {
         const ordenes = await getOrdenes(token);
-        console.log(ordenes);
+        setOrdenes(ordenes);
       };
       getOrdenesData();
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [deleteActive, ordenFormActive, ordenUpdateFormActive]);
 
   const orderFormView = () => {
     setOrdenFormActive(true);
-    console.log("Crear vehiculo");
+    setTableActive(false);
+    setOrdenUpdateFormActive(false);
+
   };
+
+  const tableView = () => {
+    setTableActive(true);
+    setOrdenFormActive(false);
+    setOrdenUpdateFormActive(false);
+  }
+
   return (
     <section className="dark:text-white">
       <div className="min-h-screen w-auto container mx-auto py-8">
@@ -57,7 +113,7 @@ const OrdenesTrabajo = () => {
               Agregar una nueva orden al sistema
             </p>
           </div>
-          <div className="flex flex-col items-center justify-center p-5 border-2 border-black dark:border-white rounded-lg cursor-pointer">
+          <div onClick={tableView} className="flex flex-col items-center justify-center p-5 border-2 border-black dark:border-white rounded-lg cursor-pointer">
             <svg
               className=" h-8 w-8  dark:text-white"
               fill="none"
@@ -81,9 +137,11 @@ const OrdenesTrabajo = () => {
             </p>
           </div>
         </div>
-        <div>
+        <div className="mt-4">
           {ordenFormActive && <OrdenForm />}
-          {tableActive && <Table />}{/** sin terminar */}
+          {tableActive && <Table data={ordenes} titles={titles} />}
+          {ordenUpdateFormActive && <OrdenUpdateForm ordenData={targetOrden} />}
+          {deleteActive && <OrderDeleteForm orden={targetOrden} onCancelAction={() => setDeleteActive(false)} /> }
         </div>
       </div>
     </section>

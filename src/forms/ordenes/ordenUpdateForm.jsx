@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { getOneOrden,updateOrden } from "../../components/api/adress";
 import { Toaster, toast } from "sonner";
 import { useSelector } from "react-redux";
@@ -16,13 +16,13 @@ const useField = ({ type, placeholder }) => {
  *
  * @returns {JSX.Element} The rendered form component.
  */
-export default function OrdenUpdateForm({id}) {
+export default function OrdenUpdateForm({ordenData}) {
   const { token } = useSelector((state) => state.auth);
 
   const fecha_creacion = useField({ type: "date" });
   const fecha_finalizacion = useField({ type: "date" });
   const tipo = useField({ type: "text" });
-  const placa = useField({ type: "number" });
+  const placa = useField({ type: "text" });
   const valor_mano_obra = useField({ type: "number" });
   const valor_total = useField({ type: "number" });
   const estado = useField({ type: "text" });
@@ -42,6 +42,24 @@ export default function OrdenUpdateForm({id}) {
     id_sucursal: id_sucursal.value,
     id_vendedor: id_vendedor.value,
   };
+
+  useEffect(() => {
+    fecha_creacion.onChange({ target: { value: ordenData.fecha_creacion } });
+    fecha_finalizacion.onChange({
+      target: { value: ordenData.fecha_finalizacion },
+    });
+    tipo.onChange({ target: { value: ordenData.tipo } });
+    placa.onChange({ target: { value: ordenData.placa } });
+    valor_mano_obra.onChange({
+      target: { value: ordenData.valor_mano_obra },
+    });
+    valor_total.onChange({ target: { value: ordenData.valor_total } });
+    estado.onChange({ target: { value: ordenData.estado } });
+    id_cliente.onChange({ target: { value: ordenData.id_cliente } });
+    id_sucursal.onChange({ target: { value: ordenData.id_sucursal } });
+    id_vendedor.onChange({ target: { value: ordenData.id_vendedor } });
+  }, [ordenData]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
