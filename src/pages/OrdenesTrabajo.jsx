@@ -5,13 +5,15 @@ import OrderDeleteForm from "../forms/ordenes/ordenDeleteForm";
 import Table from "../components/Table";
 import { useSelector } from "react-redux";
 import { getOrdenes } from "../components/api/adress";
+import { WrenchIcon } from "@heroicons/react/24/outline";
 const OrdenesTrabajo = () => {
-  const {token } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
   const [ordenFormActive, setOrdenFormActive] = React.useState(false);
   const [tableActive, setTableActive] = React.useState(false);
-  const [ordenUpdateFormActive, setOrdenUpdateFormActive] = React.useState(false);
+  const [ordenUpdateFormActive, setOrdenUpdateFormActive] =
+    React.useState(false);
   const [deleteActive, setDeleteActive] = React.useState(false);
-  const [ordenes , setOrdenes] = React.useState([]);
+  const [ordenes, setOrdenes] = React.useState([]);
   const [targetOrden, setTargetOrden] = React.useState({});
 
   const titles = [
@@ -25,37 +27,41 @@ const OrdenesTrabajo = () => {
     { title: "Id cliente", field: "cliente" },
     { title: "Id sucursal", field: "sucursal" },
     { title: "Id vendedor", field: "vendedor" },
-    { title: "Acciones", field: "acciones",
-    headerName: 'Accion',
-    width: 300,
-    renderCell: (params) => (
+    {
+      title: "Acciones",
+      field: "acciones",
+      headerName: "Accion",
+      width: 300,
+      renderCell: (params) => (
         <div>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
-        onClick={() => editTargetOrden(params.row)}>
-          Editar
-        </button>
-        <button className=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-2 rounded" 
-        onClick={() => deleteTargetOrden(params.row)}>
-          Eliminar
-        </button>
-      </div>
-    ),
-  },
-
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => editTargetOrden(params.row)}
+          >
+            Editar
+          </button>
+          <button
+            className=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-2 rounded"
+            onClick={() => deleteTargetOrden(params.row)}
+          >
+            Eliminar
+          </button>
+        </div>
+      ),
+    },
   ];
 
   const editTargetOrden = (row) => {
     setTargetOrden(row);
     setOrdenUpdateFormActive(true);
     setTableActive(false);
-
-  }
+  };
 
   const deleteTargetOrden = (row) => {
     setTargetOrden(row);
     setDeleteActive(true);
     setTableActive(false);
-  }
+  };
 
   useEffect(() => {
     try {
@@ -73,21 +79,26 @@ const OrdenesTrabajo = () => {
     setOrdenFormActive(true);
     setTableActive(false);
     setOrdenUpdateFormActive(false);
-
   };
 
   const tableView = () => {
     setTableActive(true);
     setOrdenFormActive(false);
     setOrdenUpdateFormActive(false);
-  }
+  };
 
   return (
     <section className="dark:text-white">
-      <div className="min-h-screen w-auto container mx-auto py-8">
-        <h1 className="text-4xl font-bold text-center dark:text-white">
-          Gestión de Ordenes de Trabajo
+      <div className=" border-t border-b border-gray-900/10 flex items-center justify-center pt-10 pl-7 pr-7 pb-5">
+        <WrenchIcon
+          className="h-10 w-10 mr-2 text-blue-500"
+          aria-hidden="true"
+        />
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl font-bold dark:text-white">
+          ÓRDENES DE TRABAJO
         </h1>
+      </div>
+      <div className="min-h-screen w-auto container mx-auto py-8">
         <div className="mt-16 grid gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
           <div
             className="flex flex-col items-center justify-center p-5 border-2 border-black dark:border-white rounded-lg cursor-pointer"
@@ -113,7 +124,10 @@ const OrdenesTrabajo = () => {
               Agregar una nueva orden al sistema
             </p>
           </div>
-          <div onClick={tableView} className="flex flex-col items-center justify-center p-5 border-2 border-black dark:border-white rounded-lg cursor-pointer">
+          <div
+            onClick={tableView}
+            className="flex flex-col items-center justify-center p-5 border-2 border-black dark:border-white rounded-lg cursor-pointer"
+          >
             <svg
               className=" h-8 w-8  dark:text-white"
               fill="none"
@@ -141,7 +155,12 @@ const OrdenesTrabajo = () => {
           {ordenFormActive && <OrdenForm />}
           {tableActive && <Table data={ordenes} titles={titles} />}
           {ordenUpdateFormActive && <OrdenUpdateForm ordenData={targetOrden} />}
-          {deleteActive && <OrderDeleteForm orden={targetOrden} onCancelAction={() => setDeleteActive(false)} /> }
+          {deleteActive && (
+            <OrderDeleteForm
+              orden={targetOrden}
+              onCancelAction={() => setDeleteActive(false)}
+            />
+          )}
         </div>
       </div>
     </section>

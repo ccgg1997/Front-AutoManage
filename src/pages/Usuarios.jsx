@@ -1,13 +1,13 @@
-import { getUsuarios } from '../components/api/adress';
-import TableUser from '../components/TableUser';
-import { useState } from 'react';
+import { getUsuarios } from "../components/api/adress";
+import TableUser from "../components/TableUser";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import UsuarioForm from "../forms/user/usuarioForm";
 import UserUpdate from "../forms/user/userUpdateForm";
 import UsuarioDeleteForm from "../forms/user/usuarioDeleteForm";
 import { Button } from "@mui/material";
 import { useRef } from "react";
-
+import { UserIcon } from "@heroicons/react/24/outline";
 
 const Usuarios = () => {
   const [data, setData] = useState([]);
@@ -20,9 +20,9 @@ const Usuarios = () => {
   const [createActive, setCreateActive] = useState(false);
   const [editActive, setEditActive] = useState(false);
   const [deleteActive, setDeleteActive] = useState(false);
-  
+
   const titles = ["ID", "Nombre", "Email", "Identificacion", "Estado", "Rol"];
-  
+
   const { token } = useSelector((state) => state.auth);
 
   const onClick = async () => {
@@ -39,7 +39,8 @@ const Usuarios = () => {
         tableRef.current.scrollIntoView({ behavior: "smooth" });
       }
     } catch (error) {
-      console.error(error);  j
+      console.error(error);
+      j;
     }
   };
 
@@ -75,13 +76,20 @@ const Usuarios = () => {
       deleteRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
-  
+
   return (
     <section>
+      <div className=" border-t border-b border-gray-900/10 flex items-center justify-center pt-10 pl-7 pr-7 pb-5">
+          <UserIcon
+            className="h-10 w-10 mr-2 text-blue-500"
+            aria-hidden="true"
+          />
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl font-bold dark:text-white">
+            GESTIÓN DE USUARIOS
+          </h1>
+        </div>
       <div className="min-h-screen w-auto container mx-auto py-8">
-        <h1 className="text-4xl font-bold text-center dark:text-white">
-          Gestión de usuarios
-        </h1>
+        
         <div className="mt-16 grid gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
           <div
             className="flex flex-col items-center justify-center p-5 border-2 border-black dark:border-white rounded-lg cursor-pointer"
@@ -161,7 +169,10 @@ const Usuarios = () => {
               Modificar los detalles de usuarios existentes
             </p>
           </div>
-          <div className="flex flex-col items-center justify-center p-5 border-2 border-black dark:border-white rounded-lg cursor-pointer" onClick={onClickDelete}>
+          <div
+            className="flex flex-col items-center justify-center p-5 border-2 border-black dark:border-white rounded-lg cursor-pointer"
+            onClick={onClickDelete}
+          >
             <svg
               className=" h-8 w-8  dark:text-white"
               fill="none"
@@ -203,4 +214,4 @@ const Usuarios = () => {
   );
 };
 
-export default Usuarios
+export default Usuarios;

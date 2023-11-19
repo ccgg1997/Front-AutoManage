@@ -8,9 +8,9 @@ const navigation = [
   { name: "Ordenes Trabajo", href: "/Ordenes" },
   { name: "Ventas", href: "/Ventas" },
   { name: "Usuarios", href: "/Usuarios" },
-  { name: "Productos", href: "/Productos" },
-  { name: "Home", href: "/" },
+  { name: "Vehiculo", href: "/Productos" },
   { name: "Piezas", href: "/Piezas" },
+  { name: "Home", href: "/" },
 ];
 
 function classNames(...classes) {
@@ -20,7 +20,7 @@ function classNames(...classes) {
 export default function Navbar({ logOut }) {
   const navigate = useNavigate();
   const [theme, setTheme] = useState("light");
-  const [currentNavItem, setCurrentNavItem] = useState("Inventario");
+  const [currentNavItem, setCurrentNavItem] = useState("Home");
 
   const handleChangeTheme = () => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));

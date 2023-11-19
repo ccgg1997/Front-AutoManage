@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
 import { getInventario } from '../components/api/adress.js';
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { ArchiveBoxIcon } from "@heroicons/react/24/outline";
+import { CurrencyDollarIcon } from "@heroicons/react/24/outline";
 
 export default function Venta() {
   const tabs = [
@@ -13,6 +15,15 @@ export default function Venta() {
   ];
   return (
     <div className="min-h-screen dark:text-white">
+       <div className=" border-t border-b border-gray-900/10 flex items-center justify-center pt-10 pl-7 pr-7 pb-5">
+        <CurrencyDollarIcon
+          className="h-10 w-10 mr-2 text-blue-500"
+          aria-hidden="true"
+        />
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl font-bold dark:text-white">
+          VENTAS
+        </h1>
+      </div>
       <Tabs className="h-full" tabs={tabs} />
     </div>
   );
@@ -76,16 +87,9 @@ function Cotizacion() {
   console.log(data);
 
   return (
-    <div className="dark:text-white min-h-screen">
-
-      <main className="p-6">
-
-        <h2 className="text-2xl font-bold mb-4">Introduzca los detalles del auto</h2>
-        <p className="mt-1 text-sm leading-6 mb-2 text-gray-600 dark:text-slate-300">
-          Bienvenido a la seccion de cotizaciones de vehiculos, por favor ingrese informacion
-          completa.
-        </p>
-
+    
+    <div className="dark:text-white ">
+      <main className="p-6">    
         <form className="space-y-4">
 
         <div>
