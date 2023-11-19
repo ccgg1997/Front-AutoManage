@@ -29,7 +29,6 @@ const Usuarios = () => {
     try {
       if (!active) {
         const response = await getUsuarios(token);
-        console.log(response);
         setData(response);
         setActive(true);
         setCreateActive(false);

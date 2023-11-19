@@ -30,7 +30,6 @@ const Inventario = () => {
         vehiculo.linea = vehiculo.vehiculo.linea;
       });
       setDataVehiculo(vehiculos);
-      console.log(vehiculos);
     };
     fetchData();
 

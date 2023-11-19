@@ -46,8 +46,7 @@ export default function OrdenForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await createOrden(orden, token);
-      console.log(response);
+      await createOrden(orden, token);
       toast.success("Vehiculo creado con exito");
       clearForm();
     } catch (error) {

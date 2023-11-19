@@ -54,8 +54,7 @@ export default function UsuarioForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await createUsuario(usuario, token);
-      console.log(response);
+      await createUsuario(usuario, token);
       toast.success("Usuario creado con exito");
       clearForm();
     } catch (error) {

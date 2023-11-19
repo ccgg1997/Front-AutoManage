@@ -97,7 +97,6 @@ function Cotizacion() {
   //onClick para imprimir cotizacion
   const imprimirCotizacion = async (e) => {
     e.preventDefault();
-    console.log(cotizacion);
     
   }
 

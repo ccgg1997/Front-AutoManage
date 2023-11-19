@@ -553,3 +553,126 @@ export const getRepuestos = async (useToken) => {
     throw new Error("Error al obtener los repuestos", error);
   }
 }
+
+
+//------------------------COTIZACION-------------------------------
+
+export const getCotizaciones = async (useToken) => {
+  const cotizacionesAdress = apiAddress + "/cotizaciones/";
+  try {
+    const response = await axios.get(cotizacionesAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error al obtener las cotizaciones", error);
+  }
+}
+
+export const createCotizacion = async (cotizacion, useToken) => {
+  const cotizacionesAdress = apiAddress + "/cotizaciones/";
+  try {
+    const response = await axios.post(cotizacionesAdress, cotizacion, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Error al crear la cotizacion", error);
+  }
+}
+
+export const updateCotizacion = async (cotizacion, useToken) => {
+  const cotizacionesAdress = apiAddress + "/cotizaciones/" + cotizacion.id + "/";
+  try {
+    const response = await axios.put(cotizacionesAdress, cotizacion, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Error al actualizar la cotizacion", error);
+  }
+}
+
+export const deleteCotizacion = async (id, useToken) => {
+  const cotizacionesAdress = apiAddress + "/cotizaciones/" + id + "/";
+  try {
+    const response = await axios.delete(cotizacionesAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Error al eliminar la cotizacion", error);
+  }
+}
+
+//------------------------Ventas-------------------------------
+
+export const getVentas = async (useToken) => {
+  const ventasAdress = apiAddress + "/ventas/";
+  try {
+    const response = await axios.get(ventasAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error al obtener las ventas", error);
+  }
+}
+
+export const createVenta = async (venta, useToken) => {
+  const ventasAdress = apiAddress + "/ventas/";
+  try {
+    const response = await axios.post(ventasAdress, venta, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Error al crear la venta", error);
+  }
+}
+
+export const updateVenta = async (venta, useToken) => {
+  const ventasAdress = apiAddress + "/ventas/" + venta.id + "/";
+  try {
+    const response = await axios.put(ventasAdress, venta, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response.status === 400) {
+      throw new Error(error.response.data.detail, error);
+    }
+    throw new Error("Error al actualizar la venta", error);
+  }
+}
+
+export const deleteVenta = async (id, useToken) => {
+  const ventasAdress = apiAddress + "/ventas/" + id + "/";
+  try {
+    const response = await axios.delete(ventasAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+
+    throw new Error("Error al eliminar la venta", error);
+  }
+}

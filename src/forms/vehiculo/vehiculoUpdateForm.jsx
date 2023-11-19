@@ -131,7 +131,6 @@ const InfoForm = ({ id, clearForm }) => {
       tipo: tipo.value,
       precio: precio.value,
     };
-    console.log(vehiculo.id);
     try {
       await updateVehiculo(vehiculo, token);
       toast.success("Vehiculo actualizado con exito, Redirigiendo...");
