@@ -477,6 +477,21 @@ export const getOrdenes = async (useToken) => {
   }
 }
 
+export const getOneOrden = async (id, useToken) => {
+  const ordenesAdress = apiAddress + "/ordenes/" + id + "/";
+  try {
+    const response = await axios.get(ordenesAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error al obtener la orden", error);
+  }
+}
+
 export const createOrden = async (orden, useToken) => {
   const ordenesAdress = apiAddress + "/ordenes/";
   try {
@@ -518,6 +533,7 @@ export const deleteOrden = async (id, useToken) => {
     throw new Error("Error al eliminar la orden", error);
   }
 }
+
 
 //------------------------REPUESTOS-------------------------------
 export const getRepuestos = async (useToken) => {

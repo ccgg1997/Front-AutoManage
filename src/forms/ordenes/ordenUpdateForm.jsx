@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { createOrden } from "../../components/api/adress";
+import React from "react";
+import { getOneOrden,updateOrden } from "../../components/api/adress";
 import { Toaster, toast } from "sonner";
 import { useSelector } from "react-redux";
 
@@ -16,13 +16,13 @@ const useField = ({ type, placeholder }) => {
  *
  * @returns {JSX.Element} The rendered form component.
  */
-export default function OrdenForm() {
+export default function OrdenUpdateForm({id}) {
   const { token } = useSelector((state) => state.auth);
-  const {id} = useSelector((state) => state.auth);
+
   const fecha_creacion = useField({ type: "date" });
   const fecha_finalizacion = useField({ type: "date" });
   const tipo = useField({ type: "text" });
-  const placa = useField({ type: "text" });
+  const placa = useField({ type: "number" });
   const valor_mano_obra = useField({ type: "number" });
   const valor_total = useField({ type: "number" });
   const estado = useField({ type: "text" });
@@ -39,14 +39,14 @@ export default function OrdenForm() {
     valor_total: valor_total.value,
     estado: estado.value,
     id_cliente: id_cliente.value,
-    sucursales: id_sucursal.value,
+    id_sucursal: id_sucursal.value,
     id_vendedor: id_vendedor.value,
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await createOrden(orden, token);
+      const response = await updateOrden(orden, token);
       console.log(response);
       toast.success("Vehiculo creado con exito");
       clearForm();
@@ -68,11 +68,6 @@ export default function OrdenForm() {
     id_sucursal.onChange({ target: { value: "" } });
     id_vendedor.onChange({ target: { value: "" } });
   };
-
-  useEffect(() => {
-    id_vendedor.onChange({ target: { value: id } });
-  }, []);
-
 
   return (
     <form onSubmit={handleSubmit}>
@@ -232,50 +227,6 @@ export default function OrdenForm() {
                             required
                             className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
                           />
-                        </div>
-                      </div>
-
-                      <div className="mt-10 sm:grid-cols-6">
-                        <div className="sm:col-span-4">
-                          <label
-                            htmlFor="precio"
-                            className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
-                          >
-                            Id cliente
-                          </label>
-                          <div className="mt-2">
-                            <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
-                              <input
-                                {...id_cliente}
-                                id="id_cliente"
-                                autoComplete="id_cliente"
-                                required
-                                className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
-                              />
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="mt-10 sm:grid-cols-6">
-                          <div className="sm:col-span-4">
-                            <label
-                              htmlFor="precio"
-                              className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
-                            >
-                              Id sucursal
-                            </label>
-                            <div className="mt-2">
-                              <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
-                                <input
-                                  {...id_sucursal}
-                                  id="id_sucursal"
-                                  autoComplete="id_sucursal"
-                                  required
-                                  className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
-                                />
-                              </div>
-                            </div>
-                          </div>
                         </div>
                       </div>
                     </div>
