@@ -39,13 +39,13 @@ function Cotizacion() {
 
   const { token } = useSelector((state) => state.auth);
 
-  const [marcasUnicas, setMarcasUnicas] = useState([]);
-  const [modelosUnicos, setModelosUnicos] = useState([]);
-  const [kilometrajesUnicos, setKilometrajesUnicos] = useState([]);
+  const { id } = useSelector((state) => state.auth);
 
-  const [marcaSeleccionada, setMarcaSeleccionada] = useState("");
-  const [modeloSeleccionado, setModeloSeleccionado] = useState("");
-  const [kilometrajeSeleccionado, setKilometrajeSeleccionado] = useState("");
+  const [cedulaIngresada, setCedulaIngresada] = useState("");
+
+  const [vehiculo, setVehiculo] = useState([]);
+
+  const [vehiculoSeleccionado, setVehiculoSeleccionado] = useState([]);
 
   // Datos de inventario
   useEffect(() => {
@@ -57,34 +57,51 @@ function Cotizacion() {
     console.log
   }, []);
 
-  //Filtramos por marca
+  // Obtenemos valores necesarios del inventario
   useEffect(() => {
-    const obtenerMarcasUnicas = (vehiculos) => {
-      const marcas = vehiculos.map(vehiculo => vehiculo.vehiculo.marca);
-      return [...new Set(marcas)];
+    const filtrarVehiculo = (vehiculos) => {
+      const vehiculosFiltrados = vehiculos.map((vehiculo) => ({
+        id: vehiculo.id,
+        marca: vehiculo.vehiculo.marca,
+        modelo: vehiculo.modelo,
+        kilometraje: vehiculo.kilometraje,
+        color: vehiculo.color,
+        valor: vehiculo.vehiculo.precio,
+      }));
+  
+      return vehiculosFiltrados;
     };
-    setMarcasUnicas(obtenerMarcasUnicas(data));
+  
+    const vehiculosFiltrados = filtrarVehiculo(data);
+    setVehiculo(vehiculosFiltrados);
+    
   }, [data]);
 
-  //Filtramos por modelo
-  useEffect(() => {
-    const obtenerModelosUnicos = (vehiculos) => {
-      const modelos = vehiculos.map(vehiculo => vehiculo.modelo);
-      return [...new Set(modelos)];
-    };
-    setModelosUnicos(obtenerModelosUnicos(data));
-  }, [data]);
+  // Guardamos el valor del vehiculo seleccionado
+  const seleccionarVehiculo = (e) => {
 
-  //Filtramos por kilometraje
-  useEffect(() => {
-    const obtenerKilometrajeUnicos = (vehiculos) => {
-      const kilometraje = vehiculos.map(vehiculo => vehiculo.kilometraje);
-      return [...new Set(kilometraje)];
-    };
-    setKilometrajesUnicos(obtenerKilometrajeUnicos(data));
-  }, [data]);
+    setVehiculoSeleccionado(e.target.value);
+    //console.log(e.target.value);
+  }
 
-  console.log(data);
+  // Creamos objeto cotizacion
+  const cotizacion = {
+    id_inventario_vehiculo: vehiculoSeleccionado.id,
+    id_vendedor: id,
+    id_cliente: cedula.value,
+    fecha_creacion: fecha_creacion.value,
+    fecha_finalizacion: fecha_finalizacion.value,
+    valor_total: vehiculoSeleccionado.valor,
+  };
+
+  //onClick para imprimir cotizacion
+  const imprimirCotizacion = async (e) => {
+    e.preventDefault();
+    console.log(cotizacion);
+    
+  }
+
+  //console.log(data);
 
   return (
     
@@ -94,71 +111,25 @@ function Cotizacion() {
 
         <div>
           <label htmlFor="marca-select">
-            Elige una marca:
+            Elige un vehiculo:
           </label>
           <div className="mt-2">
             <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">  
               <FormControl fullWidth>
-                <InputLabel className="dark: color-white" id="demo-simple-select-label">Marca</InputLabel>
+                <InputLabel className="dark: color-white" id="demo-simple-select-label">Vehiculos</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    //value={age}
-                    label="Marca"
-                    //onChange={handleChange}
+                    value={vehiculoSeleccionado}
+                    label="Vehiculo"
+                    onChange={seleccionarVehiculo}
                   >
-                    {marcasUnicas.map((marca, index) => (
-                      <MenuItem key={index} value={marca}>{marca}</MenuItem>
-                    ))}
-        
-                  </Select>
-              </FormControl>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <label htmlFor="marca-select">
-            Elige el modelo:
-          </label>
-          <div className="mt-2">
-            <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">  
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Modelo</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    //value={age}
-                    label="Modelo"
-                    //onChange={handleChange}
-                  >
-                    {modelosUnicos.map((modelo, index) => (
-                      <MenuItem key={index} value={modelo}>{modelo}</MenuItem>
-                    ))}
-        
-                  </Select>
-              </FormControl>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <label htmlFor="marca-select">
-            Elige su kilometraje:
-          </label>
-          <div className="mt-2">
-            <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">  
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Kilometraje</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    //value={age}
-                    label="Kilometraje"
-                    //onChange={handleChange}
-                  >
-                    {kilometrajesUnicos.map((kilometraje, index) => (
-                      <MenuItem key={index} value={kilometraje}>{kilometraje}</MenuItem>
+                    {vehiculo.map((vehiculo, index) => (
+                      <MenuItem key={vehiculo.id} value={vehiculo}>
+                        {
+                          "Marca: " + vehiculo.marca + " - " + "Modelo: " + vehiculo.modelo + " - " + "Kms: " + vehiculo.kilometraje + " - " + "Color: " + vehiculo.color
+                        }
+                      </MenuItem>
                     ))}
         
                   </Select>
@@ -174,7 +145,8 @@ function Cotizacion() {
       <form>
 
         <div className="mt-2">
-          <label htmlFor="marca-select">
+          <label 
+          htmlFor="marca-select">
             Ingrese su cedula:
           </label>
           <div className="mt-2">
@@ -230,7 +202,7 @@ function Cotizacion() {
           </div>
         </div>
 
-        <button className="mt-5 p-2 text-black border dark:text-white border-gray-300 rounded">
+        <button className="mt-5 p-2 text-black border dark:text-white border-gray-300 rounded" onClick={imprimirCotizacion}>
           Obtener cotización
         </button>
 
