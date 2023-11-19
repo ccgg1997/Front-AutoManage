@@ -31,17 +31,17 @@ const Pieza = () => {
             width: 200,
             renderCell: (params) => (
                 <div>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
-                onClick={() => editPiezaClick(params.row)}>
-                  Editar
-                </button>
-                <button className=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-2 rounded" 
-                onClick={() => deletePiezaClick(params.row)}>
-                  Eliminar
-                </button>
-              </div>
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        onClick={() => editPiezaClick(params.row)}>
+                        Editar
+                    </button>
+                    <button className=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-2 rounded"
+                        onClick={() => deletePiezaClick(params.row)}>
+                        Eliminar
+                    </button>
+                </div>
             ),
-          },
+        },
     ]
 
     const { token } = useSelector((state) => state.auth);
@@ -128,10 +128,10 @@ const Pieza = () => {
                             <path d="M12 5v14" />
                         </svg>
                         <h2 className="mt-2 font-semibold dark:text-white">
-                            Crear vehiculo
+                            Crear pieza
                         </h2>
                         <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                            Agregar un nuevo vehiculo al sistema
+                            Agregar una nueva pieza al sistema
                         </p>
                     </div>
                     <div

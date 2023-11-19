@@ -247,7 +247,7 @@ export const userUpdate = async (id, user, useToken) => {
 export const getUsuarios = async (useToken) => {
   const usuariosAdress = apiAddress + "/usuarios/";
   try {
-    const response = await axios.get(usuariosAdress,{
+    const response = await axios.get(usuariosAdress, {
       headers: {
         Authorization: "Bearer " + useToken,
       },
@@ -424,6 +424,9 @@ export const deletePieza = async (id, useToken) => {
     });
     return response.data;
   } catch (error) {
+    if (error.code === "ERR_BAD_REQUEST") {
+      throw new Error(error.response.data.detail, error);
+    }
     throw new Error("Error al eliminar el pieza", error);
   }
 }

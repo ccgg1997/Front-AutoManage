@@ -24,7 +24,6 @@ export default function PiezaDeleteForm({ idPieza, nombrePieza, afterSubmit, onC
         e.preventDefault();
         try {
             const response = await deletePieza(id, token);
-            console.log(response);
             toast.success("Pieza eliminada con exito");
             // clearForm();
             afterSubmit();
