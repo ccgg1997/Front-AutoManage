@@ -30,7 +30,7 @@ const InventarioVehiculoCreate = () => {
             id="modelo"
             autoComplete="modelo"
             required
-            className="shadow-sm focus:ring-indigo-500 focus:border-black w-full md:w-1/2 border-2 border-black rounded-md  dark:bg-inherit dark:border-white mb-4"
+            className="shadow-sm focus:ring-indigo-500 focus:border-black w-full border-2 border-black rounded-md  dark:bg-inherit dark:border-white mb-5 h-9"
           />
         </div>
 
@@ -46,7 +46,7 @@ const InventarioVehiculoCreate = () => {
             id="condicion"
             autoComplete="condicion"
            required
-            className="shadow-sm focus:ring-indigo-500 focus:border-black w-full md:w-1/2 border-2 border-black rounded-md  dark:bg-inherit dark:border-white mb-4"
+            className="shadow-sm focus:ring-indigo-500 focus:border-black w-full border-2 border-black rounded-md  dark:bg-inherit dark:border-white mb-5 h-9"
           
           />
         </div>
@@ -58,14 +58,16 @@ const InventarioVehiculoCreate = () => {
           Estado
         </label>
         <div className="mt-1">
-          <input
-            {...estado}
-            id="estado"
-            autoComplete="estado"
-           required
-            className="shadow-sm focus:ring-indigo-500 focus:border-black w-full md:w-1/2 border-2 border-black rounded-md  dark:bg-inherit dark:border-white mb-4"
-          
-          />
+        <select
+          id="estado"
+          value={estado}
+          onChange={(e) => setEstado(e.target.value)}
+          className="mb-6 w-full  bg-white border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-blue-500 dark:bg-inherit dark:border-white"
+        >
+          <option value="">Selecciona el estado</option>
+          <option value="nuevo">Nuevo</option>
+          <option value="usado">Usado</option>
+        </select>
         </div>
 
         <label
@@ -80,7 +82,7 @@ const InventarioVehiculoCreate = () => {
             id="placa"
             autoComplete="placa"
            required
-            className="shadow-sm focus:ring-indigo-500 focus:border-black w-full md:w-1/2 border-2 border-black rounded-md  dark:bg-inherit dark:border-white mb-4"
+            className="shadow-sm focus:ring-indigo-500 focus:border-black w-full border-2 border-black rounded-md  dark:bg-inherit dark:border-white mb-5 h-9"
           
           />
         </div>
@@ -97,7 +99,7 @@ const InventarioVehiculoCreate = () => {
             id="kilometraje"
             autoComplete="kilometraje"
            required
-            className="shadow-sm focus:ring-indigo-500 focus:border-black w-full md:w-1/2 border-2 border-black rounded-md  dark:bg-inherit dark:border-white mb-4"
+            className="shadow-sm focus:ring-indigo-500 focus:border-black w-full border-2 border-black rounded-md  dark:bg-inherit dark:border-white mb-5 h-9"
           
           />
         </div>
@@ -114,7 +116,7 @@ const InventarioVehiculoCreate = () => {
             id="color"
             autoComplete="color"
            required
-            className="shadow-sm focus:ring-indigo-500 focus:border-black w-full md:w-1/2 border-2 border-black rounded-md  dark:bg-inherit dark:border-white mb-4"
+            className="shadow-sm focus:ring-indigo-500 focus:border-black w-full border-2 border-black rounded-md  dark:bg-inherit dark:border-white mb-5 h-9"
           
           />
         </div>
@@ -131,7 +133,7 @@ const InventarioVehiculoCreate = () => {
             id="vehiculo_id"
             autoComplete="vehiculo_id"
            required
-            className="shadow-sm focus:ring-indigo-500 focus:border-black w-full md:w-1/2 border-2 border-black rounded-md  dark:bg-inherit dark:border-white mb-4"
+            className="shadow-sm focus:ring-indigo-500 focus:border-black w-full border-2 border-black rounded-md  dark:bg-inherit dark:border-white mb-5 h-9"
           
           />
         </div>
@@ -148,7 +150,7 @@ const InventarioVehiculoCreate = () => {
             id="sucursal_id"
             autoComplete="sucursal_id"
            required
-            className="shadow-sm focus:ring-indigo-500 focus:border-black w-full md:w-1/2 border-2 border-black rounded-md  dark:bg-inherit dark:border-white mb-4"
+            className="shadow-sm focus:ring-indigo-500 focus:border-black w-full border-2 border-black rounded-md  dark:bg-inherit dark:border-white mb-5 h-9"
           
           />
         </div>

@@ -13,14 +13,14 @@ const InventarioCreate = () => {
 
   return (
     <>
-      <div className="flex flex-col w-full  mx-auto bg-white shadow-md rounded-xl p-4 dark:bg-inherit ">
+      <div className="flex flex-col w-full  mx-auto bg-white shadow-md rounded-xl p-4 dark:bg-inherit lg:w-1/2 ">
         <label
           htmlFor="dropdown"
           className="mb-2 text-lg font-bold text-gray-700"
         >
           Elige una categoría:
         </label>
-        <div className="flex flex-col w-full lg:w-1/2 mx-auto justify-center items-center">
+ 
           <select
             id="dropdown"
             value={seleccion}
@@ -31,7 +31,7 @@ const InventarioCreate = () => {
             <option value="pieza">Pieza</option>
             <option value="vehiculo">Vehículo</option>
           </select>
-        </div>
+
         {seleccion === "pieza" && <InventarioPiezaCreate className="pt-5" />}
         {seleccion === "vehiculo" && (
           <InventarioVehiculoCreate className="pt-5" />
