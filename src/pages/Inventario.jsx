@@ -4,6 +4,7 @@ import Table from "../components/Table.jsx";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { getInventario, deleteVehiculoInventario, getRepuestos } from "../components/api/adress.js";
+import InventarioCreate from "../forms/inventario/InventarioCreate.jsx";
 import { ArchiveBoxIcon } from "@heroicons/react/24/outline";
 
 const Inventario = () => {
@@ -89,6 +90,7 @@ const Inventario = () => {
       content:<div className="pl-10 pr-10 pt-6"><Table data={dataVehiculo} titles={titles} /></div>,
     },
     { label: "Repuestos", content: <div className="pl-10 pr-10 pt-6"><Table data={dataPiezas} titles={titlePiezas} /></div> },
+    { label: "Crear", content: <div className="pl-10 pr-10 pt-6"><InventarioCreate></InventarioCreate></div> }
   ];
 
   return (

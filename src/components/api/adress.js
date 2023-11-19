@@ -434,7 +434,7 @@ export const deletePieza = async (id, useToken) => {
 //------------------------------------Inventario----------------------------------------------
 //endpoint: /inventario/
 export const getInventario = async (useToken) => {
-  const inventarioAdress = apiAddress + "/inventario_vehiculos/";
+  const inventarioAdress = apiAddress + "/inventario_vehiculos/?estado=DISPONIBLE";
   try {
     const response = await axios.get(inventarioAdress, {
       headers: {
