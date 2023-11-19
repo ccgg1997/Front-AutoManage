@@ -2,6 +2,7 @@ import React from "react";
 import { createOrden } from "../../components/api/adress";
 import { Toaster, toast } from "sonner";
 import { useSelector } from "react-redux";
+import { Wrench } from "@heroicons/react/24/outline";
 
 const useField = ({ type, placeholder }) => {
   const [value, setValue] = React.useState("");
@@ -71,18 +72,14 @@ export default function OrdenForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="border-t pt-12 border-b border-gray-900/10 pb-12">
-        <h2
-          className="text-base font-semibold leading-7 text-gray-900
-        dark:text-slate-300 sm:text-3xl sm:truncate
-        "
-        >
-          Creacion de vehiculos
-        </h2>
-        <p className="mt-1 text-sm leading-6 text-gray-600 dark:text-slate-300">
-          Bienvenido al portal de vehiculos, por favor ingrese informacion
-          completa.
-        </p>
+      <div className="border-t border-b border-gray-900/10 flex items-center justify-center pt-10 pl-7 pr-7 pb-5">
+      <Wrench
+          className="h-10 w-10 mr-2 text-blue-500"
+          aria-hidden="true"
+        />
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl font-bold dark:text-white">
+          ORDENES DE TRABAJO
+        </h1>
       </div>
 
       <div className="mt-10 sm:grid-cols-6">

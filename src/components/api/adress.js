@@ -1,6 +1,6 @@
 import axios from "axios";
-//export const apiAddress = "https://jose-manuel.tech/api/v1";
-export const apiAddress = "http://localhost:8000/api/v1";
+export const apiAddress = "https://jose-manuel.tech/api/v1";
+// export const apiAddress = "http://localhost:8000/api/v1";
 
 /* ------------------------------------Vehiculo----------------------------------------------*/
 /**
@@ -445,6 +445,21 @@ export const getInventario = async (useToken) => {
   }
 }
 
+export const deleteVehiculoInventario = async (id, useToken) => {
+  const inventarioAdress = apiAddress + "/inventario_vehiculos/" + id + "/";
+  try {
+    const response = await axios.delete(inventarioAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Error al eliminar el vehiculo del inventario", error);
+  }
+}
+
+
 //------------------------------------Ordenes----------------------------------------------
 //endpoint: /ordenes/
 export const getOrdenes = async (useToken) => {
@@ -501,5 +516,21 @@ export const deleteOrden = async (id, useToken) => {
     return response.data;
   } catch (error) {
     throw new Error("Error al eliminar la orden", error);
+  }
+}
+
+//------------------------REPUESTOS-------------------------------
+export const getRepuestos = async (useToken) => {
+  const repuestosAdress = apiAddress + "/inventario_piezas/";
+  try {
+    const response = await axios.get(repuestosAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error al obtener los repuestos", error);
   }
 }

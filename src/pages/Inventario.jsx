@@ -1,17 +1,24 @@
 import React from "react";
 import Tabs from "../components/Tabs.jsx";
 import Table from "../components/Table.jsx";
-import { editItem, deleteItem } from "./funciones.js"; // Asegúrate de que la ruta sea correcta
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { getInventario } from "../components/api/adress.js";
+import { getInventario, deleteVehiculoInventario, getRepuestos } from "../components/api/adress.js";
 import { ArchiveBoxIcon } from "@heroicons/react/24/outline";
 
 const Inventario = () => {
-  const [data, setData] = useState([]);
+  const [dataVehiculo, setDataVehiculo] = useState([]);
+  const [dataPiezas, setDataPiezas] = useState([]);
+  const deleteItemInventarioClick = async(row) => {
+    console.log(row);
+    await deleteVehiculoInventario(row,token);
+    
+    setDataVehiculo(dataVehiculo.filter(vehiculo => vehiculo.id !== row));
+  };
 
-  // Datos de ejemplo para la tabla
   const { token } = useSelector((state) => state.auth);
+
+  //info de la tabla de vehiculos
   useEffect(() => {
     const fetchData = async () => {
       const vehiculos = await getInventario(token);
@@ -21,16 +28,25 @@ const Inventario = () => {
         vehiculo.precio = "$ " + vehiculo.vehiculo.precio;
         vehiculo.linea = vehiculo.vehiculo.linea;
       });
-      setData(vehiculos);
+      setDataVehiculo(vehiculos);
       console.log(vehiculos);
     };
     fetchData();
-  }, []);
 
-  const deleteItemInventarioClick = (row) => {
-    deleteItem(row);
-  };
+    const piezasFetch = async () => {
+      const piezas = await getRepuestos(token);
+      piezas.map((pieza) => {
+        pieza.nombre = pieza.pieza.nombre,
+        pieza.precio= pieza.pieza.precio,
+        pieza.sucursal= pieza.sucursal.direccion
+      })
+      setDataPiezas(piezas);
+      console.log(piezas);
+    }
+    piezasFetch();
+  }, [setDataVehiculo, setDataPiezas]);
 
+  //titulos de tabla de vehiculos
   const titles = [
     { field: "id", headerName: "ID", width: 130 },
     { field: "marca", headerName: "Marca", width: 130 },
@@ -38,8 +54,8 @@ const Inventario = () => {
     { field: "precio", headerName: "Precio", width: 130 },
     { field: "modelo", headerName: "Modelo", width: 130 },
     { field: "condicion", headerName: "Condicion", width: 130 },
-    { field: "concesionario", headerName: "Concesionario", width: 130 },
-    { field: "color", headerName: "Color", width: 130 },
+    { field: "concesionario", headerName: "Concesionario", width: 13 },
+    { field: "color", headerName: "Color",  },
     {
       field: "accion",
       headerName: "Accion",
@@ -48,7 +64,7 @@ const Inventario = () => {
         <div>
           <button
             className=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-2 rounded"
-            onClick={() => deleteItemInventarioClick(params.row)}
+            onClick={() => deleteItemInventarioClick(params.row.id)}
           >
             Eliminar
           </button>
@@ -57,20 +73,27 @@ const Inventario = () => {
     },
   ];
 
-  const datosDeLaTabla = data;
+  //titulo de tabla de respuestos
+  const titlePiezas = [
+    { field: "id", headerName: "ID", width: 130 },
+    { field: "nombre", headerName: "Nombre", width: 130 },
+    { field: "precio", headerName: "Precio", width: 130 },
+    { field: "sucursal", headerName: "Sucursal", width: 130 },
+    {field:"cantidad_disponible", headerName:"Cantidad Disponible", width: 130},
+
+  ];
 
   const tabs = [
     {
       label: "Vehiculo",
-      content:<div className="p-10"><Table data={datosDeLaTabla} titles={titles} /></div>,
+      content:<div className="pl-10 pr-10 pt-6"><Table data={dataVehiculo} titles={titles} /></div>,
     },
-    { label: "Repuestos", content: "Contenido del Item Two" },
-    { label: "Taller", content: "Contenido del Item Three" },
+    { label: "Repuestos", content: <div className="pl-10 pr-10 pt-6"><Table data={dataPiezas} titles={titlePiezas} /></div> },
   ];
 
   return (
     <>
-      <div className="flex items-center justify-center p-9">
+      <div className=" border-t border-b border-gray-900/10 flex items-center justify-center pt-10 pl-7 pr-7 pb-5">
         <ArchiveBoxIcon
           className="h-10 w-10 mr-2 text-blue-500"
           aria-hidden="true"
