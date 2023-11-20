@@ -58,7 +58,6 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden }) => {
 
   }
 
-  console.log(idOrden)
   const onClickDelete = async (id) => {
     try {
       await deleteOrdenPieza(id, token);

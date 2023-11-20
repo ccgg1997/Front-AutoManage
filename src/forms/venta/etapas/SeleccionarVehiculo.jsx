@@ -49,7 +49,6 @@ export default function SeleccionarVehiculo({ updateVehiculoInfo, actionVehiculo
                 vehiculo.linea = vehiculo.vehiculo.linea;
             });
             setDataVehiculo(vehiculos);
-            console.log(vehiculos);
         };
         fetchData();
 

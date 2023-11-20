@@ -1,6 +1,6 @@
 import axios from "axios";
 export const apiAddress = "https://jose-manuel.tech/api/v1";
-// export const apiAddress = "http://localhost:8000/api/v1";
+//export const apiAddress = "http://localhost:8000/api/v1";
 
 /* ------------------------------------Vehiculo----------------------------------------------*/
 /**
@@ -724,5 +724,81 @@ export const getSucursales = async (useToken) => {
   } catch (error) {
     console.log(error);
     throw new Error("Error al obtener las sucursales", error);
+  }
+}
+
+//-------------------------Orden Piezas------------------------------
+
+export const getOrdenPiezas = async (useToken) => {
+  const ordenPiezasAdress = apiAddress + "/orden_piezas/";
+  try {
+    const response = await axios.get(ordenPiezasAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data
+  } catch (error) {
+
+    throw new Error("Error al obtener las ordenes de piezas", error);
+  }
+}
+export const getOrdenPiezaById = async (id, useToken) => {
+  const ordenPiezasAdress = apiAddress + "/orden_piezas/?orden=" + id;
+  try {
+    const response = await axios.get(ordenPiezasAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data
+  } catch (error) {
+
+    throw new Error("Error al obtener la orden de piezas", error);
+  }
+}
+
+export const createOrdenPieza = async (ordenPieza, useToken) => {
+  const ordenPiezasAdress = apiAddress + "/orden_piezas/";
+  try {
+    const response = await axios.post(ordenPiezasAdress, ordenPieza, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+
+    throw new Error("Error al crear la orden de piezas", error);
+  }
+}
+
+export const updateOrdenPieza = async (ordenPieza, useToken) => {
+  const ordenPiezasAdress = apiAddress + "/orden_piezas/" + ordenPieza.id + "/";
+  try {
+    const response = await axios.put(ordenPiezasAdress, ordenPieza, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+
+    throw new Error("Error al actualizar la orden de piezas", error);
+  }
+}
+
+export const deleteOrdenPieza = async (id, useToken) => {
+  const ordenPiezasAdress = apiAddress + "/orden_piezas/" + id + "/";
+  try {
+    const response = await axios.delete(ordenPiezasAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+
+    throw new Error("Error al eliminar la orden de piezas", error);
   }
 }
