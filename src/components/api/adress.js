@@ -307,6 +307,23 @@ export const deleteUsuario = async (id, useToken) => {
   }
 }
 
+export const getUsuarioByIdentificacion = async (identificacion, useToken) => {
+  const usuariosAdress = apiAddress + "/usuarios/buscar_por_identificacion/?identificacion=" + identificacion;
+  try {
+    const response = await axios.get(usuariosAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data
+  } catch (error) {
+    if (error.response.status === 404) {
+      return null;
+    }
+    throw new Error("Error al obtener el usuario", error);
+  }
+}
+
 
 /* ------------------------------------Piezas----------------------------------------------*/
 
@@ -551,5 +568,20 @@ export const getRepuestos = async (useToken) => {
   } catch (error) {
     console.log(error);
     throw new Error("Error al obtener los repuestos", error);
+  }
+}
+
+//------------------------VENTAS-------------------------------
+export const createVenta = async (venta, useToken) => {
+  const ordenesAdress = apiAddress + "/ventas/";
+  try {
+    const response = await axios.post(ordenesAdress, venta, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Error al crear la venta", error);
   }
 }
