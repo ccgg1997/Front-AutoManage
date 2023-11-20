@@ -462,6 +462,21 @@ export const deleteVehiculoInventario = async (id, useToken) => {
   }
 }
 
+export const createVehiculoInventario = async (vehiculo, useToken) => {
+  const inventarioAdress = apiAddress + "/inventario_vehiculos/";
+  try {
+    const response = await axios.post(inventarioAdress, vehiculo, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+
+    throw new Error("Error al crear el vehiculo del inventario", error);
+  }
+}
+
 
 //------------------------------------Ordenes----------------------------------------------
 //endpoint: /ordenes/
@@ -674,5 +689,23 @@ export const deleteVenta = async (id, useToken) => {
   } catch (error) {
 
     throw new Error("Error al eliminar la venta", error);
+  }
+}
+
+
+//-------------------------Sucursal------------------------------
+
+export const getSucursales = async (useToken) => {
+  const sucursalesAdress = apiAddress + "/sucursales/";
+  try {
+    const response = await axios.get(sucursalesAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error al obtener las sucursales", error);
   }
 }
