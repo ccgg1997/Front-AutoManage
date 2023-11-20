@@ -3,11 +3,12 @@ import React from "react";
 import Tabs from '../components/Tabs.jsx';
 import { useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
-import { getInventario } from '../components/api/adress.js';
+import { createCotizacion, getInventario, getUsuarioByIdentificacion } from '../components/api/adress.js';
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { ArchiveBoxIcon } from "@heroicons/react/24/outline";
 import { CurrencyDollarIcon } from "@heroicons/react/24/outline";
 import VentaForm from '../forms/venta/VentaForm.jsx';
+import { Toaster, toast } from "sonner";
 
 export default function Venta() {
   const tabs = [
@@ -32,7 +33,7 @@ export default function Venta() {
 
 
 function Cotizacion() {
-  const cedula = useField({ type: "text" });
+  const cedula = useField({ type: "number" });
   const fecha_creacion = useField({ type: "date" });
   const fecha_finalizacion = useField({ type: "date" });
 
@@ -42,7 +43,7 @@ function Cotizacion() {
 
   const { id } = useSelector((state) => state.auth);
 
-  const [cedulaIngresada, setCedulaIngresada] = useState("");
+  const [idCliente, setIdCliente] = useState("");
 
   const [vehiculo, setVehiculo] = useState([]);
 
@@ -81,32 +82,54 @@ function Cotizacion() {
   const seleccionarVehiculo = (e) => {
 
     setVehiculoSeleccionado(e.target.value);
-    //console.log(e.target.value);
   }
 
   // Creamos objeto cotizacion
   const cotizacion = {
-    id_inventario_vehiculo: vehiculoSeleccionado.id,
-    id_vendedor: id,
-    id_cliente: cedula.value,
+    
     fecha_creacion: fecha_creacion.value,
-    fecha_finalizacion: fecha_finalizacion.value,
-    valor_total: vehiculoSeleccionado.valor,
+    fecha_vencimiento: fecha_finalizacion.value,
+    valor_total: parseInt(vehiculoSeleccionado.valor),
+    inventario_vehiculos: vehiculoSeleccionado.id,
+    vendedor: id,
+    cliente: idCliente
   };
 
-  //onClick para imprimir cotizacion
-  const imprimirCotizacion = async (e) => {
-    e.preventDefault();
-    console.log(cotizacion);
-  }
+  const clearForm = () => {
+    cedula.onChange({ target: { value: "" } });
+    fecha_creacion.onChange({ target: { value: "" } });
+    fecha_finalizacion.onChange({ target: { value: "" } });
+  };
 
-  //console.log(data);
+  const enviarCotizacion = async (e) => {
+    e.preventDefault();
+    try {
+      //comparamos si la fecha de creacion es mayor a la fecha de finalizacion
+      if (cotizacion.fecha_creacion > cotizacion.fecha_finalizacion) {
+        toast.error("La fecha de creacion no puede ser mayor a la de finalizacion");
+        return;
+      }
+      let clienteBd = await getUsuarioByIdentificacion(cedula.value, token);
+      if (!clienteBd) {
+        toast.error("El Cliente no Existe.");
+        return;
+      }
+      setIdCliente(clienteBd.id);
+      const body = { ...cotizacion, ...{ cliente: clienteBd.id } }
+      await createCotizacion(body, token);
+      toast.success("Cotizacion creada con exito");
+      clearForm();
+    } catch (error) {
+      toast.error(error.message);
+      console.error(error);
+    }
+  }
 
   return (
 
     <div className="dark:text-white ">
       <main className="p-6">
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={enviarCotizacion}>
           <div>
             <label htmlFor="marca-select">
               Elige un vehiculo:
@@ -136,17 +159,11 @@ function Cotizacion() {
             </div>
           </div>
 
-        </form>
+          <h2 className="mt-5 text-2xl font-bold mb-4">Introduzca los detalles del cliente</h2>
 
-        <h2 className="mt-5 text-2xl font-bold mb-4">Introduzca los detalles del cliente</h2>
-
-        <form>
           <div className="mt-2">
             <label
               htmlFor="marca-select">
-              Ingrese su cedula:
-            </label>
-            <label htmlFor="marca-select">
               Ingrese su cedula:
             </label>
             <div className="mt-2">
@@ -202,9 +219,11 @@ function Cotizacion() {
             </div>
           </div>
 
-          <button className="mt-5 p-2 text-black border dark:text-white border-gray-300 rounded" onClick={imprimirCotizacion}>
+          <button className="mt-5 p-2 text-black border dark:text-white border-gray-300 rounded" type="submit" /*onClick={imprimirCotizacion}*/>
             Obtener cotización
           </button>
+
+          <Toaster />
 
         </form>
 
