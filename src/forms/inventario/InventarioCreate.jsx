@@ -16,7 +16,7 @@ const InventarioCreate = () => {
       <div className="flex flex-col w-full  mx-auto bg-white shadow-md rounded-xl p-4 dark:bg-inherit lg:w-1/2 ">
         <label
           htmlFor="dropdown"
-          className="mb-2 text-lg font-bold text-gray-700"
+          className="block text-xl font-medium text-gray-700 dark:text-white"
         >
           Elige una categoría:
         </label>

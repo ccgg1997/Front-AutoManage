@@ -74,7 +74,7 @@ const InventarioVehiculoCreate = () => {
       <div className="mt-2 sm:grid-cols-6 gap-y-4">
         <label
           htmlFor="modelo"
-          className="block text-sm font-medium text-gray-700 dark:text-white"
+          className="block text-xl font-medium text-gray-700 dark:text-white"
         >
           Modelo
         </label>
@@ -90,7 +90,7 @@ const InventarioVehiculoCreate = () => {
 
         <label
           htmlFor="condicion"
-          className="block text-sm font-medium text-grtext white"
+          className="block text-xl font-medium text-grtext white"
         >
           Condicion
         </label>
@@ -110,7 +110,7 @@ const InventarioVehiculoCreate = () => {
 
         <label
           htmlFor="estado"
-          className="block text-sm font-medium text-grtext white"
+          className="block text-xl font-medium text-grtext white"
         >
           Estado
         </label>
@@ -130,7 +130,7 @@ const InventarioVehiculoCreate = () => {
 
         <label
           htmlFor="placa"
-          className="block text-sm font-medium text-grtext white"
+          className="block text-xl font-medium text-grtext white"
         >
           Placa
         </label>
@@ -146,7 +146,7 @@ const InventarioVehiculoCreate = () => {
 
         <label
           htmlFor="kilometraje"
-          className="block text-sm font-medium text-grtext white"
+          className="block text-xl font-medium text-grtext white"
         >
           Kilometraje
         </label>
@@ -162,7 +162,7 @@ const InventarioVehiculoCreate = () => {
 
         <label
           htmlFor="color"
-          className="block text-sm font-medium text-grtext white"
+          className="block text-xl font-medium text-grtext white"
         >
           Color
         </label>
@@ -178,7 +178,7 @@ const InventarioVehiculoCreate = () => {
 
         <label
           htmlFor="vehiculo_id"
-          className="block text-sm font-medium text-grtext white"
+          className="block text-xl font-medium text-grtext white"
         >
           Vehiculo ID
         </label>
@@ -207,7 +207,7 @@ const InventarioVehiculoCreate = () => {
 
         <label
           htmlFor="sucursal_id"
-          className="block text-sm font-medium text-grtext white"
+          className="block text-xl font-medium text-grtext white"
         >
           Sucursal ID
         </label>
@@ -236,7 +236,7 @@ const InventarioVehiculoCreate = () => {
       <div>
         <button
           type="submit"
-          className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-xl font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           Crear
         </button>
