@@ -11,7 +11,7 @@ const useField = ({ type, placeholder, options }) => {
   return { type, placeholder, value, onChange, options };
 };
 
-const roles = [{"id":"2","nombre":"Gerente"},{"id":"3","nombre":"Vendedor"},{"id":"4","nombre":"Jefe_Taller"}, {"id":"5","nombre":"Cliente"}]; //Posibles roles que puede tomar un usuario
+const roles = [{ "id": "2", "nombre": "Gerente" }, { "id": "3", "nombre": "Vendedor" }, { "id": "4", "nombre": "Jefe_Taller" }, { "id": "5", "nombre": "Cliente" }]; //Posibles roles que puede tomar un usuario
 
 
 
@@ -168,6 +168,8 @@ export default function UsuarioForm() {
                     id="email"
                     autoComplete="email "
                     required
+                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                    title="Ingrese un correo electrónico válido"
                     className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
                   />
                 </div>
@@ -204,8 +206,8 @@ export default function UsuarioForm() {
                 <div className="mt-2">
                   <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
                     <select
-                    onChange={handleSelectChange}
-                    value={opcionSeleccionada}
+                      onChange={handleSelectChange}
+                      value={opcionSeleccionada}
                       id="rol"
                       autoComplete="rol"
                       required
