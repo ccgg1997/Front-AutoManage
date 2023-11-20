@@ -30,7 +30,6 @@ const Inventario = () => {
         vehiculo.linea = vehiculo.vehiculo.linea;
       });
       setDataVehiculo(vehiculos);
-      console.log(vehiculos);
     };
     fetchData();
 
@@ -42,7 +41,6 @@ const Inventario = () => {
         pieza.sucursal= pieza.sucursal.direccion
       })
       setDataPiezas(piezas);
-      console.log(piezas);
     }
     piezasFetch();
   }, [setDataVehiculo, setDataPiezas]);

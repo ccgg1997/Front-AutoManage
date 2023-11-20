@@ -32,8 +32,7 @@ export default function PiezaPostForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await createPieza(pieza, token);
-      console.log(response);
+      await createPieza(pieza, token);
       toast.success("Pieza creado con exito");
       clearForm();
     } catch (error) {

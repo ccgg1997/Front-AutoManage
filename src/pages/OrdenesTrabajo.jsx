@@ -26,7 +26,7 @@ const OrdenesTrabajo = () => {
     { title: "Estado", field: "estado" },
     { title: "Id cliente", field: "cliente" },
     { title: "Id sucursal", field: "sucursal" },
-    { title: "Id vendedor", field: "vendedor" },
+    { title: "Id vendedor", field: "vendedor"},
     {
       title: "Acciones",
       field: "acciones",
@@ -154,7 +154,7 @@ const OrdenesTrabajo = () => {
         <div className="mt-4">
           {ordenFormActive && <OrdenForm />}
           {tableActive && <Table data={ordenes} titles={titles} />}
-          {ordenUpdateFormActive && <OrdenUpdateForm ordenData={targetOrden} />}
+          {ordenUpdateFormActive && <OrdenUpdateForm ordenData={targetOrden}/>}
           {deleteActive && (
             <OrderDeleteForm
               orden={targetOrden}

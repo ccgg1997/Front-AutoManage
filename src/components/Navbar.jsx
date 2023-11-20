@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon,XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 
 const navigation = [
@@ -97,13 +97,6 @@ export default function Navbar({ logOut }) {
                                         <path d="M12 22C10.93 22 9.86998 21.83 8.83998 21.48L7.41998 21.01L8.83998 20.54C12.53 19.31 15 15.88 15 12C15 8.12 12.53 4.69 8.83998 3.47L7.41998 2.99L8.83998 2.52C9.86998 2.17 10.93 2 12 2C17.51 2 22 6.49 22 12C22 17.51 17.51 22 12 22Z"></path>
                   </svg>
                 </button>
-                <button
-                  type="button"
-                  className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 ml-2"
-                >
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
-                {/* Dropdown del perfil */}
                 <Menu as="div" className="relative ml-3">
                   <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                     <img
@@ -132,20 +125,7 @@ export default function Navbar({ logOut }) {
                             )}
                             onClick={() => navigate("/profile")}
                           >
-                            Your Profile
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#settings"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Settings
+                            Perfil
                           </a>
                         )}
                       </Menu.Item>
@@ -159,7 +139,7 @@ export default function Navbar({ logOut }) {
                             )}
                             onClick={logOut}
                           >
-                            Sign out
+                            Salir
                           </a>
                         )}
                       </Menu.Item>

@@ -55,7 +55,6 @@ function Cotizacion() {
       setData(response);
     };
     fetchData();
-    console.log
   }, []);
 
   // Obtenemos valores necesarios del inventario
@@ -99,7 +98,6 @@ function Cotizacion() {
   const imprimirCotizacion = async (e) => {
     e.preventDefault();
     console.log(cotizacion);
-
   }
 
   //console.log(data);

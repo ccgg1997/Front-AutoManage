@@ -1,7 +1,14 @@
-import React from "react";
-import Button from "@mui/material/Button";
+import React, { useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import {
+  getInventario,
+  getPiezas,
+  getCotizaciones,
+  getVentas,
+  getUsuarios,
+} from "../components/api/adress";
+import { useSelector } from "react-redux";
 /**
  * Hero component
  * @component
@@ -11,23 +18,114 @@ import CardContent from "@mui/material/CardContent";
  * )
  */
 const Hero = () => {
+  const { token } = useSelector((state) => state.auth);
+  const [cantidadInventario, setCantidadInventario] = React.useState(0);
+  const [cantidadPiezas, setCantidadPiezas] = React.useState(0);
+  const [cantidadCotizaciones, setCantidadCotizaciones] = React.useState(0);
+  const [cantidadVentas, setCantidadVentas] = React.useState(0);
+  const [totalVentas, setTotalVentas] = React.useState(0);
+
+  const [cantidadJefeTaller, setCantidadJefeTaller] = React.useState(0);
+  const [cantidadVendedores, setCantidadVendedores] = React.useState(0);
+  const [cantidadGerentes, setCantidadGerentes] = React.useState(0);
+  const [cantidadClientes, setCantidadClientes] = React.useState(0);
+
+  const [sucursales, setSucursales] = React.useState("");
+
+  useEffect(() => {
+    const inventarioInfo = async () => {
+      const res = await getInventario(token);
+      setCantidadInventario(res.length);
+      // Crear un objeto para almacenar la cantidad de inventario por sucursal
+      const cantidadPorSucursal = {};
+
+      // Filtrar y acumular la cantidad de acuerdo a la sucursal
+      res.forEach((item) => {
+        const { nombre } = item.sucursal;
+        if (cantidadPorSucursal[nombre]) {
+          cantidadPorSucursal[nombre] += 1;
+        } else {
+          cantidadPorSucursal[nombre] = 1;
+        }
+      });
+
+      // Actualizar el estado de las sucursales y la cantidad total de inventario
+      setSucursales(cantidadPorSucursal);
+      
+    };
+
+    const piezasInfo = async () => {
+      const res = await getPiezas(token);
+      setCantidadPiezas(res.length);
+    };
+
+    const cotizacionInfo = async () => {
+      const res = await getCotizaciones(token);
+      setCantidadCotizaciones(res.length);
+    };
+
+    const ventasInfo = async () => {
+      const res = await getVentas(token);
+      let total = 0;
+      res.map((venta) => {
+        let precio = parseFloat(venta.valor_total);
+        total += precio;
+      });
+      setTotalVentas(total);
+      setCantidadVentas(res.length);
+    };
+
+    const getUsuariosInfo = async () => {
+      const res = await getUsuarios(token);
+      setCantidadJefeTaller(
+        res.filter((user) => user.rol.nombre === "Jefe_Taller").length
+      );
+      setCantidadVendedores(
+        res.filter((user) => user.rol.nombre === "Vendedor").length
+      );
+      setCantidadGerentes(
+        res.filter((user) => user.rol.nombre === "Gerente").length
+      );
+      setCantidadClientes(
+        res.filter((user) => user.rol.nombre === "Cliente").length
+      );
+    };
+
+    getUsuariosInfo();
+    ventasInfo();
+    cotizacionInfo();
+    piezasInfo();
+    inventarioInfo();
+  }, []);
+
   return (
     <div className="grid min-h-screen w-full grid-cols-1 lg:grid-cols-[1fr_3fr] gap-6 p-6">
       <aside className="flex flex-col gap-6 font-bold ">
+      <Card className="p-3">
+          <div className="text-xl">Ventas</div>
+          <CardContent>
+            <div className="flex flex-col items-center">
+              <span className="text-3xl font-bold">{cantidadVentas}</span>
+              <span className="text-sm text-zinc-700 dark:text-zinc-400">
+                Ventas completadas
+              </span>
+            </div>
+          </CardContent>
+        </Card>
         <Card className="p-3">
           <div className="text-xl">Inventario</div>
           <CardContent>
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col items-center">
-                <span className="text-3xl font-bold">150</span>
+                <span className="text-3xl font-bold">{cantidadInventario}</span>
                 <span className="text-sm text-zinc-700 dark:text-zinc-400">
-                  Cars Available
+                  Carros Disponibles
                 </span>
               </div>
               <div className="flex flex-col items-center">
-                <span className="text-3xl font-bold">500</span>
+                <span className="text-3xl font-bold">{cantidadPiezas}</span>
                 <span className="text-sm text-zinc-700 dark:text-zinc-400">
-                  Parts in Stock
+                  Piezas
                 </span>
               </div>
             </div>
@@ -37,69 +135,71 @@ const Hero = () => {
           <div className="text-xl">Cotizaciones</div>
           <CardContent>
             <div className="flex flex-col items-center">
-              <span className="text-3xl font-bold">20</span>
+              <span className="text-3xl font-bold">{cantidadCotizaciones}</span>
               <span className="text-sm text-zinc-700 dark:text-zinc-400">
-                Pending Quotes
+                Cotizaciones totales
               </span>
             </div>
           </CardContent>
         </Card>
-        <Card className="p-3">
-          <div className="text-xl">Ventas</div>
-          <CardContent>
-            <div className="flex flex-col items-center">
-              <span className="text-3xl font-bold">45</span>
-              <span className="text-sm text-zinc-700 dark:text-zinc-400">
-                Completed Sales
-              </span>
-            </div>
-          </CardContent>
-        </Card>
-        <Button className="w-full">Agregar nuevo producto</Button>
       </aside>
       <div className="flex flex-col gap-6 font-bold ">
-        <Card className="p-3">
-          <div className="text-xl">Empleados</div>
+      <Card className="p-3">
+          <div className="text-xl">Total</div>
           <CardContent>
-            <div className="flex items-center gap-4">
-              <img
-                alt="Employee image"
-                className="rounded-full"
-                height="64"
-                src="/placeholder.svg"
-                style={{
-                  aspectRatio: "64/64",
-                  objectFit: "cover",
-                }}
-                width="64"
-              />
-              <div>
-                <span className="font-semibold">John Doe</span>
+            <div className="flex flex-col items-center">
+              <span className="text-3xl font-bold">${totalVentas}</span>
+              <span className="text-sm text-zinc-700 dark:text-zinc-400">
+                Valor total de ventas
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+      <Card className="p-3">
+          <div className="text-xl">Inventario de autos por sucursal</div>
+          <CardContent>
+            <div className="grid grid-cols-4 gap-4">
+              <div className="flex flex-col items-center">
+              </div>
+              {Object.keys(sucursales).map((key, index) => (
+                <div className="flex flex-col items-center" key={index}>
+                  <span className="text-3xl font-bold">{sucursales[key]}</span>
+                  <span className="text-sm text-zinc-700 dark:text-zinc-400">
+                    {key}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="p-3">
+          <div className="text-xl">Usuarios</div>
+          <CardContent>
+            <div className="grid grid-cols-4 gap-4">
+              <div className="flex flex-col items-center">
+                <span className="text-3xl font-bold">{cantidadJefeTaller}</span>
                 <span className="text-sm text-zinc-700 dark:text-zinc-400">
-                  {" "}
-                  Recent activities
+                  Jefes de taller
                 </span>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="p-3">
-          <div className="text-xl">Notificaciones</div>
-          <CardContent>
-            <div className="flex flex-col gap-2">
-              <p className="text-sm text-zinc-700 dark:text-zinc-400">
-                No new notifications
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="p-3">
-          <div className="text-xl">Alertas</div>
-          <CardContent>
-            <div className="flex flex-col gap-2">
-              <p className="text-sm text-zinc-700 dark:text-zinc-400">
-                No new alerts
-              </p>
+              <div className="flex flex-col items-center">
+                <span className="text-3xl font-bold">{cantidadVendedores}</span>
+                <span className="text-sm text-zinc-700 dark:text-zinc-400">
+                  Vendedores
+                </span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="text-3xl font-bold">{cantidadGerentes}</span>
+                <span className="text-sm text-zinc-700 dark:text-zinc-400">
+                  Gerentes
+                </span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="text-3xl font-bold">{cantidadClientes}</span>
+                <span className="text-sm text-zinc-700 dark:text-zinc-400">
+                  Clientes
+                </span>
+              </div>
             </div>
           </CardContent>
         </Card>
