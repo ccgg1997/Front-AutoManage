@@ -2,13 +2,15 @@ import React, { useEffect } from "react";
 import { createOrden } from "../../components/api/adress";
 import { Toaster, toast } from "sonner";
 import { useSelector } from "react-redux";
+import ModalPieza from "./ordenPiezaForm";
+import { Modal, Typography } from "@mui/material";
 
-const useField = ({ type, placeholder,defect }) => {
+const useField = ({ type, placeholder, defect }) => {
   const [value, setValue] = React.useState("");
   const onChange = ({ target }) => {
     setValue(target.value);
   };
-  return { type, placeholder, value, onChange,defect };
+  return { type, placeholder, value, onChange, defect };
 };
 
 /**
@@ -18,17 +20,23 @@ const useField = ({ type, placeholder,defect }) => {
  */
 export default function OrdenForm() {
   const { token } = useSelector((state) => state.auth);
-  const {id} = useSelector((state) => state.auth);
+  const { id } = useSelector((state) => state.auth);
   const fecha_creacion = useField({ type: "date" });
   const fecha_finalizacion = useField({ type: "date" });
   const tipo = useField({ type: "text" });
   const placa = useField({ type: "text" });
   const valor_mano_obra = useField({ type: "number" });
   const valor_total = useField({ type: "number" });
-  const estado = useField({ type: "select",defect:"Finalizado" });
+  const estado = useField({ type: "select", defect: "Finalizado" });
   const id_cliente = useField({ type: "number" });
   const id_sucursal = useField({ type: "number" });
   const id_vendedor = useField({ type: "number" });
+
+  const [open, setOpen] = React.useState(false);
+  const [ordenPiezas, setOrdenPiezas] = React.useState([]);
+  const [idOrden, setIdOrden] = React.useState({});
+  const [openFirstModal, setOpenFirstModal] = React.useState(false);
+  const [openSecondModal, setOpenSecondModal] = React.useState(false);
 
   const orden = {
     fecha_creacion: fecha_creacion.value,
@@ -48,16 +56,25 @@ export default function OrdenForm() {
     try {
       //comparamos si la fecha de creacion es mayor a la fecha de finalizacion
       if (orden.fecha_creacion > orden.fecha_finalizacion) {
-        toast.error("La fecha de creacion no puede ser mayor a la de finalizacion");
+        toast.error(
+          "La fecha de creacion no puede ser mayor a la de finalizacion"
+        );
         return;
       }
-      await createOrden(orden, token);
-      toast.success("Vehiculo creado con exito");
-      clearForm();
+      const data = await createOrden(orden, token);
+      toast.success("Orden creada con exito");
+      setIdOrden(data.id);
+      setOpenFirstModal(true);
     } catch (error) {
       toast.error(error.message);
       console.error(error);
     }
+  };
+
+  const onClickOpen = () => {
+    setOpenFirstModal(false);
+    setOpenSecondModal(true);
+    setOpen(true);
   };
 
   const clearForm = () => {
@@ -76,7 +93,6 @@ export default function OrdenForm() {
   useEffect(() => {
     id_vendedor.onChange({ target: { value: id } });
   }, []);
-
 
   return (
     <form onSubmit={handleSubmit}>
@@ -145,13 +161,13 @@ export default function OrdenForm() {
               </label>
               <div className="mt-2">
                 <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300 sm:max-w-md">
-                <select
+                  <select
                     {...tipo}
                     id="tipo"
                     autoComplete="tipo"
                     required
                     className="dark:bg-sky-950 dark:border-white text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
-                    >
+                  >
                     <option value="Sedan">Sedan</option>
                     <option value="Hatchback">Hatchback</option>
                     <option value="Camioneta">Camioneta</option>
@@ -166,7 +182,7 @@ export default function OrdenForm() {
                     <option value="Jeep">Jeep</option>
                     <option value="Todo terreno">Todo terreno</option>
                     <option value="Otros">Otros</option>
-                    </select>
+                  </select>
                 </div>
               </div>
             </div>
@@ -246,13 +262,12 @@ export default function OrdenForm() {
                         <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
                           <select
                             {...estado}
-
                             id="estado"
                             required
                             className="dark:bg-sky-950 dark:border-white text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
                           >
-                          <option value="Finalizado">Finalizado</option>
-                          <option value="Cancelado">Cancelado</option>
+                            <option value="Finalizado">Finalizado</option>
+                            <option value="Cancelado">Cancelado</option>
                           </select>
                         </div>
                       </div>
@@ -308,7 +323,44 @@ export default function OrdenForm() {
           </div>
         </div>
       </div>
-
+      <Modal open={openFirstModal} onClose={() => setOpenFirstModal(false)}>
+        <div className="flex justify-center items-center min-h-screen">
+          <div className="bg-white dark:bg-slate-950 rounded-lg p-8 mb-5 sm:max-w-md ">
+            <Typography
+              id="modal-modal-title"
+              variant="h4"
+              component="h2"
+              className="text-xl dark:text-slate-300 mb-4"
+            >
+              ¿ Desea agregar piezas a la orden ?
+            </Typography>
+            <div className="flex mb-2 justify-center mt-4">
+            <button
+              className="bg-lime-600 text-white rounded-md p-2  w-16"
+              onClick={onClickOpen}
+            >
+              Si
+            </button>
+            <button
+              className="bg-red-600 text-white rounded-md p-2 ml-2 w-16"
+              onClick={() => {
+                setOpenFirstModal(false);
+                clearForm();
+              }
+              }
+            >
+              No
+            </button>
+            </div>
+          </div>
+        </div>
+      </Modal>
+      {openSecondModal && <ModalPieza
+        open={open}
+        setOpen={setOpen}
+        setOrdenPiezas={setOrdenPiezas}
+        idOrden={idOrden}
+      />}
       <button className=" mb-5 mt-5 p-2 bg-lime-600 rounded " type="submit">
         Crear
       </button>
