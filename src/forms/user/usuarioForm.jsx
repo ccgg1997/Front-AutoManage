@@ -80,7 +80,7 @@ export default function UsuarioForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="border-t pt-12 border-b border-gray-900/10 pb-12">
+      <div className="border-t pt-12 border-b border-gray-900/10 pb-12 ">
         <h2
           className="text-base font-semibold leading-7 text-gray-900
         dark:text-slate-300 sm:text-3xl sm:truncate
@@ -94,7 +94,7 @@ export default function UsuarioForm() {
         </p>
       </div>
 
-      <div className="mt-10 sm:grid-cols-6">
+      <div className="mt-10 sm:grid-cols-6 ">
         <label
           htmlFor="nombre"
           className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
@@ -109,7 +109,7 @@ export default function UsuarioForm() {
               autoComplete="nombre"
               required
               className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 
-                focus:ring-0 sm:text-sm sm:leading-6  dark:text-white"
+                focus:ring-0 sm:text-sm sm:leading-6  dark:text-white "
             />
           </div>
         </div>
@@ -210,7 +210,7 @@ export default function UsuarioForm() {
                       autoComplete="rol"
                       required
                       className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 
-          focus:ring-0 sm:text-sm sm:leading-6  dark:text-white"
+          focus:ring-0 sm:text-sm sm:leading-6  dark:text-white dark:bg-sky-950 dark:border-white"
                     >
                       <option value="" disabled selected>
                         Seleccione un rol

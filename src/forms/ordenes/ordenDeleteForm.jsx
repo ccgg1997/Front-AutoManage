@@ -19,8 +19,7 @@ export default function OrderDeleteForm({ orden , onCancelAction}) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await deleteOrden(id, token);
-            console.log(response);
+            await deleteOrden(id, token);
             toast.success("Orden eliminada con exito, redireccionando...");
             setTimeout(() => {
                 onCancelAction();

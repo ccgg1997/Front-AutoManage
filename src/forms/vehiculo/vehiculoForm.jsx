@@ -21,7 +21,7 @@ export default function VehiculoForm() {
 
   const marca = useField({ type: "text" });
   const linea = useField({ type: "text" });
-  const tipo = useField({ type: "text" });
+  const tipo = useField({ type: "text" ,default:"Deportivo"});
   const precio = useField({ type: "number" });
 
   const vehiculo = {
@@ -34,8 +34,7 @@ export default function VehiculoForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await createVehiculo(vehiculo, token);
-      console.log(response);
+      await createVehiculo(vehiculo, token);
       toast.success("Vehiculo creado con exito");
       clearForm();
     } catch (error) {
@@ -104,6 +103,7 @@ export default function VehiculoForm() {
                   required
                   className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
                 />
+
               </div>
             </div>
           </div>
@@ -118,13 +118,28 @@ export default function VehiculoForm() {
               </label>
               <div className="mt-2">
                 <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
-                  <input
+                  <select
                     {...tipo}
                     id="tipo"
                     autoComplete="tipo"
                     required
-                    className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
-                  />
+                    className="dark:bg-sky-950 dark:border-white text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+                    >
+                    <option value="Sedan">Sedan</option>
+                    <option value="Hatchback">Hatchback</option>
+                    <option value="Camioneta">Camioneta</option>
+                    <option value="SUV">SUV</option>
+                    <option value="Pickup">Pickup</option>
+                    <option value="Van">Van</option>
+                    <option value="Deportivo">Deportivo</option>
+                    <option value="Convertible">Convertible</option>
+                    <option value="Coupe">Coupe</option>
+                    <option value="Furgon">Furgon</option>
+                    <option value="Microbus">Microbus</option>
+                    <option value="Jeep">Jeep</option>
+                    <option value="Todo terreno">Todo terreno</option>
+                    <option value="Otros">Otros</option>
+                    </select>
                 </div>
               </div>
             </div>

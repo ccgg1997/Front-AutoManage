@@ -19,6 +19,10 @@ const useField = ({ type, placeholder }) => {
 export default function OrdenUpdateForm({ordenData}) {
   const { token } = useSelector((state) => state.auth);
 
+  //formato de fechas a yyyy-mm-dd
+  const fecha_creacion_formateada = ordenData.fecha_creacion.slice(0, 10);
+  const fecha_finalizacion_formateada = ordenData.fecha_finalizacion.slice(0,10);
+
   const fecha_creacion = useField({ type: "date" });
   const fecha_finalizacion = useField({ type: "date" });
   const tipo = useField({ type: "text" });
@@ -31,6 +35,7 @@ export default function OrdenUpdateForm({ordenData}) {
   const id_vendedor = useField({ type: "number" });
 
   const orden = {
+    id: ordenData.id,
     fecha_creacion: fecha_creacion.value,
     fecha_finalizacion: fecha_finalizacion.value,
     tipo: tipo.value,
@@ -38,15 +43,16 @@ export default function OrdenUpdateForm({ordenData}) {
     valor_mano_obra: valor_mano_obra.value,
     valor_total: valor_total.value,
     estado: estado.value,
-    id_cliente: id_cliente.value,
-    id_sucursal: id_sucursal.value,
-    id_vendedor: id_vendedor.value,
+    cliente: id_cliente.value,
+    sucursal: id_sucursal.value,
+    vendedor: id_vendedor.value,
   };
 
+
   useEffect(() => {
-    fecha_creacion.onChange({ target: { value: ordenData.fecha_creacion } });
+    fecha_creacion.onChange({ target: { value: fecha_creacion_formateada } });
     fecha_finalizacion.onChange({
-      target: { value: ordenData.fecha_finalizacion },
+      target: { value: fecha_finalizacion_formateada },
     });
     tipo.onChange({ target: { value: ordenData.tipo } });
     placa.onChange({ target: { value: ordenData.placa } });
@@ -55,19 +61,20 @@ export default function OrdenUpdateForm({ordenData}) {
     });
     valor_total.onChange({ target: { value: ordenData.valor_total } });
     estado.onChange({ target: { value: ordenData.estado } });
-    id_cliente.onChange({ target: { value: ordenData.id_cliente } });
-    id_sucursal.onChange({ target: { value: ordenData.id_sucursal } });
-    id_vendedor.onChange({ target: { value: ordenData.id_vendedor } });
+    id_cliente.onChange({ target: { value: ordenData.cliente } });
+    id_sucursal.onChange({ target: { value: ordenData.sucursal } });
+    id_vendedor.onChange({ target: { value: ordenData.vendedor } });
+
   }, [ordenData]);
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await updateOrden(orden, token);
-      console.log(response);
-      toast.success("Vehiculo creado con exito");
+      await updateOrden(orden, token);
+      toast.success("Vehiculo actualizado con exito");
       clearForm();
+
     } catch (error) {
       toast.error(error.message);
       console.error(error);
@@ -95,11 +102,11 @@ export default function OrdenUpdateForm({ordenData}) {
         dark:text-slate-300 sm:text-3xl sm:truncate
         "
         >
-          Creacion de ordenes de trabajo
+          Modificacion de ordenes de trabajo
         </h2>
         <p className="mt-1 text-sm leading-6 text-gray-600 dark:text-slate-300">
-          Bienvenido a la seccion de creacion de ordenes de trabajo, por favor
-          ingrese los datos solicitados para crear una orden de trabajo.
+          Bienvenido a la seccion de modificacion de ordenes de trabajo, por favor
+          ingrese los datos solicitados para modificar una orden de trabajo.
         </p>
       </div>
 
@@ -154,13 +161,28 @@ export default function OrdenUpdateForm({ordenData}) {
               </label>
               <div className="mt-2">
                 <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300 sm:max-w-md">
-                  <input
+                <select
                     {...tipo}
                     id="tipo"
                     autoComplete="tipo"
                     required
-                    className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
-                  />
+                    className="dark:bg-sky-950 dark:border-white text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+                    >
+                    <option value="Sedan">Sedan</option>
+                    <option value="Hatchback">Hatchback</option>
+                    <option value="Camioneta">Camioneta</option>
+                    <option value="SUV">SUV</option>
+                    <option value="Pickup">Pickup</option>
+                    <option value="Van">Van</option>
+                    <option value="Deportivo">Deportivo</option>
+                    <option value="Convertible">Convertible</option>
+                    <option value="Coupe">Coupe</option>
+                    <option value="Furgon">Furgon</option>
+                    <option value="Microbus">Microbus</option>
+                    <option value="Jeep">Jeep</option>
+                    <option value="Todo terreno">Todo terreno</option>
+                    <option value="Otros">Otros</option>
+                    </select>
                 </div>
               </div>
             </div>
@@ -238,15 +260,61 @@ export default function OrdenUpdateForm({ordenData}) {
                       </label>
                       <div className="mt-2">
                         <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
-                          <input
+                        <select
                             {...estado}
+
                             id="estado"
-                            autoComplete="estado"
                             required
-                            className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
-                          />
+                            className="dark:bg-sky-950 dark:border-white text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+                          >
+                          <option value="Finalizado">Finalizado</option>
+                          <option value="Cancelado">Cancelado</option>
+                          </select>
                         </div>
                       </div>
+                      <div className="mt-10 sm:grid-cols-6">
+                        <div className="sm:col-span-4">
+                          <label
+                            htmlFor="precio"
+                            className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
+                          >
+                            Id cliente
+                          </label>
+                          <div className="mt-2">
+                            <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
+                              <input
+                                {...id_cliente}
+                                id="id_cliente"
+                                autoComplete="id_cliente"
+                                required
+                                className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="mt-10 sm:grid-cols-6">
+                          <div className="sm:col-span-4">
+                            <label
+                              htmlFor="precio"
+                              className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
+                            >
+                              Id sucursal
+                            </label>
+                            <div className="mt-2">
+                              <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
+                                <input
+                                  {...id_sucursal}
+                                  id="id_sucursal"
+                                  autoComplete="id_sucursal"
+                                  required
+                                  className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -257,7 +325,7 @@ export default function OrdenUpdateForm({ordenData}) {
       </div>
 
       <button className=" mb-5 mt-5 p-2 bg-lime-600 rounded " type="submit">
-        Crear
+        Actualizar
       </button>
       <Toaster />
     </form>

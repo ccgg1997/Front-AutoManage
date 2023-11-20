@@ -31,7 +31,6 @@ const InventarioVehiculoCreate = () => {
   const getSucursalesData = async () => {
     const response = await getSucursales(token);
     setSucursales(response);
-    console.log(response);
   };
 
   useEffect(() => {

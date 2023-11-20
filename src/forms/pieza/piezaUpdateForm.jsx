@@ -41,8 +41,7 @@ export default function PiezaUpdateForm({ passPieza, afterSubmit }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await updatePieza(pieza, token);
-            console.log(response);
+            await updatePieza(pieza, token);
             toast.success("Pieza creado con exito");
             clearForm();
             afterSubmit();

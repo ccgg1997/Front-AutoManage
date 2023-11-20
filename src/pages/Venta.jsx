@@ -54,7 +54,6 @@ function Cotizacion() {
       setData(response);
     };
     fetchData();
-    console.log
   }, []);
 
   // Obtenemos valores necesarios del inventario

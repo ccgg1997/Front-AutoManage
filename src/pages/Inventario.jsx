@@ -41,7 +41,6 @@ const Inventario = () => {
         pieza.sucursal= pieza.sucursal.direccion
       })
       setDataPiezas(piezas);
-      console.log(piezas);
     }
     piezasFetch();
   }, [setDataVehiculo, setDataPiezas]);
