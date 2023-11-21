@@ -33,7 +33,7 @@ export default function PiezaPostForm() {
     e.preventDefault();
     try {
       await createPieza(pieza, token);
-      toast.success("Pieza creado con exito");
+      toast.success("Pieza editada con exito");
       clearForm();
     } catch (error) {
       toast.error(error.message);

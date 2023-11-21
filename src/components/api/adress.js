@@ -230,6 +230,20 @@ export const createUsuario = async (user, useToken) => {
   }
 }
 
+export const updateUsers = async (user, useToken) => {
+  const usuariosAdress = apiAddress + "/usuarios/" + user.id + "/";
+  try {
+    const response = await axios.put(usuariosAdress, user, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Error al actualizar el usuario", error);
+  }
+}
+
 export const userUpdate = async (id, user, useToken) => {
   const userAdress = apiAddress + "/usuarios/" + id + "/";
   try {
