@@ -47,7 +47,8 @@ export default function SeleccionarCotizacion({ updateVehiculoInfo, actionVehicu
                 marca: row.inventario_vehiculos.vehiculo.marca,
                 linea: row.inventario_vehiculos.vehiculo.linea
             },
-            identificacion_cliente: row.id_cliente
+            identificacion_cliente: row.id_cliente,
+            id_cotizacion: row.id
         }
         updateVehiculoInfo(vehiculoInfo);
     }

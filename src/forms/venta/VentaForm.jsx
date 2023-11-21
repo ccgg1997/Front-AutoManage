@@ -13,6 +13,7 @@ export default function VentaForm() {
   // const precio = useField({ type: "number" });
   const [idInventarioVehiculo, setIdInventarioVehiculo] = useState('');
   const [identificacionCliente, setIdentificacionCliente] = useState('');
+  const [idCotizacion, setidCotizacion] = useState('');
   const [nombreVehiculo, setNombreVehiculo] = useState('');
   const stateForm = {
     etapa: etapaActivo
@@ -22,7 +23,8 @@ export default function VentaForm() {
     nombre_vehiculo: nombreVehiculo,
     valor_total: valorTotal,
     inventario_vehiculo: idInventarioVehiculo,
-    identificacion_cliente: identificacionCliente
+    identificacion_cliente: identificacionCliente,
+    cotizacion: idCotizacion,
   }
 
   const updateVehiculoInfo = (inventarioVehiculo) => {
@@ -31,6 +33,9 @@ export default function VentaForm() {
     setNombreVehiculo(inventarioVehiculo.vehiculo.marca + ' ' + inventarioVehiculo.vehiculo.linea);
     if (inventarioVehiculo.identificacion_cliente) {
       setIdentificacionCliente(inventarioVehiculo.identificacion_cliente);
+    }
+    if (inventarioVehiculo.id_cotizacion) {
+      setidCotizacion(inventarioVehiculo.id_cotizacion);
     }
   }
 
