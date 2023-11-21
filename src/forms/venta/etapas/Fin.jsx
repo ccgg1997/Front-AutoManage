@@ -49,6 +49,9 @@ export default function Fin({ formData, actionAfterSubmit }) {
         setValorTotal(formData.valor_total)
         setIdInventarioVehiculo(formData.inventario_vehiculo)
         setIdCotizacion(formData.cotizacion ? formData.cotizacion : null)
+        if (formData.identificacion_cliente) {
+            cliente.onChange({ target: { value: formData.identificacion_cliente } })
+        }
     }, []);
 
     const handleSubmit = async (e) => {

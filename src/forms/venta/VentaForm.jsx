@@ -12,6 +12,7 @@ export default function VentaForm() {
   const [valorTotal, setValorTotal] = useState(0);
   // const precio = useField({ type: "number" });
   const [idInventarioVehiculo, setIdInventarioVehiculo] = useState('');
+  const [identificacionCliente, setIdentificacionCliente] = useState('');
   const [nombreVehiculo, setNombreVehiculo] = useState('');
   const stateForm = {
     etapa: etapaActivo
@@ -20,13 +21,17 @@ export default function VentaForm() {
   const model = {
     nombre_vehiculo: nombreVehiculo,
     valor_total: valorTotal,
-    inventario_vehiculo: idInventarioVehiculo
+    inventario_vehiculo: idInventarioVehiculo,
+    identificacion_cliente: identificacionCliente
   }
 
   const updateVehiculoInfo = (inventarioVehiculo) => {
     setIdInventarioVehiculo(inventarioVehiculo.id);
     setValorTotal(inventarioVehiculo.vehiculo.precio);
     setNombreVehiculo(inventarioVehiculo.vehiculo.marca + ' ' + inventarioVehiculo.vehiculo.linea);
+    if (inventarioVehiculo.identificacion_cliente) {
+      setIdentificacionCliente(inventarioVehiculo.identificacion_cliente);
+    }
   }
 
   switch (stateForm.etapa) {
@@ -37,7 +42,10 @@ export default function VentaForm() {
       />
       break;
     case 'SELECCIONAR_COTIZACION':
-      content = <SeleccionarCotizacion />
+      content = <SeleccionarCotizacion
+        updateVehiculoInfo={updateVehiculoInfo}
+        actionVehiculoSeleccionado={() => setEtapaActiva('FIN')}
+      />
       break;
     case 'SELECCIONAR_VEHICULO':
       content = <SeleccionarVehiculo

@@ -1,6 +1,6 @@
 import axios from "axios";
-export const apiAddress = "https://jose-manuel.tech/api/v1";
-//export const apiAddress = "http://localhost:8000/api/v1";
+// export const apiAddress = "https://jose-manuel.tech/api/v1";
+export const apiAddress = "http://localhost:8000/api/v1";
 
 /* ------------------------------------Vehiculo----------------------------------------------*/
 /**
@@ -591,6 +591,21 @@ export const getRepuestos = async (useToken) => {
 
 export const getCotizaciones = async (useToken) => {
   const cotizacionesAdress = apiAddress + "/cotizaciones/";
+  try {
+    const response = await axios.get(cotizacionesAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error al obtener las cotizaciones", error);
+  }
+}
+
+export const getCotizacionesDetalle = async (useToken) => {
+  const cotizacionesAdress = apiAddress + "/cotizaciones/detalle/";
   try {
     const response = await axios.get(cotizacionesAdress, {
       headers: {

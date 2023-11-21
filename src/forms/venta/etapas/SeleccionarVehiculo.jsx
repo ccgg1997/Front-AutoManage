@@ -54,10 +54,6 @@ export default function SeleccionarVehiculo({ updateVehiculoInfo, actionVehiculo
 
     }, []);
 
-    const seleccionarVehiculo = async (vehiculo) => {
-        console.log(vehiculo);
-    };
-
     return (
         <div className="flex justify-center">
             <Table data={dataVehiculo} titles={titles} />
