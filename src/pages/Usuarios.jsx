@@ -3,8 +3,8 @@ import TableUser from "../components/TableUser";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import UsuarioForm from "../forms/user/usuarioForm";
-import UserUpdate from "../forms/user/userUpdateForm";
 import UsuarioDeleteForm from "../forms/user/usuarioDeleteForm";
+import UsuariosUpdateForm from "../forms/user/usuariosUpdateForm";
 import { Button } from "@mui/material";
 import { useRef } from "react";
 import { UserIcon } from "@heroicons/react/24/outline";
@@ -204,7 +204,7 @@ const Usuarios = () => {
           )}
           <div className="mt-9">
             <div ref={createRef}>{createActive && <UsuarioForm />}</div>
-            <div ref={editRef}>{editActive && <UserUpdate />}</div>
+            <div ref={editRef}>{editActive && <UsuariosUpdateForm />}</div>
             <div ref={deleteRef}>{deleteActive && <UsuarioDeleteForm />}</div>
           </div>
         </div>

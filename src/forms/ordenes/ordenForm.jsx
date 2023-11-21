@@ -52,7 +52,7 @@ export default function OrdenForm() {
         return;
       }
       await createOrden(orden, token);
-      toast.success("Vehiculo creado con exito");
+      toast.success("Orden creada con exito");
       clearForm();
     } catch (error) {
       toast.error(error.message);

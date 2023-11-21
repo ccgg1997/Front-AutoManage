@@ -241,30 +241,33 @@ export default function UsuarioForm() {
                       id="password"
                       autoComplete="password"
                       required
+                      pattern='^(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$'
+                      minLength="8"
+                      title="La contraseña debe tener al menos 8 caracteres y contener al menos un carácter especial (!@#$%^&*(),.?\:{ }|<>)"
                       type={showPassword ? "text" : "password"}
-                      className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 
-                focus:ring-0 sm:text-sm sm:leading-6  dark:text-white"
+                      className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400
+                        focus:ring-0 sm:text-sm sm:leading-6  dark:text-white"
                     />
-                    <button
-                      type="button"
-                      className="ml-2 p-2 focus:outline-none"
-                      onClick={alternarVisibilidadContraseña}
-                    >
-                      {showPassword ? "👁️" : "👁️‍🗨️"}
-                    </button>
+                        <button
+                          type="button"
+                          className="ml-2 p-2 focus:outline-none"
+                          onClick={alternarVisibilidadContraseña}
+                        >
+                          {showPassword ? "👁️" : "👁️‍🗨️"}
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
 
-      <button className=" mb-5 mt-5 p-2 bg-lime-600 rounded " type="submit">
-        Crear
-      </button>
-      <Toaster />
-    </form>
-  );
+          <button className=" mb-5 mt-5 p-2 bg-lime-600 rounded " type="submit">
+            Crear
+          </button>
+          <Toaster />
+        </form>
+        );
 }
