@@ -84,6 +84,7 @@ export default function OrdenUpdateForm({ ordenData }) {
     e.preventDefault();
     try {
       await updateOrden(orden, token);
+      toast.success("Orden actualizada con exito");
     } catch (error) {
       toast.error(error.message);
       console.error(error);
@@ -121,7 +122,7 @@ export default function OrdenUpdateForm({ ordenData }) {
               id="fecha_creacion"
               autoComplete="fecha_creacion"
               required
-              className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 
+              className="dark:bg-sky-950 dark:border-white text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 
               focus:ring-0 sm:text-sm sm:leading-6  dark:text-white"
             />
           </div>
@@ -136,13 +137,14 @@ export default function OrdenUpdateForm({ ordenData }) {
               Fecha finalizacion
             </label>
             <div className="mt-2">
-              <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md ">
+              <div className="dark:bg-sky-950 dark:border-white mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md ">
                 <input
                   {...fecha_finalizacion}
                   id="fecha_finalizacion"
                   autoComplete="fecha_finalizacion"
                   required
-                  className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+                  className="dark:bg-sky-950 dark:border-white text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 
+                  focus:ring-0 sm:text-sm sm:leading-6  dark:text-white"
                 />
               </div>
             </div>
@@ -220,6 +222,7 @@ export default function OrdenUpdateForm({ ordenData }) {
                         id="valor_mano_obra"
                         autoComplete="valor_mano_obra"
                         required
+                        min="1"
                         className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
                       />
                     </div>
@@ -241,6 +244,7 @@ export default function OrdenUpdateForm({ ordenData }) {
                           id="valor_total"
                           autoComplete="valor_total"
                           required
+                          min="1"
                           className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
                         />
                       </div>
@@ -283,6 +287,7 @@ export default function OrdenUpdateForm({ ordenData }) {
                                 id="id_cliente"
                                 autoComplete="id_cliente"
                                 required
+                                min="0"
                                 className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
                               />
                             </div>
@@ -304,6 +309,7 @@ export default function OrdenUpdateForm({ ordenData }) {
                                   id="id_sucursal"
                                   autoComplete="id_sucursal"
                                   required
+                                  min="0"
                                   className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
                                 />
                               </div>

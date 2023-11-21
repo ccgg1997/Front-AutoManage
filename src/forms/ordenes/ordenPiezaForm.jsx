@@ -25,6 +25,7 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden }) => {
   const [pieza, setPieza] = React.useState({});
   const [formActive, setFormActive] = React.useState(false);
   const [ordenModificada, setOrdenModificada] = React.useState(false); 
+  const [valorTotal, setValorTotal] = React.useState(0);
   const [piezasAgregadasActive, setPiezasAgregadasActive] =
     React.useState(false);
 
@@ -55,8 +56,19 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden }) => {
     pieza: pieza.id_pieza,
     precio: pieza.precio,
     cantidad: pieza.cantidad,
+    valor_total: valorTotal,
 
   }
+
+  const generarValorTotal = () => {
+    let valorTotal = 0;
+    piezasOrden.forEach((pieza) => {
+      valorTotal += pieza.precio * pieza.cantidad;
+    });
+    setValorTotal(valorTotal);
+  };
+
+
 
   const onClickDelete = async (id) => {
     try {
@@ -116,6 +128,9 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden }) => {
     precio.onChange({
       target: { value: piezaSeleccionada ? piezaSeleccionada.precio : "" },
     });
+
+    generarValorTotal();
+
   }, [nombre.value, piezas, cantidad.value]);
 
   const infoPieza = (id) => {
@@ -243,6 +258,8 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden }) => {
                   id="precio"
                   className="border border-gray-300 rounded-md p-2"
                   disabled
+                  required
+                  min="1"
                 />
               </div>
               <div className="flex flex-col mb-5">
@@ -259,6 +276,7 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden }) => {
                   id="cantidad"
                   className="border border-gray-300 rounded-md p-2"
                   required
+                  min="1"
                 />
               </div>
               <button className="bg-lime-600 text-white rounded-md p-2">
@@ -273,7 +291,6 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden }) => {
             </Box>
           </form>
         )}
-
         <Toaster />
       </div>
     </Modal>
