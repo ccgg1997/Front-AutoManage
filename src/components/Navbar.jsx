@@ -33,18 +33,19 @@ export default function Navbar({ logOut }) {
   ]);
 
   useEffect(() => {
-    console.log(rol);
     if (rol === "Vendedor") {
       setNavigation([
         { name: "Ventas", href: "/Ventas" },
         { name: "Home", href: "/" },
       ]);
+      navigate("/");
     } else if (rol === "Jefe_Taller") {
       setNavigation([
         { name: "Ordenes Trabajo", href: "/Ordenes" },
         { name:"Piezas", href:"/Piezas"},
         { name: "Home", href: "/" },
       ]);
+      navigate("/");
     } else if (rol === "Gerente" || rol === "Admin") {
       setNavigation([
         { name: "Inventario", href: "/Inventario" },
@@ -55,7 +56,9 @@ export default function Navbar({ logOut }) {
         { name: "Piezas", href: "/Piezas" },
         { name: "Home", href: "/" },
       ]);
+      navigate("/");
     }else if(rol === "Cliente"){
+      navigate("/ConsultaReparaciones");
       setNavigation([
         { name:"Consulta Reparaciones", href:"/ConsultaReparaciones"},
       ]);
