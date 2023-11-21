@@ -73,8 +73,11 @@ export default function SeleccionarCotizacion({ updateVehiculoInfo, actionVehicu
 
 
     return (
-        <div className="flex justify-center">
-            <Table data={dataCotizaciones} titles={titles} />
-        </div>
+        <>
+            <h1 className="text-xl font-bold mb-4">Seleccione la cotización realizada</h1>
+            <div className="flex justify-center">
+                <Table data={dataCotizaciones} titles={titles} />
+            </div>
+        </>
     )
 }

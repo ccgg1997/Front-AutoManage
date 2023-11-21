@@ -55,8 +55,11 @@ export default function SeleccionarVehiculo({ updateVehiculoInfo, actionVehiculo
     }, []);
 
     return (
-        <div className="flex justify-center">
-            <Table data={dataVehiculo} titles={titles} />
-        </div>
+        <>
+            <h1 className="text-xl font-bold mb-4">Seleccione el vehículo a adquirir</h1>
+            <div className="flex justify-center">
+                <Table data={dataVehiculo} titles={titles} />
+            </div>
+        </>
     )
 }
