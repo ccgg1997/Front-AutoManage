@@ -80,6 +80,7 @@ const InventarioPiezasCreate = () => {
           {...precio}
           id="precio"
           autoComplete="precio"
+          min="0"
           className="shadow-sm focus:ring-indigo-500 focus:border-black w-full border-2 border-black rounded-md  dark:bg-sky-950 dark:border-inherit mb-5 h-9"
         />
 

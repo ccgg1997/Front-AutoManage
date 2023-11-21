@@ -19,7 +19,7 @@ function App() {
 
   const actualizarAuth = (auth) => {
     setAuth(auth);
-  }
+  };
 
   const logOut = () => {
     Cookies.remove("token");
@@ -30,20 +30,22 @@ function App() {
   return (
     <div className=" dark:bg-slate-950">
       {!auth && <Login actualizar={actualizarAuth} />}
-      {auth && <Router>
-        <Navbar logOut={logOut} />
-        <Routes>
-          <Route path="/" element={<Hero />}></Route>
-          <Route path="/Ventas" element={<Venta />}></Route>
-          <Route path="/Ordenes" element={<OrdenesTrabajo />}></Route>
-          <Route path="/Inventario" element={<Inventario />}></Route>
-          <Route path="/Usuarios" element={<Usuarios />}></Route>
-          <Route path="/Profile" element={<Profile />}></Route>
-          <Route path="/Piezas" element={<Pieza />}></Route>
-          <Route path="/Productos" element={<Producto />}></Route>
-          <Route path="*" element={<Error error={"404"} />}></Route>
-        </Routes>
-      </Router>}
+      {auth && (
+        <Router>
+          <Navbar logOut={logOut} />
+          <Routes>
+            <Route path="/" element={<Hero />}></Route>
+            <Route path="/Ventas" element={<Venta />}></Route>
+            <Route path="/Ordenes" element={<OrdenesTrabajo />}></Route>
+            <Route path="/Inventario" element={<Inventario />}></Route>
+            <Route path="/Usuarios" element={<Usuarios />}></Route>
+            <Route path="/Profile" element={<Profile />}></Route>
+            <Route path="/Piezas" element={<Pieza />}></Route>
+            <Route path="/Productos" element={<Producto />}></Route>
+            <Route path="*" element={<Error error={"404"} />}></Route>
+          </Routes>
+        </Router>
+      )}
     </div>
   );
 }

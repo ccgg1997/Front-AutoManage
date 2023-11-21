@@ -1,11 +1,8 @@
 import React, { useEffect } from "react";
-import {
-  updateOrden,
-} from "../../components/api/adress";
+import { updateOrden } from "../../components/api/adress";
 import { Toaster, toast } from "sonner";
 import { useSelector } from "react-redux";
 import ModalPieza from "./ordenPiezaForm";
-
 
 const useField = ({ type, placeholder }) => {
   const [value, setValue] = React.useState("");
@@ -316,10 +313,21 @@ export default function OrdenUpdateForm({ ordenData }) {
                               <div className="mt-10 sm:grid-cols-6">
                                 <div className="sm:col-span-4">
                                   <div className="mt-10 sm:grid-cols-6">
-                                      <button type="button" onClick={onClickOpen} className="bg-lime-600 text-white rounded-md p-2">
-                                        Gestionar Piezas
-                                      </button>
-                                      {modalActive && <ModalPieza open={open} setOpen={setOpen} setOrdenPiezas={setPiezas} idOrden={ordenData.id}/>}
+                                    <button
+                                      type="button"
+                                      onClick={onClickOpen}
+                                      className="bg-lime-600 text-white rounded-md p-2"
+                                    >
+                                      Gestionar Piezas
+                                    </button>
+                                    {modalActive && (
+                                      <ModalPieza
+                                        open={open}
+                                        setOpen={setOpen}
+                                        setOrdenPiezas={setPiezas}
+                                        idOrden={ordenData.id}
+                                      />
+                                    )}
                                   </div>
                                 </div>
                               </div>

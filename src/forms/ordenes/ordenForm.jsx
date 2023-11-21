@@ -124,7 +124,7 @@ export default function OrdenForm() {
               id="fecha_creacion"
               autoComplete="fecha_creacion"
               required
-              className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 
+              className="dark:bg-sky-950 dark:border-white text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 
               focus:ring-0 sm:text-sm sm:leading-6  dark:text-white"
             />
           </div>
@@ -145,7 +145,7 @@ export default function OrdenForm() {
                   id="fecha_finalizacion"
                   autoComplete="fecha_finalizacion"
                   required
-                  className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+                  className="dark:bg-sky-950 dark:border-white text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
                 />
               </div>
             </div>
@@ -339,32 +339,33 @@ export default function OrdenForm() {
               ¿ Desea agregar piezas a la orden ?
             </Typography>
             <div className="flex mb-2 justify-center mt-4">
-            <button
-              className="bg-lime-600 text-white rounded-md p-2  w-16"
-              onClick={onClickOpen}
-            >
-              Si
-            </button>
-            <button
-              className="bg-red-600 text-white rounded-md p-2 ml-2 w-16"
-              onClick={() => {
-                setOpenFirstModal(false);
-                clearForm();
-              }
-              }
-            >
-              No
-            </button>
+              <button
+                className="bg-lime-600 text-white rounded-md p-2  w-16"
+                onClick={onClickOpen}
+              >
+                Si
+              </button>
+              <button
+                className="bg-red-600 text-white rounded-md p-2 ml-2 w-16"
+                onClick={() => {
+                  setOpenFirstModal(false);
+                  clearForm();
+                }}
+              >
+                No
+              </button>
             </div>
           </div>
         </div>
       </Modal>
-      {openSecondModal && <ModalPieza
-        open={open}
-        setOpen={setOpen}
-        setOrdenPiezas={setOrdenPiezas}
-        idOrden={idOrden}
-      />}
+      {openSecondModal && (
+        <ModalPieza
+          open={open}
+          setOpen={setOpen}
+          setOrdenPiezas={setOrdenPiezas}
+          idOrden={idOrden}
+        />
+      )}
       <button className=" mb-5 mt-5 p-2 bg-lime-600 rounded " type="submit">
         Crear
       </button>

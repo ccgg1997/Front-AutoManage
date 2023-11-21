@@ -9,7 +9,7 @@ import {
 } from "../../components/api/adress";
 import { Modal } from "@mui/material";
 import { Box, Typography } from "@mui/material";
-import {XCircleIcon} from "@heroicons/react/24/outline";
+import { XCircleIcon } from "@heroicons/react/24/outline";
 const useField = ({ type, placeholder }) => {
   const [value, setValue] = React.useState("");
   const onChange = ({ target }) => {
@@ -24,7 +24,7 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden }) => {
   const [piezasOrden, setPiezasOrden] = React.useState([]);
   const [pieza, setPieza] = React.useState({});
   const [formActive, setFormActive] = React.useState(false);
-  const [ordenModificada, setOrdenModificada] = React.useState(false); 
+  const [ordenModificada, setOrdenModificada] = React.useState(false);
   const [valorTotal, setValorTotal] = React.useState(0);
   const [piezasAgregadasActive, setPiezasAgregadasActive] =
     React.useState(false);
@@ -57,8 +57,7 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden }) => {
     precio: pieza.precio,
     cantidad: pieza.cantidad,
     valor_total: valorTotal,
-
-  }
+  };
 
   const generarValorTotal = () => {
     let valorTotal = 0;
@@ -67,8 +66,6 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden }) => {
     });
     setValorTotal(valorTotal);
   };
-
-
 
   const onClickDelete = async (id) => {
     try {
@@ -106,7 +103,6 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden }) => {
     setPiezasAgregadasActive(true);
   };
 
-
   const clearForm = () => {
     setPieza({});
   };
@@ -124,13 +120,12 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden }) => {
       precio: piezaSeleccionada ? piezaSeleccionada.precio : "",
       cantidad: parseInt(cantidad.value, 10),
     });
-  
+
     precio.onChange({
       target: { value: piezaSeleccionada ? piezaSeleccionada.precio : "" },
     });
 
     generarValorTotal();
-
   }, [nombre.value, piezas, cantidad.value]);
 
   const infoPieza = (id) => {
@@ -146,20 +141,18 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden }) => {
           setPiezasAgregadasActive(true);
           setFormActive(false);
           setPiezasOrden(piezas);
-        }else{
+        } else {
           toast.error("No hay piezas agregadas, agregue una pieza");
           setPiezasAgregadasActive(false);
           setFormActive(true);
         }
-
-        
       } catch (error) {
         console.error(error);
         toast.error(error.message);
       }
     };
     obtenerPiezasOrden();
-  }, [idOrden ,ordenModificada]);
+  }, [idOrden, ordenModificada]);
 
   return (
     <Modal open={open} onClose={() => setOpen(false)}>
@@ -174,40 +167,38 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden }) => {
             >
               Piezas agregadas
             </Typography>
-              {piezasOrden.map((pieza) => (
-                <div className="flex justify-between mb-2 mt-4" key={pieza.id}>
-                  <Typography
-                    id="modal-modal-title"
-                    variant="h9"
-                    component="h2"
-                    className="text-xl mb-5 dark:text-slate-300 "
-                  >
-                    {infoPieza(pieza.pieza).nombre}
-                  </Typography>
-                  <Typography
-                    id="modal-modal-title"
-                    variant="h6"
-                    component="h2"
-                    className="text-xl mb-5 dark:text-slate-300"
-                  >
-                    {pieza.cantidad}
-                  </Typography>
-                  <XCircleIcon
-                    className= "h-7 w-7 text-red-600 hover:text-red-900 cursor-pointer"
-                    onClick={() => {
-                      onClickDelete(pieza.id);
-                    }}
-                  />
-                  
-                </div>
-              ))}
+            {piezasOrden.map((pieza) => (
+              <div className="flex justify-between mb-2 mt-4" key={pieza.id}>
+                <Typography
+                  id="modal-modal-title"
+                  variant="h9"
+                  component="h2"
+                  className="text-xl mb-5 dark:text-slate-300 "
+                >
+                  {infoPieza(pieza.pieza).nombre}
+                </Typography>
+                <Typography
+                  id="modal-modal-title"
+                  variant="h6"
+                  component="h2"
+                  className="text-xl mb-5 dark:text-slate-300"
+                >
+                  {pieza.cantidad}
+                </Typography>
+                <XCircleIcon
+                  className="h-7 w-7 text-red-600 hover:text-red-900 cursor-pointer"
+                  onClick={() => {
+                    onClickDelete(pieza.id);
+                  }}
+                />
+              </div>
+            ))}
             <button
               className="bg-lime-600 text-white rounded-md p-2 mt-4"
               onClick={() => {
                 setFormActive(true);
                 setPiezasAgregadasActive(false);
-              }
-              }
+              }}
             >
               Agregar pieza
             </button>
@@ -217,7 +208,6 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden }) => {
             >
               Cancelar
             </button>
-
           </div>
         )}
         {formActive && (

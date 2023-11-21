@@ -3,7 +3,7 @@ import { Toaster, toast } from "sonner";
 import { useSelector } from "react-redux";
 import { Modal, Typography, Box } from "@mui/material";
 import { useState } from "react";
-import { userUpdate,userUpdatePassword } from "../../components/api/adress"
+import { userUpdate, userUpdatePassword } from "../../components/api/adress";
 
 const useField = ({ type, placeholder }) => {
   const [value, setValue] = React.useState("");
@@ -171,16 +171,16 @@ const ModalName = ({ openNombreModal, setOpenNombreModal, nombre }) => {
     e.preventDefault();
     try {
       if (nombre.value !== "") {
-      await userUpdate(id, user, token);
-      toast.success("Informacion actualizada con exito");
-      setOpenNombreModal(false);
-    }else{
-      toast.error("introduzca un nombre valido")
+        await userUpdate(id, user, token);
+        toast.success("Informacion actualizada con exito");
+        setOpenNombreModal(false);
+      } else {
+        toast.error("introduzca un nombre valido");
+      }
+    } catch (error) {
+      toast.error(error.message);
+      console.error(error);
     }
-  } catch (error) {
-    toast.error(error.message);
-    console.error(error);
-  }
   };
 
   return (
@@ -236,7 +236,6 @@ const ModalName = ({ openNombreModal, setOpenNombreModal, nombre }) => {
  * @returns {JSX.Element} The rendered modal dialog.
  */
 const ModalCorreo = ({ openCorreoModal, setOpenCorreoModal, correo }) => {
-  
   const { token } = useSelector((state) => state.auth);
   const { id } = useSelector((state) => state.auth);
   const user = {
@@ -249,8 +248,8 @@ const ModalCorreo = ({ openCorreoModal, setOpenCorreoModal, correo }) => {
         await userUpdate(id, user, token);
         toast.success("Informacion actualizada con exito");
         setOpenCorreoModal(false);
-      }else{
-        toast.error("introduzca un correo valido")
+      } else {
+        toast.error("introduzca un correo valido");
       }
     } catch (error) {
       toast.error(error.message);
@@ -319,7 +318,6 @@ const ModalContrasena = ({
   confirmarContrasena,
   clearForm,
 }) => {
-
   const { token } = useSelector((state) => state.auth);
   const user = {
     old_password: contrasenaAnterior.value,
@@ -339,14 +337,14 @@ const ModalContrasena = ({
     try {
       if (verifyPasswords()) {
         if (differentPasswords()) {
-        await userUpdatePassword(user, token);
-        toast.success("Informacion actualizada con exito");
-        clearForm(); 
-        setOpenContrasenaModal(false);
+          await userUpdatePassword(user, token);
+          toast.success("Informacion actualizada con exito");
+          clearForm();
+          setOpenContrasenaModal(false);
         } else {
           toast.error("La contraseña anterior no puede ser igual a la nueva");
           clearForm();
-        } 
+        }
       } else {
         toast.error("Las contraseñas no coinciden");
         clearForm();

@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import UsuarioForm from "../forms/user/usuarioForm";
 import UserUpdate from "../forms/user/userUpdateForm";
 import UsuarioDeleteForm from "../forms/user/usuarioDeleteForm";
-import { Button } from "@mui/material";
 import { useRef } from "react";
 import { UserIcon } from "@heroicons/react/24/outline";
 
@@ -39,7 +38,6 @@ const Usuarios = () => {
       }
     } catch (error) {
       console.error(error);
-      j;
     }
   };
 
@@ -79,16 +77,12 @@ const Usuarios = () => {
   return (
     <section>
       <div className=" border-t border-b border-gray-900/10 flex items-center justify-center pt-10 pl-7 pr-7 pb-5">
-          <UserIcon
-            className="h-10 w-10 mr-2 text-blue-500"
-            aria-hidden="true"
-          />
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl font-bold dark:text-white">
-            GESTIÓN DE USUARIOS
-          </h1>
-        </div>
+        <UserIcon className="h-10 w-10 mr-2 text-blue-500" aria-hidden="true" />
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl font-bold dark:text-white">
+          GESTIÓN DE USUARIOS
+        </h1>
+      </div>
       <div className="min-h-screen w-auto container mx-auto py-8">
-        
         <div className="mt-16 grid gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
           <div
             className="flex flex-col items-center justify-center p-5 border-2 border-black dark:border-white rounded-lg cursor-pointer"

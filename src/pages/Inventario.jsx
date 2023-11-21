@@ -1,20 +1,23 @@
-import React from "react";
 import Tabs from "../components/Tabs.jsx";
 import Table from "../components/Table.jsx";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { getInventario, deleteVehiculoInventario, getRepuestos } from "../components/api/adress.js";
+import {
+  getInventario,
+  deleteVehiculoInventario,
+  getRepuestos,
+} from "../components/api/adress.js";
 import InventarioCreate from "../forms/inventario/InventarioCreate.jsx";
 import { ArchiveBoxIcon } from "@heroicons/react/24/outline";
 
 const Inventario = () => {
   const [dataVehiculo, setDataVehiculo] = useState([]);
   const [dataPiezas, setDataPiezas] = useState([]);
-  const deleteItemInventarioClick = async(row) => {
+  const deleteItemInventarioClick = async (row) => {
     console.log(row);
-    await deleteVehiculoInventario(row,token);
-    
-    setDataVehiculo(dataVehiculo.filter(vehiculo => vehiculo.id !== row));
+    await deleteVehiculoInventario(row, token);
+
+    setDataVehiculo(dataVehiculo.filter((vehiculo) => vehiculo.id !== row));
   };
 
   const { token } = useSelector((state) => state.auth);
@@ -36,12 +39,12 @@ const Inventario = () => {
     const piezasFetch = async () => {
       const piezas = await getRepuestos(token);
       piezas.map((pieza) => {
-        pieza.nombre = pieza.pieza.nombre,
-        pieza.precio= pieza.pieza.precio,
-        pieza.sucursal= pieza.sucursal.direccion
-      })
+        (pieza.nombre = pieza.pieza.nombre),
+          (pieza.precio = pieza.pieza.precio),
+          (pieza.sucursal = pieza.sucursal.direccion);
+      });
       setDataPiezas(piezas);
-    }
+    };
     piezasFetch();
   }, [setDataVehiculo, setDataPiezas]);
 
@@ -54,7 +57,7 @@ const Inventario = () => {
     { field: "modelo", headerName: "Modelo", width: 130 },
     { field: "condicion", headerName: "Condicion", width: 130 },
     { field: "concesionario", headerName: "Concesionario", width: 13 },
-    { field: "color", headerName: "Color",  },
+    { field: "color", headerName: "Color" },
     {
       field: "accion",
       headerName: "Accion",
@@ -78,17 +81,38 @@ const Inventario = () => {
     { field: "nombre", headerName: "Nombre", width: 130 },
     { field: "precio", headerName: "Precio", width: 130 },
     { field: "sucursal", headerName: "Sucursal", width: 130 },
-    {field:"cantidad_disponible", headerName:"Cantidad Disponible", width: 130},
-
+    {
+      field: "cantidad_disponible",
+      headerName: "Cantidad Disponible",
+      width: 130,
+    },
   ];
 
   const tabs = [
     {
       label: "Vehiculo",
-      content:<div className="pl-10 pr-10 pt-6"><Table data={dataVehiculo} titles={titles} /></div>,
+      content: (
+        <div className="pl-10 pr-10 pt-6">
+          <Table data={dataVehiculo} titles={titles} />
+        </div>
+      ),
     },
-    { label: "Repuestos", content: <div className="pl-10 pr-10 pt-6"><Table data={dataPiezas} titles={titlePiezas} /></div> },
-    { label: "Crear", content: <div className="pl-10 pr-10 pt-6"><InventarioCreate></InventarioCreate></div> }
+    {
+      label: "Repuestos",
+      content: (
+        <div className="pl-10 pr-10 pt-6">
+          <Table data={dataPiezas} titles={titlePiezas} />
+        </div>
+      ),
+    },
+    {
+      label: "Crear",
+      content: (
+        <div className="pl-10 pr-10 pt-6">
+          <InventarioCreate></InventarioCreate>
+        </div>
+      ),
+    },
   ];
 
   return (

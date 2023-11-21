@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon,XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 
 const navigation = [
@@ -8,7 +8,7 @@ const navigation = [
   { name: "Ordenes Trabajo", href: "/Ordenes" },
   { name: "Ventas", href: "/Ventas" },
   { name: "Usuarios", href: "/Usuarios" },
-  { name: "Vehiculo", href: "/Productos" },
+  { name: "Vehiculos", href: "/Productos" },
   { name: "Piezas", href: "/Piezas" },
   { name: "Home", href: "/" },
 ];
@@ -17,6 +17,13 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+/**
+ * Renders a navigation bar component with a logo, menu, theme toggle button, and user profile menu.
+ *
+ * @param {Object} props - The component props.
+ * @param {Function} props.logOut - A callback function to be called when the user clicks the "Salir" (Logout) button in the user profile menu.
+ * @returns {JSX.Element} The rendered navigation bar component.
+ */
 export default function Navbar({ logOut }) {
   const navigate = useNavigate();
   const [theme, setTheme] = useState("light");
@@ -27,7 +34,10 @@ export default function Navbar({ logOut }) {
   };
 
   useEffect(() => {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    ) {
       setTheme("dark");
     }
   }, []);
@@ -54,12 +64,21 @@ export default function Navbar({ logOut }) {
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="sr-only">Open main menu</span>
-                  {open ? <XMarkIcon className="block h-6 w-6" aria-hidden="true" /> : <Bars3Icon className="block h-6 w-6" aria-hidden="true" />}
+                  {open ? (
+                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                  ) : (
+                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                  )}
                 </Disclosure.Button>
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <img className="block h-8 w-auto" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuIYAvJHYa-r1hIYwpitpSCPJaYzW2DDDwxMpG5Ps&s" alt="Auto-Manage" onClick={() => navigate("/")}/>
+                  <img
+                    className="block h-8 w-auto"
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuIYAvJHYa-r1hIYwpitpSCPJaYzW2DDDwxMpG5Ps&s"
+                    alt="Auto-Manage"
+                    onClick={() => navigate("/")}
+                  />
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
@@ -72,10 +91,14 @@ export default function Navbar({ logOut }) {
                           handleItemClick(item.name, item.href);
                         }}
                         className={classNames(
-                          item.name === currentNavItem ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'px-3 py-2 rounded-md text-sm font-medium'
+                          item.name === currentNavItem
+                            ? "bg-gray-900 text-white"
+                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                          "px-3 py-2 rounded-md text-sm font-medium"
                         )}
-                        aria-current={item.name === currentNavItem ? 'page' : undefined}
+                        aria-current={
+                          item.name === currentNavItem ? "page" : undefined
+                        }
                       >
                         {item.name}
                       </a>
@@ -94,7 +117,7 @@ export default function Navbar({ logOut }) {
                     viewBox="0 0 24 24"
                     className="block w-5 h-5 sm:w-6 sm:h-6"
                   >
-                                        <path d="M12 22C10.93 22 9.86998 21.83 8.83998 21.48L7.41998 21.01L8.83998 20.54C12.53 19.31 15 15.88 15 12C15 8.12 12.53 4.69 8.83998 3.47L7.41998 2.99L8.83998 2.52C9.86998 2.17 10.93 2 12 2C17.51 2 22 6.49 22 12C22 17.51 17.51 22 12 22Z"></path>
+                    <path d="M12 22C10.93 22 9.86998 21.83 8.83998 21.48L7.41998 21.01L8.83998 20.54C12.53 19.31 15 15.88 15 12C15 8.12 12.53 4.69 8.83998 3.47L7.41998 2.99L8.83998 2.52C9.86998 2.17 10.93 2 12 2C17.51 2 22 6.49 22 12C22 17.51 17.51 22 12 22Z"></path>
                   </svg>
                 </button>
                 <Menu as="div" className="relative ml-3">
@@ -158,8 +181,10 @@ export default function Navbar({ logOut }) {
                   as="a"
                   href={item.href}
                   className={classNames(
-                    item.name === currentNavItem ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                    'block rounded-md px-3 py-2 text-base font-medium'
+                    item.name === currentNavItem
+                      ? "bg-gray-900 text-white"
+                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                    "block rounded-md px-3 py-2 text-base font-medium"
                   )}
                   onClick={(e) => {
                     e.preventDefault();
@@ -176,4 +201,3 @@ export default function Navbar({ logOut }) {
     </Disclosure>
   );
 }
-

@@ -1,14 +1,12 @@
-import React from "react";
-import Tabs from '../components/Tabs.jsx';
+import Tabs from "../components/Tabs.jsx";
 import { CurrencyDollarIcon } from "@heroicons/react/24/outline";
-import VentaForm from '../forms/venta/VentaForm.jsx';
-import CotizacionForm from '../forms/venta/CotizacionForm.jsx';
+import VentaForm from "../forms/venta/VentaForm.jsx";
+import CotizacionForm from "../forms/venta/CotizacionForm.jsx";
 
 export default function Venta() {
-
   const tabs = [
-    { label: 'Cotizacion', content: <CotizacionForm /> },
-    { label: 'Venta', content: <VentaForm /> },
+    { label: "Cotizacion", content: <CotizacionForm /> },
+    { label: "Venta", content: <VentaForm /> },
   ];
 
   return (
