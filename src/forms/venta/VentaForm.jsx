@@ -1,6 +1,4 @@
-import React from "react";
-import { useEffect, useState } from 'react';
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { useState } from "react";
 import Inicial from "./etapas/Inicial.jsx";
 import SeleccionarCotizacion from "./etapas/SeleccionarCotizacion";
 import SeleccionarVehiculo from "./etapas/SeleccionarVehiculo.jsx";
@@ -8,52 +6,77 @@ import Fin from "./etapas/Fin";
 
 export default function VentaForm() {
   let content;
-  const [etapaActivo, setEtapaActiva] = useState('INICIAL');
+  const [etapaActivo, setEtapaActiva] = useState("INICIAL");
   const [valorTotal, setValorTotal] = useState(0);
   // const precio = useField({ type: "number" });
-  const [idInventarioVehiculo, setIdInventarioVehiculo] = useState('');
-  const [nombreVehiculo, setNombreVehiculo] = useState('');
+  const [idInventarioVehiculo, setIdInventarioVehiculo] = useState("");
+  const [identificacionCliente, setIdentificacionCliente] = useState("");
+  const [idCotizacion, setidCotizacion] = useState("");
+  const [nombreVehiculo, setNombreVehiculo] = useState("");
   const stateForm = {
-    etapa: etapaActivo
-  }
+    etapa: etapaActivo,
+  };
 
   const model = {
     nombre_vehiculo: nombreVehiculo,
     valor_total: valorTotal,
-    inventario_vehiculo: idInventarioVehiculo
-  }
+    inventario_vehiculo: idInventarioVehiculo,
+    identificacion_cliente: identificacionCliente,
+    cotizacion: idCotizacion,
+  };
 
   const updateVehiculoInfo = (inventarioVehiculo) => {
     setIdInventarioVehiculo(inventarioVehiculo.id);
     setValorTotal(inventarioVehiculo.vehiculo.precio);
-    setNombreVehiculo(inventarioVehiculo.vehiculo.marca + ' ' + inventarioVehiculo.vehiculo.linea);
-  }
+    setNombreVehiculo(
+      inventarioVehiculo.vehiculo.marca +
+        " " +
+        inventarioVehiculo.vehiculo.linea
+    );
+    if (inventarioVehiculo.identificacion_cliente) {
+      setIdentificacionCliente(inventarioVehiculo.identificacion_cliente);
+    }
+    if (inventarioVehiculo.id_cotizacion) {
+      setidCotizacion(inventarioVehiculo.id_cotizacion);
+    }
+  };
 
   switch (stateForm.etapa) {
-    case 'INICIAL':
-      content = <Inicial
-        actionCotizacionSi={() => setEtapaActiva('SELECCIONAR_COTIZACION')}
-        actionCotizacionNo={() => setEtapaActiva('SELECCIONAR_VEHICULO')}
-      />
+    case "INICIAL":
+      content = (
+        <Inicial
+          actionCotizacionSi={() => setEtapaActiva("SELECCIONAR_COTIZACION")}
+          actionCotizacionNo={() => setEtapaActiva("SELECCIONAR_VEHICULO")}
+        />
+      );
       break;
-    case 'SELECCIONAR_COTIZACION':
-      content = <SeleccionarCotizacion />
+    case "SELECCIONAR_COTIZACION":
+      content = (
+        <SeleccionarCotizacion
+          updateVehiculoInfo={updateVehiculoInfo}
+          actionVehiculoSeleccionado={() => setEtapaActiva("FIN")}
+        />
+      );
       break;
-    case 'SELECCIONAR_VEHICULO':
-      content = <SeleccionarVehiculo
-        updateVehiculoInfo={updateVehiculoInfo}
-        actionVehiculoSeleccionado={() => setEtapaActiva('FIN')}
-      />
+    case "SELECCIONAR_VEHICULO":
+      content = (
+        <SeleccionarVehiculo
+          updateVehiculoInfo={updateVehiculoInfo}
+          actionVehiculoSeleccionado={() => setEtapaActiva("FIN")}
+        />
+      );
       break;
-    case 'FIN':
-      content = <Fin
-        formData={model}
-        actionAfterSubmit={() => setEtapaActiva('INICIAL')}
-      />
+    case "FIN":
+      content = (
+        <Fin
+          formData={model}
+          actionAfterSubmit={() => setEtapaActiva("INICIAL")}
+        />
+      );
       break;
 
     default:
-      setEtapaActiva('INICIAL')
+      setEtapaActiva("INICIAL");
       break;
   }
   return (
@@ -66,12 +89,3 @@ export default function VentaForm() {
     </div>
   );
 }
-
-
-const useField = ({ type, placeholder }) => {
-  const [value, setValue] = React.useState("");
-  const onChange = ({ target }) => {
-    setValue(target.value);
-  };
-  return { type, placeholder, value, onChange };
-};

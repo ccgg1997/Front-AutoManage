@@ -65,6 +65,7 @@ export default function VehiculoForm() {
                 id="id"
                 autoComplete="id"
                 required
+                min="0"
                 className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 
                 focus:ring-0 sm:text-sm sm:leading-6  dark:text-white"
               />
@@ -199,13 +200,13 @@ const InfoForm = ({ id, clearForm }) => {
               </label>
               <div className="mt-2">
                 <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300 sm:max-w-md">
-                <select
+                  <select
                     {...tipo}
                     id="tipo"
                     autoComplete="tipo"
                     required
                     className="dark:bg-sky-950 dark:border-white text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
-                    >
+                  >
                     <option value="Sedan">Sedan</option>
                     <option value="Hatchback">Hatchback</option>
                     <option value="Camioneta">Camioneta</option>
@@ -220,7 +221,7 @@ const InfoForm = ({ id, clearForm }) => {
                     <option value="Jeep">Jeep</option>
                     <option value="Todo terreno">Todo terreno</option>
                     <option value="Otros">Otros</option>
-                    </select>
+                  </select>
                 </div>
               </div>
             </div>
@@ -239,6 +240,7 @@ const InfoForm = ({ id, clearForm }) => {
                     id="precio"
                     autoComplete="precio"
                     required
+                    min="1"
                     className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
                   />
                 </div>

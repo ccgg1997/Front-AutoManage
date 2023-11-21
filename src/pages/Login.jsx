@@ -49,7 +49,7 @@ function Login({ actualizar }) {
         timeExp: decode.exp,
       };
       Cookies.set("userData", JSON.stringify(data));
-      dispatch(setAuthData(data)); 
+      dispatch(setAuthData(data));
     } catch (error) {
       if (error.message === "Datos vacios") {
         toast.error(error.message);
@@ -83,14 +83,14 @@ function Login({ actualizar }) {
             <form>
               <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
                 <p className="mx-4 mb-0 text-center font-semibold dark:text-white">
-                  Sign in
+                  Inicio de sesión
                 </p>
               </div>
 
               <div className="mb-6 flex flex-col">
                 <Input
                   type="email"
-                  placeholder="Email address"
+                  placeholder="Correo electronico"
                   onChange={handleChange}
                   name="email"
                   className="dark:text-white mb-3"
@@ -99,16 +99,13 @@ function Login({ actualizar }) {
                 {/* <!--Password input--> */}
                 <Input
                   type="password"
-                  placeholder="Password"
+                  placeholder="Contraseña"
                   size="lg mt-3"
                   onChange={handleChange}
                   name="password"
                   className="dark:text-white"
-
                 ></Input>
               </div>
-
-
 
               {/* <!-- Login button --> */}
               <div className="text-center lg:text-left">

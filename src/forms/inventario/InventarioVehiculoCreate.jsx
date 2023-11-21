@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { getVehiculos, getSucursales,createVehiculoInventario } from "../../components/api/adress";
+import {
+  getVehiculos,
+  getSucursales,
+  createVehiculoInventario,
+} from "../../components/api/adress";
 import { useSelector } from "react-redux";
 import { Toaster, toast } from "sonner";
 
@@ -45,10 +49,9 @@ const InventarioVehiculoCreate = () => {
     color.onChange({ target: { value: "" } });
     vehiculo_id.onChange({ target: { value: "" } });
     sucursal_id.onChange({ target: { value: "" } });
-    };
+  };
 
-
-  const enviarform = async(e) => {
+  const enviarform = async (e) => {
     e.preventDefault();
     const vehiculo = {
       modelo: modelo.value,
@@ -60,13 +63,13 @@ const InventarioVehiculoCreate = () => {
       vehiculo_id: vehiculo_id.value,
       sucursal_id: sucursal_id.value,
     };
-    try{
-    await createVehiculoInventario(vehiculo, token);
-    toast.success("Vehiculo creado con exito");
-    clearForm();
-}catch(error){
-    
-    toast.error(error.message);}
+    try {
+      await createVehiculoInventario(vehiculo, token);
+      toast.success("Vehiculo creado con exito");
+      clearForm();
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -156,6 +159,7 @@ const InventarioVehiculoCreate = () => {
             id="kilometraje"
             autoComplete="kilometraje"
             required
+            min="0"
             className="shadow-sm focus:ring-indigo-500 focus:border-black w-full border-2 border-black rounded-md  dark:bg-sky-950 dark:border-white mb-5 h-9"
           />
         </div>
@@ -172,6 +176,7 @@ const InventarioVehiculoCreate = () => {
             id="color"
             autoComplete="color"
             required
+            pattern="[A-Za-z]+"
             className="shadow-sm focus:ring-indigo-500 focus:border-black w-full border-2 border-black rounded-md  dark:bg-sky-950 dark:border-white mb-5 h-9"
           />
         </div>
@@ -222,13 +227,9 @@ const InventarioVehiculoCreate = () => {
             <option value="">Selecciona una sucursal</option>
             {sucursales.map((sucursal, index) => (
               <option key={index} value={sucursal.id}>
-                {sucursal.id +
-                  "-" +
-                  sucursal.nombre+"-"+
-                  sucursal.direccion }
+                {sucursal.id + "-" + sucursal.nombre + "-" + sucursal.direccion}
               </option>
             ))}
-
           </select>
         </div>
       </div>

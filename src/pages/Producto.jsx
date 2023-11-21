@@ -27,12 +27,12 @@ const Producto = () => {
   const [editActive, setEditActive] = useState(false);
   const [deleteActive, setDeleteActive] = useState(false);
   const titles = [
-    { field: "id", headerName: "ID"},
-    { field: "marca", headerName: "Marca", width: 150},
+    { field: "id", headerName: "ID" },
+    { field: "marca", headerName: "Marca", width: 150 },
     { field: "linea", headerName: "Modelo", width: 150 },
-    { field: "tipo", headerName: "Color", width: 150 },
-    { field: "precio", headerName: "Precio", width: 150,type: 'number' },
-  ]
+    { field: "tipo", headerName: "Tipo", width: 150 },
+    { field: "precio", headerName: "Precio", width: 150, type: "number" },
+  ];
 
   const { token } = useSelector((state) => state.auth);
 
@@ -177,7 +177,10 @@ const Producto = () => {
               Modificar los detalles de vehiculos existentes
             </p>
           </div>
-          <div className="flex flex-col items-center justify-center p-5 border-2 border-black dark:border-white rounded-lg cursor-pointer" onClick={onClickDelete}>
+          <div
+            className="flex flex-col items-center justify-center p-5 border-2 border-black dark:border-white rounded-lg cursor-pointer"
+            onClick={onClickDelete}
+          >
             <svg
               className=" h-8 w-8  dark:text-white"
               fill="none"

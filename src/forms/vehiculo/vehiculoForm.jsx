@@ -21,7 +21,7 @@ export default function VehiculoForm() {
 
   const marca = useField({ type: "text" });
   const linea = useField({ type: "text" });
-  const tipo = useField({ type: "text" ,default:"Deportivo"});
+  const tipo = useField({ type: "text", default: "Deportivo" });
   const precio = useField({ type: "number" });
 
   const vehiculo = {
@@ -103,7 +103,6 @@ export default function VehiculoForm() {
                   required
                   className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
                 />
-
               </div>
             </div>
           </div>
@@ -124,7 +123,7 @@ export default function VehiculoForm() {
                     autoComplete="tipo"
                     required
                     className="dark:bg-sky-950 dark:border-white text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
-                    >
+                  >
                     <option value="Sedan">Sedan</option>
                     <option value="Hatchback">Hatchback</option>
                     <option value="Camioneta">Camioneta</option>
@@ -139,7 +138,7 @@ export default function VehiculoForm() {
                     <option value="Jeep">Jeep</option>
                     <option value="Todo terreno">Todo terreno</option>
                     <option value="Otros">Otros</option>
-                    </select>
+                  </select>
                 </div>
               </div>
             </div>
@@ -159,6 +158,7 @@ export default function VehiculoForm() {
                       id="precio"
                       autoComplete="precio"
                       required
+                      min="0"
                       className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
                     />
                   </div>

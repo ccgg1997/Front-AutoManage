@@ -1,11 +1,11 @@
 import * as React from "react";
-import Box from '@mui/material/Box';
-import { DataGrid } from '@mui/x-data-grid';
+import Box from "@mui/material/Box";
+import { DataGrid } from "@mui/x-data-grid";
 
 export default function BasicTable({ data, titles }) {
-  const adjustedTitles = titles.map(title => ({
+  const adjustedTitles = titles.map((title) => ({
     ...title,
-    flex: 1, 
+    flex: 1,
   }));
 
   return (

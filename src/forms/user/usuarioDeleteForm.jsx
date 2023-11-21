@@ -19,12 +19,17 @@ export default function UsuarioDeleteForm() {
    * @returns {JSX.Element} The delete vehicle form component.
    */
   const { token } = useSelector((state) => state.auth);
+  const { id } = useSelector((state) => state.auth);
   const [isOpen, setIsOpen] = React.useState(false);
   const identificacion = useField({ type: "number" });
 
   const handleSubmit = async () => {
-    const idUsuario = identificacion.value;
+    const idUsuario = parseInt(identificacion.value);
     try {
+      if (idUsuario === id) {
+        toast.error("No puede eliminar su propio usuario");
+        return;
+      }
       await deleteUsuario(idUsuario, token);
       toast.success("Usuario eliminado con exito");
       clearForm();
@@ -56,8 +61,8 @@ export default function UsuarioDeleteForm() {
           Eliminación de usuarios
         </h2>
         <p className="mt-1 text-sm leading-6 text-gray-600 dark:text-slate-300">
-          Bienvenido al portal de usuarios, Antes de eliminar un usuario tenga
-          a la mano la identificación del usuario
+          Bienvenido al portal de usuarios, Antes de eliminar un usuario tenga a
+          la mano la identificación del usuario
         </p>
       </div>
 
@@ -134,7 +139,7 @@ const SureModal = ({ isOpen, setIsOpen, handleDelete }) => {
           <div className="flex flex-col sm:flex-row sm:justify-between">
             <button
               onClick={() => setIsOpen(false)}
-              className="mb-3 sm:mb-0 p-2 bg-lime-600 rounded w-full sm:w-auto"
+              className="mb-3 sm:mb-0 p-2 bg-red-600 rounded w-full sm:w-auto"
             >
               Cancel
             </button>

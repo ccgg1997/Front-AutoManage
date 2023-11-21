@@ -32,7 +32,7 @@ function CustomTabs({ tabs }) {
       </Box>
       {tabs.map((tab, index) => (
         <CustomTabPanel key={index} value={value} index={index}>
-          <div key={index} >{tab.content}</div>
+          <div key={index}>{tab.content}</div>
         </CustomTabPanel>
       ))}
     </section>
@@ -59,11 +59,7 @@ function CustomTabPanel(props) {
       aria-labelledby={`custom-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-         {children}
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 }
