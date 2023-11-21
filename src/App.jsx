@@ -10,6 +10,7 @@ import Usuarios from "./pages/Usuarios";
 import Pieza from "./pages/Pieza";
 import Profile from "./pages/Profile";
 import Producto from "./pages/Producto";
+import ConsultaReparaciones from "./pages/ConsultaReparacion";
 import React from "react";
 import { clearAuthData } from "./store/features/auth/auth";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -42,6 +43,10 @@ function App() {
             <Route path="/Profile" element={<Profile />}></Route>
             <Route path="/Piezas" element={<Pieza />}></Route>
             <Route path="/Productos" element={<Producto />}></Route>
+            <Route
+              path="/ConsultaReparaciones"
+              element={<ConsultaReparaciones />}
+            ></Route>
             <Route path="*" element={<Error error={"404"} />}></Route>
           </Routes>
         </Router>

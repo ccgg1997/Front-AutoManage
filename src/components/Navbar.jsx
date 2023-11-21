@@ -2,16 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
-
-const navigation = [
-  { name: "Inventario", href: "/Inventario" },
-  { name: "Ordenes Trabajo", href: "/Ordenes" },
-  { name: "Ventas", href: "/Ventas" },
-  { name: "Usuarios", href: "/Usuarios" },
-  { name: "Vehiculos", href: "/Productos" },
-  { name: "Piezas", href: "/Piezas" },
-  { name: "Home", href: "/" },
-];
+import { useSelector } from "react-redux";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -28,6 +19,50 @@ export default function Navbar({ logOut }) {
   const navigate = useNavigate();
   const [theme, setTheme] = useState("light");
   const [currentNavItem, setCurrentNavItem] = useState("Home");
+
+  const { rol } = useSelector((state) => state.auth);
+
+  const [navigation, setNavigation] = useState([
+    { name: "Inventario", href: "/Inventario" },
+    { name: "Ordenes Trabajo", href: "/Ordenes" },
+    { name: "Ventas", href: "/Ventas" },
+    { name: "Usuarios", href: "/Usuarios" },
+    { name: "Vehiculos", href: "/Productos" },
+    { name: "Piezas", href: "/Piezas" },
+    { name: "Home", href: "/" },
+  ]);
+
+  useEffect(() => {
+    console.log(rol);
+    if (rol === "Vendedor") {
+      setNavigation([
+        { name: "Ventas", href: "/Ventas" },
+        { name: "Home", href: "/" },
+      ]);
+    } else if (rol === "Jefe_Taller") {
+      setNavigation([
+        { name: "Ordenes Trabajo", href: "/Ordenes" },
+        { name:"Piezas", href:"/Piezas"},
+        { name: "Home", href: "/" },
+      ]);
+    } else if (rol === "Gerente" || rol === "Admin") {
+      setNavigation([
+        { name: "Inventario", href: "/Inventario" },
+        { name: "Ordenes Trabajo", href: "/Ordenes" },
+        { name: "Ventas", href: "/Ventas" },
+        { name: "Usuarios", href: "/Usuarios" },
+        { name: "Vehiculos", href: "/Productos" },
+        { name: "Piezas", href: "/Piezas" },
+        { name: "Home", href: "/" },
+      ]);
+    }else if(rol === "Cliente"){
+      setNavigation([
+        { name:"Consulta Reparaciones", href:"/ConsultaReparaciones"},
+      ]);
+    }
+  }, [rol]);
+
+
 
   const handleChangeTheme = () => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));

@@ -522,8 +522,12 @@ export const getOneOrden = async (id, useToken) => {
     });
     return response.data
   } catch (error) {
-    console.log(error);
-    throw new Error("Error al obtener la orden", error);
+    if (error.response.status === 404) {
+      throw new Error("Orden no encontrada", error);
+    }else{
+      throw new Error("Error al obtener la orden", error);
+    }
+
   }
 }
 
