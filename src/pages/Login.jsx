@@ -7,7 +7,7 @@ import { ApiLogin } from "../components/api/adress";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 import { Toaster, toast } from "sonner";
-import NavbarLogin from "../components/NavBarLogin.jsx";
+import NavbarLogin from "../components/NavbarLogin.jsx";
 import Modal from "../components/Modal.jsx";
 import Tarjet from "../components/Tarjet.jsx";
 
