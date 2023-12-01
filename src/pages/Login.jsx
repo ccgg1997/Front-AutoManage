@@ -1,12 +1,15 @@
-import { Input } from "@mui/material";
+import { Input, AppBar } from "@mui/material";
 import { useState } from "react";
-import PropTypes from "prop-types";
+import PropTypes, { func } from "prop-types";
 import { useDispatch } from "react-redux";
 import { setAuthData } from "../store/features/auth/auth";
 import { ApiLogin } from "../components/api/adress";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 import { Toaster, toast } from "sonner";
+import NavbarLogin from "../components/NavBarLogin.jsx";
+import Modal from "../components/Modal.jsx";
+import Tarjet from "../components/Tarjet.jsx";
 
 /**
  * Summary: This code defines a React functional component called 'Login' that handles the login functionality of a user.
@@ -19,7 +22,7 @@ import { Toaster, toast } from "sonner";
  * @example
  * <Login actualizar={true} />
  */
-function Login({ actualizar }) {
+function LoginForm({ actualizar }) {
   const dispatch = useDispatch();
   const [login, setLogin] = useState({
     email: "",
@@ -64,65 +67,71 @@ function Login({ actualizar }) {
   };
 
   return (
-    <section className="flex items-center justify justify-center">
+    <section className="flex items-center justify-center min-h-screen">
       <Toaster />
-      <div className="min-h-screen mt-5">
-        <div className="g-6 flex min-h-screen flex-wrap items-center justify-center lg:justify-between">
-          <div className="shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12">
-            <div className="z-10 mb-6 text-4xl font-bold dark:text-white ">
-              Bienvenido a Auto-Manage
+      <div className="w-full px-4 flex flex-wrap justify-center">
+        <div className="mr-4 mb-12 md:mb-0 md:w-9/12 lg:w-6/12 xl:w-6/12">
+          <div className="hidden md:flex z-10 mb-6 text-4xl font-bold justify-center items-center">
+            Bienvenido
+          </div>
+          <img
+            src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+            className="w-full"
+            alt="Sample image"
+          />
+        </div>
+
+        <div className="flex w-full md:w-8/12 lg:w-5/12 xl:w-5/12 justify-center items-center">
+          <form onSubmit={handleSubmit} className="mt-5 md:mt-0">
+            <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
+              <p className="mx-4 mb-0 text-center font-semibold">
+                Inicio de sesión
+              </p>
             </div>
-            <img
-              src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-              className="w-full"
-              alt="Sample image"
-            />
-          </div>
 
-          <div className="mb-12 md:mb-0 md:w-8/12 lg:w-5/12 xl:w-5/12">
-            <form onSubmit={handleSubmit}>
-              <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
-                <p className="mx-4 mb-0 text-center font-semibold dark:text-white">
-                  Inicio de sesión
-                </p>
-              </div>
+            <div className="mb-6 flex flex-col">
+              <Input
+                type="email"
+                placeholder="Correo electrónico"
+                onChange={handleChange}
+                name="email"
+                className="mb-3"
+              />
 
-              <div className="mb-6 flex flex-col">
-                <Input
-                  type="email"
-                  placeholder="Correo electronico"
-                  onChange={handleChange}
-                  name="email"
-                  className="dark:text-white mb-3"
-                ></Input>
+              <Input
+                type="password"
+                placeholder="Contraseña"
+                size="lg mt-3"
+                onChange={handleChange}
+                name="password"
+              />
+            </div>
 
-                {/* <!--Password input--> */}
-                <Input
-                  type="password"
-                  placeholder="Contraseña"
-                  size="lg mt-3"
-                  onChange={handleChange}
-                  name="password"
-                  className="dark:text-white"
-                ></Input>
-              </div>
-
-              {/* <!-- Login button --> */}
-              <div className="text-center lg:text-left">
-                <div className="mb-6">
-                  <button
-                    type="submit"
-                    className="inline-block rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                  >
-                    Login
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
+            <div className="text-center">
+              <button
+                type="submit"
+                className="inline-block rounded bg-primary px-7 pb-2.5 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+              >
+                Login
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </section>
+  );
+}
+
+function Login({ actualizar }) {
+  return (
+    <div className="flex flex-col h-screen">
+      <NavbarLogin content={<LoginForm actualizar={actualizar} />} />
+      <div className="flex w-full h-full justify-center  pb-40">
+      <div className="flex w-full justify-center p-5 sm:p-20 lg:w-2/5">
+          <Tarjet title="Órden de trabajo" description="Consulte detalles de una órden trabajo" className="w-full h-auto" />
+        </div>
+      </div>
+    </div>
   );
 }
 
