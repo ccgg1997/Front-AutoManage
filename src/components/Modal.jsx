@@ -107,7 +107,7 @@ export default function ModalM({ titleModalButton, titleModal, content }) {
                   {titleModal}
                 </Typography>
               </div>
-              <div>{content}</div>
+              <div className="p-5 pb-10 sm:w-full">{content}</div>
             </div>
           </Box>
         </Fade>

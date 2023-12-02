@@ -8,7 +8,7 @@ import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 import { Toaster, toast } from "sonner";
 import NavbarLogin from "../components/NavbarLogin.jsx";
-import Modal from "../components/Modal.jsx";
+import Chat from "../components/Chat.jsx";
 import Tarjet from "../components/Tarjet.jsx";
 
 /**
@@ -69,8 +69,8 @@ function LoginForm({ actualizar }) {
   return (
     <section className="flex items-center justify-center min-h-screen">
       <Toaster />
-      <div className="w-full px-4 flex flex-wrap justify-center">
-        <div className="mr-4 mb-12 md:mb-0 md:w-9/12 lg:w-6/12 xl:w-6/12">
+      <div className="w-full px-4 flex flex-wrap justify-center md:pb-5">
+        <div className="sm:mb-0 md:w-9/12 lg:w-6/12  xl:w-6/12">
           <div className="hidden md:flex z-10 mb-6 text-4xl font-bold justify-center items-center">
             Bienvenido
           </div>
@@ -124,13 +124,14 @@ function LoginForm({ actualizar }) {
 
 function Login({ actualizar }) {
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col">
       <NavbarLogin content={<LoginForm actualizar={actualizar} />} />
       <div className="flex w-full h-full justify-center  pb-40">
-      <div className="flex w-full justify-center p-5 sm:p-20 lg:w-2/5">
-          <Tarjet title="Órden de trabajo" description="Consulte detalles de una órden trabajo" className="w-full h-auto" />
+      <div className="flex w-full justify-center p-5 md:w-1/2 lg:w-1/3">
+          <Tarjet title="Órden de trabajo" description="Consulte detalles de una órden trabajo" />
         </div>
       </div>
+      <Chat />
     </div>
   );
 }
