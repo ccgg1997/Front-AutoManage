@@ -526,8 +526,8 @@ export const getOrdenes = async (useToken) => {
   }
 }
 
-export const getOneOrden = async (id, useToken="asd") => {
-  const ordenesAdress = apiAddress + "/ordenes/" + id+"/";
+export const getOneOrden = async (id, useToken = "asd") => {
+  const ordenesAdress = apiAddress + "/ordenes/" + id + "/";
   try {
     const response = await axios.get(ordenesAdress, {
     });
@@ -535,7 +535,7 @@ export const getOneOrden = async (id, useToken="asd") => {
   } catch (error) {
     if (error.response.status === 404) {
       throw new Error("Orden no encontrada", error);
-    }else{
+    } else {
       throw new Error("Error al obtener la orden", error);
     }
 
@@ -693,6 +693,24 @@ export const getVentas = async (useToken) => {
   }
 }
 
+export const getVentasDetalle = async (useToken, sucursal_id) => {
+  let ventasAdress = apiAddress + "/ventas/detalle/";
+  if (sucursal_id) {
+    ventasAdress += "?sucursal_id=" + sucursal_id;
+  }
+  try {
+    const response = await axios.get(ventasAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error al obtener las ventas", error);
+  }
+}
+
 export const createVenta = async (venta, useToken) => {
   const ventasAdress = apiAddress + "/ventas/";
   try {
@@ -744,6 +762,21 @@ export const deleteVenta = async (id, useToken) => {
 
 export const getSucursales = async (useToken) => {
   const sucursalesAdress = apiAddress + "/sucursales/";
+  try {
+    const response = await axios.get(sucursalesAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error al obtener las sucursales", error);
+  }
+}
+
+export const getSucursalesByRol = async (useToken) => {
+  const sucursalesAdress = apiAddress + "/sucursales/listar_by_rol/";
   try {
     const response = await axios.get(sucursalesAdress, {
       headers: {

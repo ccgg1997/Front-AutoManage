@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from 'react';
+import Resumen from "./etapas/Resumen.jsx";
 import Inicial from "./etapas/Inicial.jsx";
 import SeleccionarCotizacion from "./etapas/SeleccionarCotizacion";
 import SeleccionarVehiculo from "./etapas/SeleccionarVehiculo.jsx";
@@ -6,7 +7,7 @@ import Fin from "./etapas/Fin";
 
 export default function VentaForm() {
   let content;
-  const [etapaActivo, setEtapaActiva] = useState("INICIAL");
+  const [etapaActivo, setEtapaActiva] = useState("RESUMEN");
   const [valorTotal, setValorTotal] = useState(0);
   // const precio = useField({ type: "number" });
   const [idInventarioVehiculo, setIdInventarioVehiculo] = useState("");
@@ -30,8 +31,8 @@ export default function VentaForm() {
     setValorTotal(inventarioVehiculo.vehiculo.precio);
     setNombreVehiculo(
       inventarioVehiculo.vehiculo.marca +
-        " " +
-        inventarioVehiculo.vehiculo.linea
+      " " +
+      inventarioVehiculo.vehiculo.linea
     );
     if (inventarioVehiculo.identificacion_cliente) {
       setIdentificacionCliente(inventarioVehiculo.identificacion_cliente);
@@ -42,6 +43,11 @@ export default function VentaForm() {
   };
 
   switch (stateForm.etapa) {
+    case 'RESUMEN':
+      content = <Resumen
+        actionVender={() => setEtapaActiva('INICIAL')}
+      />
+      break;
     case "INICIAL":
       content = (
         <Inicial
@@ -55,6 +61,7 @@ export default function VentaForm() {
         <SeleccionarCotizacion
           updateVehiculoInfo={updateVehiculoInfo}
           actionVehiculoSeleccionado={() => setEtapaActiva("FIN")}
+          actionVolver={() => setEtapaActiva('INICIAL')}
         />
       );
       break;
@@ -63,6 +70,7 @@ export default function VentaForm() {
         <SeleccionarVehiculo
           updateVehiculoInfo={updateVehiculoInfo}
           actionVehiculoSeleccionado={() => setEtapaActiva("FIN")}
+          actionVolver={() => setEtapaActiva('INICIAL')}
         />
       );
       break;
@@ -76,7 +84,7 @@ export default function VentaForm() {
       break;
 
     default:
-      setEtapaActiva("INICIAL");
+      setEtapaActiva("RESUMEN");
       break;
   }
   return (
