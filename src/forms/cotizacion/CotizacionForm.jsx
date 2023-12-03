@@ -54,7 +54,7 @@ export default function CotizacionForm() {
       content = (
         <Fin
           formData={model}
-          actionAfterSubmit={() => setEtapaActiva("INICIAL")}
+          actionAfterSubmit={() => setEtapaActiva("RESUMEN")}
         />
       );
       break;

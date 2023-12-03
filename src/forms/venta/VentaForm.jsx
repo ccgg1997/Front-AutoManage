@@ -78,7 +78,7 @@ export default function VentaForm() {
       content = (
         <Fin
           formData={model}
-          actionAfterSubmit={() => setEtapaActiva("INICIAL")}
+          actionAfterSubmit={() => setEtapaActiva("RESUMEN")}
         />
       );
       break;
