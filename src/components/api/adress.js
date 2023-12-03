@@ -619,8 +619,11 @@ export const getCotizaciones = async (useToken) => {
   }
 }
 
-export const getCotizacionesDetalle = async (useToken) => {
-  const cotizacionesAdress = apiAddress + "/cotizaciones/detalle/";
+export const getCotizacionesDetalle = async (useToken, sucursal_id) => {
+  let cotizacionesAdress = apiAddress + "/cotizaciones/detalle/";
+  if (sucursal_id) {
+    cotizacionesAdress += "?sucursal_id=" + sucursal_id;
+  }
   try {
     const response = await axios.get(cotizacionesAdress, {
       headers: {
