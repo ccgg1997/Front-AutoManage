@@ -97,7 +97,7 @@ const FloatingIcon = () => {
         </span>
       </button>
       {isChatOpen && (
-        <div className="fixed bottom-28 right-16 z-60 p-2 bg-blue-500 rounded-lg shadow-lg w-72 ">
+        <div className="fixed bottom-28 right-16 z-50 p-2 bg-blue-500 rounded-lg shadow-lg w-72 ">
           <div className="overflow-y-auto over max-h-[40vh] p-2">
             <div className="over max-h-[40vh]">
               <h2 className="font-bold rounded-lg bg-white p-2 mb-1">
