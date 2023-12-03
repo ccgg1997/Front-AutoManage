@@ -1,7 +1,7 @@
 import Tabs from "../components/Tabs.jsx";
 import { CurrencyDollarIcon } from "@heroicons/react/24/outline";
 import VentaForm from "../forms/venta/VentaForm.jsx";
-import CotizacionForm from "../forms/venta/CotizacionForm.jsx";
+import CotizacionForm from "../forms/cotizacion/CotizacionForm.jsx";
 
 export default function Venta() {
   const tabs = [

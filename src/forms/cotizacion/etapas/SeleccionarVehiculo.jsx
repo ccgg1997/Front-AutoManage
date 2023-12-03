@@ -56,7 +56,7 @@ export default function SeleccionarVehiculo({
     return (
         <>
             <h1 className="text-xl font-bold mb-4">
-                Seleccione el vehículo a adquirir
+                Seleccione el vehículo a cotizar
             </h1>
             <div className="flex justify-center">
                 <Table data={dataVehiculo} titles={titles} />

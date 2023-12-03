@@ -17,16 +17,17 @@ const OrdenesTrabajo = () => {
   const [targetOrden, setTargetOrden] = React.useState({});
 
   const titles = [
-    { title: "Fecha de creacion", field: "fecha_creacion" },
-    { title: "Fecha de finalizacion", field: "fecha_finalizacion" },
-    { title: "Tipo", field: "tipo" },
-    { title: "Placa", field: "placa" },
-    { title: "Valor mano de obra", field: "valor_mano_obra" },
-    { title: "Valor total", field: "valor_total" },
-    { title: "Estado", field: "estado" },
-    { title: "Id cliente", field: "cliente" },
-    { title: "Id sucursal", field: "sucursal" },
-    { title: "Id vendedor", field: "vendedor" },
+    { headerName: "ID", field: "id", maxWidth: 50 },
+    { headerName: "Fecha de creacion", field: "fecha_creacion" },
+    { headerName: "Fecha de finalizacion", field: "fecha_finalizacion" },
+    { headerName: "Tipo", field: "tipo" },
+    { headerName: "Placa", field: "placa", maxWidth: 75 },
+    { headerName: "Mano de obra", field: "valor_mano_obra" },
+    { headerName: "Valor total", field: "valor_total" },
+    { headerName: "Estado", field: "estado" },
+    { headerName: "Cliente", field: "cliente" },
+    { headerName: "Sucursal", field: "sucursal", maxWidth: 100 },
+    { headerName: "Vendedor", field: "vendedor" },
     {
       title: "Acciones",
       field: "acciones",
@@ -66,13 +67,14 @@ const OrdenesTrabajo = () => {
   useEffect(() => {
     try {
       const getOrdenesData = async () => {
-        const ordenes = await getOrdenes(token);
-        ordenes.forEach((orden) => {
-          orden.cliente = orden.cliente.nombre + " " + orden.cliente.apellido;
-          orden.vendedor = orden.vendedor.nombre;
-          orden.sucursal_direccion = orden.sucursal.direccion;
-          orden.sucursal = orden.sucursal.nombre;
-        });
+        let dataOrdenes = await getOrdenes(token);
+        const ordenes = dataOrdenes.map((orden) => ({
+          ...orden,
+          cliente: orden.cliente.nombre + " " + orden.cliente.apellido,
+          sucursal: orden.sucursal.nombre,
+          vendedor: orden.vendedor.nombre + " " + orden.vendedor.apellido
+        }))
+        console.log("nuevas ordenes: ", ordenes)
         setOrdenes(ordenes);
       };
       getOrdenesData();

@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
-import Resumen from "./etapas/Resumen.jsx";
-import Inicial from "./etapas/Inicial.jsx";
-import SeleccionarCotizacion from "./etapas/SeleccionarCotizacion";
 import SeleccionarVehiculo from "./etapas/SeleccionarVehiculo.jsx";
-import Fin from "./etapas/Fin";
+import Fin from "./etapas/Fin.jsx";
+import Resumen from "./etapas/Resumen.jsx";
 
-export default function VentaForm() {
+export default function CotizacionForm() {
   let content;
   const [etapaActivo, setEtapaActiva] = useState("RESUMEN");
   const [valorTotal, setValorTotal] = useState(0);
@@ -21,7 +19,7 @@ export default function VentaForm() {
   const model = {
     nombre_vehiculo: nombreVehiculo,
     valor_total: valorTotal,
-    inventario_vehiculo: idInventarioVehiculo,
+    inventario_vehiculos: idInventarioVehiculo,
     identificacion_cliente: identificacionCliente,
     cotizacion: idCotizacion,
   };
@@ -45,25 +43,8 @@ export default function VentaForm() {
   switch (stateForm.etapa) {
     case 'RESUMEN':
       content = <Resumen
-        actionVender={() => setEtapaActiva('INICIAL')}
+        actionVender={() => setEtapaActiva('SELECCIONAR_VEHICULO')}
       />
-      break;
-    case "INICIAL":
-      content = (
-        <Inicial
-          actionCotizacionSi={() => setEtapaActiva("SELECCIONAR_COTIZACION")}
-          actionCotizacionNo={() => setEtapaActiva("SELECCIONAR_VEHICULO")}
-        />
-      );
-      break;
-    case "SELECCIONAR_COTIZACION":
-      content = (
-        <SeleccionarCotizacion
-          updateVehiculoInfo={updateVehiculoInfo}
-          actionVehiculoSeleccionado={() => setEtapaActiva("FIN")}
-          actionVolver={() => setEtapaActiva('INICIAL')}
-        />
-      );
       break;
     case "SELECCIONAR_VEHICULO":
       content = (
@@ -91,8 +72,6 @@ export default function VentaForm() {
     <div className="min-h-screen dark:text-white">
       <main className="p-6">
         {content}
-        {/* <button type="button" onClick={() => setEtapaActiva(stateForm.etapa + 1)}>Adelante</button>
-        <button type="button" onClick={() => setEtapaActiva(stateForm.etapa - 1)}>Atras</button> */}
       </main>
     </div>
   );
