@@ -34,7 +34,6 @@ const Tarjet = ({
     e.preventDefault();
     if (inputOrden === "") return;
 
-    console.log(inputOrden + "- " + placa);
     try {
 
       setCargando(!isCargando);
@@ -50,7 +49,7 @@ const Tarjet = ({
         return;
       }
       setCargando(false);
-      setExistOrden(!existOrden);  
+      setExistOrden(!existOrden);
     } catch (error) {
       setCargando(!isCargando);
       console.log(error);

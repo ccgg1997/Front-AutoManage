@@ -11,8 +11,8 @@ export default function VentaForm() {
   const [valorTotal, setValorTotal] = useState(0);
   // const precio = useField({ type: "number" });
   const [idInventarioVehiculo, setIdInventarioVehiculo] = useState("");
-  const [identificacionCliente, setIdentificacionCliente] = useState("");
-  const [idCotizacion, setidCotizacion] = useState("");
+  const [idCliente, setICliente] = useState("");
+  const [idCotizacion, setIdCotizacion] = useState("");
   const [nombreVehiculo, setNombreVehiculo] = useState("");
   const stateForm = {
     etapa: etapaActivo,
@@ -22,7 +22,7 @@ export default function VentaForm() {
     nombre_vehiculo: nombreVehiculo,
     valor_total: valorTotal,
     inventario_vehiculo: idInventarioVehiculo,
-    identificacion_cliente: identificacionCliente,
+    id_cliente: idCliente,
     cotizacion: idCotizacion,
   };
 
@@ -34,11 +34,11 @@ export default function VentaForm() {
       " " +
       inventarioVehiculo.vehiculo.linea
     );
-    if (inventarioVehiculo.identificacion_cliente) {
-      setIdentificacionCliente(inventarioVehiculo.identificacion_cliente);
+    if (inventarioVehiculo.cliente_id) {
+      setICliente(inventarioVehiculo.cliente_id);
     }
     if (inventarioVehiculo.id_cotizacion) {
-      setidCotizacion(inventarioVehiculo.id_cotizacion);
+      setIdCotizacion(inventarioVehiculo.id_cotizacion);
     }
   };
 
@@ -91,8 +91,6 @@ export default function VentaForm() {
     <div className="min-h-screen dark:text-white">
       <main className="p-6">
         {content}
-        {/* <button type="button" onClick={() => setEtapaActiva(stateForm.etapa + 1)}>Adelante</button>
-        <button type="button" onClick={() => setEtapaActiva(stateForm.etapa - 1)}>Atras</button> */}
       </main>
     </div>
   );

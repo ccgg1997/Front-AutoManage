@@ -10,7 +10,6 @@ export default function CotizacionForm() {
   // const precio = useField({ type: "number" });
   const [idInventarioVehiculo, setIdInventarioVehiculo] = useState("");
   const [identificacionCliente, setIdentificacionCliente] = useState("");
-  const [idCotizacion, setidCotizacion] = useState("");
   const [nombreVehiculo, setNombreVehiculo] = useState("");
   const stateForm = {
     etapa: etapaActivo,
@@ -20,8 +19,7 @@ export default function CotizacionForm() {
     nombre_vehiculo: nombreVehiculo,
     valor_total: valorTotal,
     inventario_vehiculos: idInventarioVehiculo,
-    identificacion_cliente: identificacionCliente,
-    cotizacion: idCotizacion,
+    id_cliente: identificacionCliente,
   };
 
   const updateVehiculoInfo = (inventarioVehiculo) => {
@@ -32,11 +30,8 @@ export default function CotizacionForm() {
       " " +
       inventarioVehiculo.vehiculo.linea
     );
-    if (inventarioVehiculo.identificacion_cliente) {
-      setIdentificacionCliente(inventarioVehiculo.identificacion_cliente);
-    }
-    if (inventarioVehiculo.id_cotizacion) {
-      setidCotizacion(inventarioVehiculo.id_cotizacion);
+    if (inventarioVehiculo.cliente_id) {
+      setIdentificacionCliente(inventarioVehiculo.cliente_id);
     }
   };
 
