@@ -832,3 +832,16 @@ export const deleteOrdenPieza = async (id, useToken) => {
     throw new Error("Error al eliminar la orden de piezas", error);
   }
 }
+
+//-------------------------Chat------------------------------
+
+export const askChatgpt = async (formData) => {
+  const chatAdress = apiAddress + "/upload-image/";
+  try {
+    const response = await axios.post(chatAdress, formData );
+    return response.data
+  } catch (error) {
+
+    throw new Error("Error al obtener la respuesta del chat", error);
+  }
+}

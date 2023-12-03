@@ -1,30 +1,88 @@
 import React, { useState } from "react";
+import { askChatgpt } from "./api/adress.js";
 
 const FloatingIcon = () => {
   const [chatHistory, setChatHistory] = useState([]);
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [userInput, setUserInput] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [sendingImage, setSendingImage] = useState(false);
 
   const toggleVisibility = () => {
     setIsChatOpen(!isChatOpen);
   };
 
-  const handleInputChange = (event) => {
-    setUserInput(event.target.value);
-  };
+  const handleSubmit = async () => {
+    if (selectedFile) {
+      setSendingImage(true);
+      const formData = new FormData();
+      formData.append("image", selectedFile);
+      const imageUrl = URL.createObjectURL(selectedFile);
+      setChatHistory((prevChatHistory) => [
+        ...prevChatHistory,
+        { type: "image", url: imageUrl },
+      ]);
 
-  const handleSubmit = () => {
-    if (userInput === "") return;
-    setChatHistory([...chatHistory, userInput]);
-    setUserInput("");
+      try {
+        const response = await askChatgpt(formData);
+        const responseText = response;
+
+        if (responseText.exist) {
+          const message =
+            "El auto de sus sueños " +
+            responseText.auto +
+            " esta disponible en nuestras oficina de : ";
+
+          // Agregar mensaje de texto
+          setChatHistory((prevChatHistory) => [
+            ...prevChatHistory,
+            { type: "text", content: message },
+          ]);
+
+          // Agregar información del auto
+          responseText.car_info.forEach((item) =>
+            setChatHistory((prevChatHistory) => [
+              ...prevChatHistory,
+              { type: "text", content: item },
+            ])
+          );
+
+          setSelectedFile(null);
+          setSendingImage(false);
+
+          return;
+        }
+
+        const message = "Continuaremos buscando el auto de sus sueños "+ responseText.auto+" , por el momento tenemos los siguientes modelos disponibles: ";
+        setChatHistory((prevChatHistory) => [
+          ...prevChatHistory,
+          { type: "text", content: message },
+        ]);
+        
+        // Agregar información de los autos
+        responseText.car_info.forEach((item) => {
+          const newItem = item[3] + " " + item[1] + " en la sede "+ item[0];
+          setChatHistory((prevChatHistory) => [
+            ...prevChatHistory,
+            { type: "text", content: newItem },
+          ]);
+        });
+        
+
+
+
+
+        setSendingImage(false);
+      } catch (error) {
+        console.error("Error al enviar la imagen:", error);
+        setSendingImage(false);
+      }
+    }
   };
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Aquí manejas la carga de la imagen
-      console.log(file);
-      // Agregar la imagen al chatHistory o manejarla de otra manera
+      setSelectedFile(file);
     }
   };
 
@@ -39,27 +97,39 @@ const FloatingIcon = () => {
         </span>
       </button>
       {isChatOpen && (
-        <div className="fixed bottom-28 right-16 z-60 p-4 bg-blue-500 rounded-lg shadow-lg w-72 ">
-          <div className="overflow-y-auto max-h-[40vh]">
-            <h2 className="font-bold rounded-lg bg-slate-400 p-2 mb-3">
-              Hola, en que puedo ayudarte?
-            </h2>
-            {chatHistory.map((message, index) => (
-              <div key={index} className="rounded-lg bg-white  w-2/3 mb-3">
-                <p>{message}</p>
-              </div>
-            ))}
+        <div className="fixed bottom-28 right-16 z-60 p-2 bg-blue-500 rounded-lg shadow-lg w-72 ">
+          <div className="overflow-y-auto over max-h-[40vh] p-2">
+            <div className="over max-h-[40vh]">
+              <h2 className="font-bold rounded-lg bg-white p-2 mb-1">
+                Automanage encuentra sueños
+              </h2>
+              <h2 className="font-bold rounded-lg bg-white p-2 ">
+                Envianos una foto del carro que deseas.{" "}
+              </h2>
+              <br></br>
+              <h2></h2>
+              {chatHistory.map((item, index) => (
+                <div key={index} className="rounded-lg bg-white mb-3 p-3">
+                  {item.type === "image" ? (
+                    <img
+                      src={item.url}
+                      alt="Imagen enviada"
+                      style={{ maxWidth: "210px", maxHeight: "210px" }}
+                    />
+                  ) : (
+                    <p>{item.content}</p>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
-          <textarea
-            value={userInput}
-            onChange={handleInputChange}
-            className="w-full h-10"
-          />
+
           <button
             onClick={handleSubmit}
-            className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded"
+            disabled={sendingImage || selectedFile === null}
+            className="w-full mt-2 bg-blue-800 hover:bg-blue-700 text-white font-bold py-2 rounded mb-3"
           >
-            Enviar
+            {sendingImage ? "loading..." : "Enviar"}
           </button>
           <input
             type="file"

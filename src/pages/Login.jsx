@@ -9,7 +9,7 @@ import jwt_decode from "jwt-decode";
 import { Toaster, toast } from "sonner";
 import NavbarLogin from "../components/NavbarLogin.jsx";
 import Chat from "../components/Chat.jsx";
-import Tarjet from "../components/Tarjet.jsx";
+import Tarjet from "../components/Target.jsx";
 
 /**
  * Summary: This code defines a React functional component called 'Login' that handles the login functionality of a user.

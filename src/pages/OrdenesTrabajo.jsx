@@ -67,6 +67,12 @@ const OrdenesTrabajo = () => {
     try {
       const getOrdenesData = async () => {
         const ordenes = await getOrdenes(token);
+        ordenes.forEach((orden) => {
+          orden.cliente = orden.cliente.nombre + " " + orden.cliente.apellido;
+          orden.vendedor = orden.vendedor.nombre;
+          orden.sucursal_direccion = orden.sucursal.direccion;
+          orden.sucursal = orden.sucursal.nombre;
+        });
         setOrdenes(ordenes);
       };
       getOrdenesData();

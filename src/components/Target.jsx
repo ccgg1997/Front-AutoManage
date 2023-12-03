@@ -39,6 +39,10 @@ const Tarjet = ({
 
       setCargando(!isCargando);
       const orden = await getOneOrden(inputOrden, placa);
+      orden.cliente= orden.cliente.nombre + " " + orden.cliente.apellido;
+      orden.vendedor= orden.vendedor.nombre;
+      orden.sucursal_direccion= orden.sucursal.direccion;
+      orden.sucursal= orden.sucursal.nombre;
       setOrden(orden);
       if (orden.placa !== placa) {
         alert("No se encontró la orden");
