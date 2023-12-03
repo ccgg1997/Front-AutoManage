@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Toaster, toast } from "sonner";
 import {
-  getUsuarioByIdentificacion,
   createVenta,
 } from "../../../components/api/adress";
+import BuscarClienteInput from "../../../components/BuscarClienteInput.jsx"
 
 const useField = ({ type, placeholder, defaultValue }) => {
   const [value, setValue] = React.useState(defaultValue);
@@ -31,7 +31,6 @@ export default function Fin({ formData, actionAfterSubmit }) {
   const { token, id } = useSelector((state) => state.auth);
 
   const estado = useField({ type: "select", defaultValue: "FINALIZADA" });
-  const cliente = useField({ type: "test", defaultValue: "" });
   const [valorTotal, setValorTotal] = useState(0);
   const [idInventarioVehiculo, setIdInventarioVehiculo] = useState("");
   const [idCotizacion, setIdCotizacion] = useState("");
@@ -45,29 +44,22 @@ export default function Fin({ formData, actionAfterSubmit }) {
     inventario_vehiculo: idInventarioVehiculo,
     cotizacion: idCotizacion,
     vendedor: id,
-    cliente: idCliente,
+    cliente: idCliente
   };
 
   useEffect(() => {
     setValorTotal(formData.valor_total);
     setIdInventarioVehiculo(formData.inventario_vehiculo);
     setIdCotizacion(formData.cotizacion ? formData.cotizacion : null);
-    if (formData.identificacion_cliente) {
-      cliente.onChange({ target: { value: formData.identificacion_cliente } });
+    if (formData.id_cliente) {
+      setIdCliente(formData.id_cliente);
     }
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let clienteBd = await getUsuarioByIdentificacion(cliente.value, token);
-      if (!clienteBd) {
-        toast.error("El Cliente no Existe.");
-        return;
-      }
-      setIdCliente(clienteBd.id);
-      const body = { ...model, ...{ cliente: clienteBd.id } };
-      const response = await createVenta(body, token);
+      const response = await createVenta(model, token);
       toast.success("Venta creada con exito");
       setTimeout(function () {
         actionAfterSubmit();
@@ -78,6 +70,9 @@ export default function Fin({ formData, actionAfterSubmit }) {
     }
   };
 
+  const handleClienteSelection = (cliente) => {
+    setIdCliente(cliente.id)
+  }
   return (
     <>
       <h2 className="text-2xl font-bold mb-4">Completar Venta:</h2>
@@ -110,25 +105,8 @@ export default function Fin({ formData, actionAfterSubmit }) {
             </div>
           </div>
           <div className="mt-10 sm:grid-cols-6">
-            <div className="sm:col-span-4">
-              <label
-                htmlFor="cliente"
-                className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
-              >
-                Cliente (Numero de Cédula):
-              </label>
-              <div className="mt-2">
-                <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
-                  <input
-                    {...cliente}
-                    id="cliente"
-                    autoComplete="cliente"
-                    required
-                    min="0"
-                    className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
-                  />
-                </div>
-              </div>
+            <div className="sm:col-span-4 sm:max-w-md mx-auto">
+              <BuscarClienteInput handleSelection={handleClienteSelection} idClientePreSeleccionado={formData.id_cliente} />
             </div>
           </div>
           <div className="mt-10 sm:grid-cols-6">

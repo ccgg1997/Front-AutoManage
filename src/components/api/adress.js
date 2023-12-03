@@ -1,6 +1,6 @@
 import axios from "axios";
-//export const apiAddress = "https://jose-manuel.tech/api/v1";
-export const apiAddress = "http://localhost:8000/api/v1";
+export const apiAddress = "https://jose-manuel.tech/api/v1";
+// export const apiAddress = "http://localhost:8000/api/v1";
 
 /* ------------------------------------Vehiculo----------------------------------------------*/
 /**
@@ -874,7 +874,7 @@ export const deleteOrdenPieza = async (id, useToken) => {
 export const askChatgpt = async (formData) => {
   const chatAdress = apiAddress + "/upload-image/";
   try {
-    const response = await axios.post(chatAdress, formData );
+    const response = await axios.post(chatAdress, formData);
     return response.data
   } catch (error) {
 

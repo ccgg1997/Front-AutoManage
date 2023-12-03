@@ -20,7 +20,6 @@ export default function Resumen({ actionVender }) {
     const [dataSucursal, setDataSucursal] = useState({});
     const [dataCotizaciones, setDataCotizaciones] = useState([]);
     useEffect(() => {
-        console.log("aquii ", dataSucursal)
         loadCotizaciones(dataSucursal)
     }, [dataSucursal]);
 

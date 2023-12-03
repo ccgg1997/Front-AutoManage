@@ -15,7 +15,7 @@ export default function SeleccionarCotizacion({
         { field: "fecha_creacion", headerName: "Fecha Creación", width: 130 },
         { field: "fecha_vencimiento", headerName: "Fecha Vencimiento", width: 130 },
         { field: "vehiculo", headerName: "Vehículo", width: 130 },
-        { field: "id_cliente", headerName: "Identificación", width: 130 },
+        { field: "cliente_identificacion", headerName: "Identificación", width: 130 },
         { field: "cliente", headerName: "Nombre", width: 130 },
         { field: "precio", headerName: "Valor Acordado", width: 130 },
         {
@@ -39,7 +39,6 @@ export default function SeleccionarCotizacion({
     ];
 
     const setVehiculoInfo = (row) => {
-        console.log("en SetVehiculoinfo ", row);
         const vehiculoInfo = {
             id: row.inventario_vehiculos.id,
             vehiculo: {
@@ -47,7 +46,8 @@ export default function SeleccionarCotizacion({
                 marca: row.inventario_vehiculos.vehiculo.marca,
                 linea: row.inventario_vehiculos.vehiculo.linea,
             },
-            identificacion_cliente: row.id_cliente,
+            identificacion_cliente: row.cliente_identificacion,
+            cliente_id: row.cliente_id,
             id_cotizacion: row.id,
         };
         updateVehiculoInfo(vehiculoInfo);
@@ -64,7 +64,8 @@ export default function SeleccionarCotizacion({
                     coti.inventario_vehiculos.vehiculo.marca +
                     " - " +
                     coti.inventario_vehiculos.vehiculo.linea;
-                coti.id_cliente = coti.cliente.identificacion;
+                coti.cliente_id = coti.cliente.id;
+                coti.cliente_identificacion = coti.cliente.identificacion;
                 coti.cliente = coti.cliente.nombre;
                 coti.precio = coti.valor_total;
             });
