@@ -31,7 +31,7 @@ export default function Resumen({ actionVender }) {
         } else if (sucursal.id) {
             ventas = await getVentasDetalle(token, sucursal.id);
         }
-        let ventas2 = ventas.map((venta) => {
+        ventas = ventas.map((venta) => {
             return {
                 id: venta.id,
                 fecha_creacion: venta.fecha_creacion,
@@ -43,8 +43,7 @@ export default function Resumen({ actionVender }) {
                 cotizacion: venta.cotizacion ? venta.cotizacion : "-"
             }
         })
-        console.log(ventas2);
-        setDataVentas(ventas2)
+        setDataVentas(ventas)
     }
     return (
         <>

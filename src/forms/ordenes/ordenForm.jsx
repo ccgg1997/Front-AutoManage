@@ -46,9 +46,9 @@ export default function OrdenForm() {
     valor_mano_obra: valor_mano_obra.value,
     valor_total: valor_total.value,
     estado: estado.value,
-    cliente: id_cliente.value,
-    sucursal: id_sucursal.value,
-    vendedor: id_vendedor.value,
+    cliente_id: id_cliente.value,
+    sucursal_id: id_sucursal.value,
+    vendedor_id: id_vendedor.value,
   };
 
   const handleSubmit = async (e) => {
