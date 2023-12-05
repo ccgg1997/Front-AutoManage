@@ -76,17 +76,17 @@ export default function ModalM({ titleModalButton, titleModal, content }) {
         <Fade in={open}>
           <Box
             sx={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              bgcolor: "background.paper",
-              border: "2px solid #000",
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              bgcolor: 'background.paper',
+              border: '2px solid #000',
               boxShadow: 24,
-              p: 4,
-              width: "55%", // Ancho del 50%
-              height: "65%", // Alto del 50%
-              overflowY: "hidden", // Para el desplazamiento si el contenido excede el alto
+              p: [-1, 4], // Sin padding en pantallas pequeñas, 4 de padding en otras
+              width: '70%',
+              height: '70%', // Alto del 50%
+              overflowY: 'hidden', // Para el desplazamiento si el contenido excede el alto
             }}
             className="flex "
           >
