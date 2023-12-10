@@ -619,13 +619,10 @@ export const getCotizaciones = async (useToken) => {
   }
 }
 
-export const getCotizacionesDetalle = async (useToken, sucursal_id, solo_disponibles = true) => {
+export const getCotizacionesDetalle = async (useToken, sucursal_id) => {
   let cotizacionesAdress = apiAddress + "/cotizaciones/detalle/";
   if (sucursal_id) {
     cotizacionesAdress += "?sucursal_id=" + sucursal_id;
-  }
-  if (solo_disponibles) {
-    cotizacionesAdress += "?estado_vehiculo=DISPONIBLE";
   }
   try {
     const response = await axios.get(cotizacionesAdress, {
@@ -869,6 +866,70 @@ export const deleteOrdenPieza = async (id, useToken) => {
   } catch (error) {
 
     throw new Error("Error al eliminar la orden de piezas", error);
+  }
+}
+
+//---------------------------Inventario Piezas----------------------------
+
+export const getInventarioPiezas = async (useToken) => {
+  const inventarioPiezasAdress = apiAddress + "/inventario_piezas/";
+  try {
+    const response = await axios.get(inventarioPiezasAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data
+  } catch (error) {
+
+    throw new Error("Error al obtener el inventario de piezas", error);
+  }
+}
+
+export const createInventarioPieza = async (inventarioPieza, useToken) => {
+  const inventarioPiezasAdress = apiAddress + "/inventario_piezas/";
+  try {
+    const response = await axios.post(inventarioPiezasAdress, inventarioPieza, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error al crear el inventario de piezas", error);
+  }
+}
+
+export const updateInventarioPieza = async (inventarioPieza, useToken) => {
+  const inventarioPiezasAdress = apiAddress + "/inventario_piezas/" + inventarioPieza.id + "/";
+  try {
+    const response = await axios.put(inventarioPiezasAdress, inventarioPieza, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+
+    throw new Error("Error al actualizar el inventario de piezas", error);
+  }
+}
+
+export const deleteInventarioPieza = async (id, useToken) => {
+
+  const inventarioPiezasAdress = apiAddress + "/inventario_piezas/" + id + "/";
+  try {
+    const response = await axios.delete(inventarioPiezasAdress, {
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data;
+  } catch (error) {
+
+    throw new Error("Error al eliminar el inventario de piezas", error);
   }
 }
 

@@ -11,7 +11,7 @@ export default function BasicTable({ data, titles }) {
   return (
     <Box className="h-80vh w-full">
       <DataGrid
-        className="bg-white"
+        className="bg-white dark:bg-sky-950 dark:text-white"
         rows={data}
         columns={adjustedTitles}
         initialState={{

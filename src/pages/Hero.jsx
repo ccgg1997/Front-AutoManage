@@ -100,7 +100,7 @@ const Hero = () => {
   return (
     <div className="grid min-h-screen w-full grid-cols-1 lg:grid-cols-[1fr_3fr] gap-6 p-6">
       <aside className="flex flex-col gap-6 font-bold ">
-        <Card className="p-3">
+        <Card className="p-3 dark:bg-sky-950 dark:text-white">
           <div className="text-xl">Ventas</div>
           <CardContent>
             <div className="flex flex-col items-center">
@@ -111,7 +111,7 @@ const Hero = () => {
             </div>
           </CardContent>
         </Card>
-        <Card className="p-3">
+        <Card className="p-3 dark:bg-sky-950 dark:text-white">
           <div className="text-xl">Inventario</div>
           <CardContent>
             <div className="grid grid-cols-2 gap-4">
@@ -130,7 +130,7 @@ const Hero = () => {
             </div>
           </CardContent>
         </Card>
-        <Card className="p-3 ">
+        <Card className="p-3 dark:bg-sky-950 dark:text-white">
           <div className="text-xl">Cotizaciones</div>
           <CardContent>
             <div className="flex flex-col items-center">
@@ -143,7 +143,7 @@ const Hero = () => {
         </Card>
       </aside>
       <div className="flex flex-col gap-6 font-bold ">
-        <Card className="p-3">
+        <Card className="p-3 dark:bg-sky-950 dark:text-white">
           <div className="text-xl">Total</div>
           <CardContent>
             <div className="flex flex-col items-center">
@@ -154,7 +154,7 @@ const Hero = () => {
             </div>
           </CardContent>
         </Card>
-        <Card className="p-3">
+        <Card className="p-3 dark:bg-sky-950 dark:text-white">
           <div className="text-xl">Inventario de autos por sucursal</div>
           <CardContent>
             <div className="grid grid-cols-4 gap-4">
@@ -170,7 +170,7 @@ const Hero = () => {
             </div>
           </CardContent>
         </Card>
-        <Card className="p-3">
+        <Card className="p-3 dark:bg-sky-950 dark:text-white">
           <div className="text-xl">Usuarios</div>
           <CardContent>
             <div className="grid grid-cols-4 gap-4">

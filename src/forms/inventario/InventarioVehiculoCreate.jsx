@@ -74,7 +74,14 @@ const InventarioVehiculoCreate = () => {
 
   return (
     <form className=" p-2" onSubmit={enviarform}>
-      <div className="mt-2 sm:grid-cols-6 gap-y-4">
+      <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white">
+        Creacion de inventario de vehiculos
+      </h1>
+      <h6 className="mt-1 text-xl text-gray-600 dark:text-gray-200">
+        Aqui puedes crear un nuevo vehiculo en el inventario de una sucursal en especifico con los vehiculos previamente creados 
+      </h6>
+
+      <div className="mt-4 sm:grid-cols-6 gap-y-4">
         <label
           htmlFor="modelo"
           className="block text-xl font-medium text-gray-700 dark:text-white"
