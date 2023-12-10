@@ -619,10 +619,13 @@ export const getCotizaciones = async (useToken) => {
   }
 }
 
-export const getCotizacionesDetalle = async (useToken, sucursal_id) => {
+export const getCotizacionesDetalle = async (useToken, sucursal_id, solo_disponibles = true) => {
   let cotizacionesAdress = apiAddress + "/cotizaciones/detalle/";
   if (sucursal_id) {
     cotizacionesAdress += "?sucursal_id=" + sucursal_id;
+  }
+  if (solo_disponibles) {
+    cotizacionesAdress += "?estado_vehiculo=DISPONIBLE";
   }
   try {
     const response = await axios.get(cotizacionesAdress, {

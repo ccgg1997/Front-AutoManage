@@ -26,9 +26,9 @@ export default function Resumen({ actionVender }) {
     const loadCotizaciones = async (sucursal) => {
         let cotizaciones = [];
         if (Object.keys(sucursal).length === 0 && rol === "Gerente") {
-            cotizaciones = await getCotizacionesDetalle(token);
+            cotizaciones = await getCotizacionesDetalle(token, null, false);
         } else if (sucursal.id) {
-            cotizaciones = await getCotizacionesDetalle(token, sucursal.id);
+            cotizaciones = await getCotizacionesDetalle(token, sucursal.id, false);
         }
         cotizaciones = cotizaciones.map((cotizacion) => {
             return {
