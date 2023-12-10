@@ -74,7 +74,6 @@ const OrdenesTrabajo = () => {
           sucursal: orden.sucursal.nombre,
           vendedor: orden.vendedor.nombre + " " + orden.vendedor.apellido
         }))
-        console.log("nuevas ordenes: ", ordenes)
         setOrdenes(ordenes);
       };
       getOrdenesData();

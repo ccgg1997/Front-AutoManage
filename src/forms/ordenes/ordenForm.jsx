@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { createOrden } from "../../components/api/adress";
+import { createOrden, getSucursales } from "../../components/api/adress";
 import { Toaster, toast } from "sonner";
 import { useSelector } from "react-redux";
 import ModalPieza from "./ordenPiezaForm";
@@ -34,6 +34,7 @@ export default function OrdenForm() {
 
   const [open, setOpen] = React.useState(false);
   const [ordenPiezas, setOrdenPiezas] = React.useState([]);
+  const [sucursales, setSucursales] = React.useState([]); // [{id: 1, nombre: "Sucursal 1"}, {id: 2, nombre: "Sucursal 2"}
   const [idOrden, setIdOrden] = React.useState({});
   const [openFirstModal, setOpenFirstModal] = React.useState(false);
   const [openSecondModal, setOpenSecondModal] = React.useState(false);
@@ -90,8 +91,26 @@ export default function OrdenForm() {
     id_vendedor.onChange({ target: { value: "" } });
   };
 
+  const obtenerSucursales = async () => {
+    try {
+      const data = await getSucursales(token);
+      setSucursales(data);
+      const sucursales = data.map((sucursal) => ({
+        ...sucursal,
+        nombre: sucursal.nombre,
+        id: sucursal.id,
+      }));
+      return sucursales;
+    } catch (error) {
+      toast.error(error.message);
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
+    
     id_vendedor.onChange({ target: { value: id } });
+    obtenerSucursales();
   }, []);
 
   return (
@@ -283,7 +302,7 @@ export default function OrdenForm() {
                             Id cliente
                           </label>
                           <div className="mt-2">
-                            <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
+                            <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md mb-8">
                               <input
                                 {...id_cliente}
                                 id="id_cliente"
@@ -296,25 +315,29 @@ export default function OrdenForm() {
                           </div>
                         </div>
 
-                        <div className="mt-10 sm:grid-cols-6">
-                          <div className="sm:col-span-4">
-                            <label
-                              htmlFor="precio"
-                              className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
-                            >
-                              Id sucursal
-                            </label>
-                            <div className="mt-2">
-                              <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
-                                <input
-                                  {...id_sucursal}
-                                  id="id_sucursal"
-                                  autoComplete="id_sucursal"
-                                  required
-                                  min="0"
-                                  className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
-                                />
-                              </div>
+                        <div className="sm:col-span-4">
+                          <label
+                            className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300 "
+                          >
+                            Sucursal
+                          </label>
+                          <div className="mt-2">
+                            <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
+                              <select
+                                {...id_sucursal}
+                                id="estado"
+                                required
+                                className="dark:bg-sky-950 dark:border-white text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+                              >
+                                <option value="">
+                                  Seleccione una sucursal
+                                </option>
+                                {sucursales.map((sucursal) => (
+                                  <option key={sucursal.id} value={sucursal.id}>
+                                    {sucursal.nombre}
+                                  </option>
+                                ))}
+                              </select>
                             </div>
                           </div>
                         </div>

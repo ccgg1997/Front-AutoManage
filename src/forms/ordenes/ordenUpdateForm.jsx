@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { updateOrden } from "../../components/api/adress";
+import { updateOrden, getSucursales } from "../../components/api/adress";
 import { Toaster, toast } from "sonner";
 import { useSelector } from "react-redux";
 import ModalPieza from "./ordenPiezaForm";
@@ -21,6 +21,7 @@ export default function OrdenUpdateForm({ ordenData }) {
   const { token } = useSelector((state) => state.auth);
   const [open, setOpen] = React.useState(false);
   const [piezas, setPiezas] = React.useState([]);
+  const [sucursales, setSucursales] = React.useState([]);
   const [modalActive, setModalActive] = React.useState(false);
 
   const onClickOpen = () => {
@@ -60,7 +61,18 @@ export default function OrdenUpdateForm({ ordenData }) {
     vendedor_id: id_vendedor.value,
   };
 
+  const getSucursalesData = async () => {
+    try {
+      const response = await getSucursales(token);
+      setSucursales(response);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
+    getSucursalesData();
     fecha_creacion.onChange({ target: { value: fecha_creacion_formateada } });
     fecha_finalizacion.onChange({
       target: { value: fecha_finalizacion_formateada },
@@ -72,7 +84,7 @@ export default function OrdenUpdateForm({ ordenData }) {
     });
     valor_total.onChange({ target: { value: ordenData.valor_total } });
     estado.onChange({ target: { value: ordenData.estado } });
-    id_cliente.onChange({ target: { value: ordenData.cliente } });
+    id_cliente.onChange({ target: { value: ordenData.id } });
     id_sucursal.onChange({ target: { value: ordenData.sucursal } });
     id_vendedor.onChange({ target: { value: ordenData.vendedor } });
   }, [ordenData]);
@@ -87,6 +99,7 @@ export default function OrdenUpdateForm({ ordenData }) {
       console.error(error);
     }
   };
+
 
   return (
     <form onSubmit={handleSubmit}>
@@ -293,22 +306,29 @@ export default function OrdenUpdateForm({ ordenData }) {
 
                         <div className="mt-10 sm:grid-cols-6">
                           <div className="sm:col-span-4">
-                            <label
-                              htmlFor="precio"
-                              className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
-                            >
-                              Id sucursal
+                            <label className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300 ">
+                              Sucursal
                             </label>
                             <div className="mt-2">
                               <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
-                                <input
+                                <select
                                   {...id_sucursal}
-                                  id="id_sucursal"
-                                  autoComplete="id_sucursal"
+                                  id="estado"
                                   required
-                                  min="0"
-                                  className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
-                                />
+                                  className="dark:bg-sky-950 dark:border-white text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+                                >
+                                  <option value="">
+                                    Seleccione una sucursal
+                                  </option>
+                                  {sucursales.map((sucursal) => (
+                                    <option
+                                      key={sucursal.id}
+                                      value={sucursal.id}
+                                    >
+                                      {sucursal.nombre}
+                                    </option>
+                                  ))}
+                                </select>
                               </div>
                               <div className="mt-10 sm:grid-cols-6">
                                 <div className="sm:col-span-4">
