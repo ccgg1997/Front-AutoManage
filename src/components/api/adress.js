@@ -310,7 +310,7 @@ export const getUsuarioById = async (id, useToken) => {
 export const deleteUsuario = async (id, useToken) => {
   const usuariosAdress = apiAddress + "/usuarios/" + id + "/";
   try {
-    const response = await axios.patch(usuariosAdress, { is_active: false }, {
+    const response = await axios.delete(usuariosAdress, {
       headers: {
         Authorization: "Bearer " + useToken,
       },

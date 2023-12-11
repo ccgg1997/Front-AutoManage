@@ -31,8 +31,9 @@ export default function UsuarioForm() {
   const apellido = useField({ type: "text" });
   const identificacion = useField({ type: "number" });
   const email = useField({ type: "email" });
-  const sucursal = useField({ type: "text" });
+  const sucursal = useField({ type: "number" });
   const password = useField({ type: "password" });
+  const estado = "ACTIVO";
   const [is_superuser, setIsSuperuser] = useState(false);
   const [opcionSeleccionada, setOpcionSeleccionada] = useState("");
 
@@ -41,9 +42,10 @@ export default function UsuarioForm() {
     apellido: apellido.value,
     identificacion: identificacion.value,
     email: email.value,
-    sucursal_id: null,
+    sucursal_id: sucursal.value,
     is_superuser,
     password: password.value,
+    estado,
     rol_id: opcionSeleccionada,
   };
 
@@ -201,6 +203,7 @@ export default function UsuarioForm() {
                       {...sucursal}
                       id="sucursal"
                       autoComplete="sucursal"
+                      min="1"
                       required
                       className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 
                 focus:ring-0 sm:text-sm sm:leading-6  dark:text-white"
