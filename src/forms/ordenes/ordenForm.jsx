@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { createOrden, getSucursales } from "../../components/api/adress";
 import { Toaster, toast } from "sonner";
 import { useSelector } from "react-redux";
@@ -13,11 +13,6 @@ const useField = ({ type, placeholder, defect }) => {
   return { type, placeholder, value, onChange, defect };
 };
 
-/**
- * Renders a form for creating a vehicle.
- *
- * @returns {JSX.Element} The rendered form component.
- */
 export default function OrdenForm() {
   const { token } = useSelector((state) => state.auth);
   const { id } = useSelector((state) => state.auth);
@@ -32,30 +27,32 @@ export default function OrdenForm() {
   const id_sucursal = useField({ type: "number" });
   const id_vendedor = useField({ type: "number" });
 
+  const [currentStep, setCurrentStep] = useState(0);
   const [open, setOpen] = React.useState(false);
   const [ordenPiezas, setOrdenPiezas] = React.useState([]);
-  const [sucursales, setSucursales] = React.useState([]); // [{id: 1, nombre: "Sucursal 1"}, {id: 2, nombre: "Sucursal 2"}
+  const [sucursales, setSucursales] = React.useState([]);
   const [idOrden, setIdOrden] = React.useState({});
   const [openFirstModal, setOpenFirstModal] = React.useState(false);
   const [openSecondModal, setOpenSecondModal] = React.useState(false);
 
-  const orden = {
-    fecha_creacion: fecha_creacion.value,
-    fecha_finalizacion: fecha_finalizacion.value,
-    tipo: tipo.value,
-    placa: placa.value,
-    valor_mano_obra: valor_mano_obra.value,
-    valor_total: valor_total.value,
-    estado: estado.value,
-    cliente_id: id_cliente.value,
-    sucursal_id: id_sucursal.value,
-    vendedor_id: id_vendedor.value,
-  };
+  const nextStep = () => currentStep < 2 && setCurrentStep(currentStep + 1);
+  const prevStep = () => currentStep > 0 && setCurrentStep(currentStep - 1);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const orden = {
+      fecha_creacion: fecha_creacion.value,
+      fecha_finalizacion: fecha_finalizacion.value,
+      tipo: tipo.value,
+      placa: placa.value,
+      valor_mano_obra: valor_mano_obra.value,
+      valor_total: valor_total.value,
+      estado: estado.value,
+      cliente_id: id_cliente.value,
+      sucursal_id: id_sucursal.value,
+      vendedor_id: id_vendedor.value,
+    };
     try {
-      //comparamos si la fecha de creacion es mayor a la fecha de finalizacion
       if (orden.fecha_creacion > orden.fecha_finalizacion) {
         toast.error(
           "La fecha de creacion no puede ser mayor a la de finalizacion"
@@ -73,7 +70,6 @@ export default function OrdenForm() {
   };
 
   const onClickOpen = () => {
-    setOpenFirstModal(false);
     setOpenSecondModal(true);
     setOpen(true);
   };
@@ -89,18 +85,13 @@ export default function OrdenForm() {
     id_cliente.onChange({ target: { value: "" } });
     id_sucursal.onChange({ target: { value: "" } });
     id_vendedor.onChange({ target: { value: "" } });
+    setCurrentStep(0);
   };
 
   const obtenerSucursales = async () => {
     try {
       const data = await getSucursales(token);
       setSucursales(data);
-      const sucursales = data.map((sucursal) => ({
-        ...sucursal,
-        nombre: sucursal.nombre,
-        id: sucursal.id,
-      }));
-      return sucursales;
     } catch (error) {
       toast.error(error.message);
       console.error(error);
@@ -108,291 +99,283 @@ export default function OrdenForm() {
   };
 
   useEffect(() => {
-    
     id_vendedor.onChange({ target: { value: id } });
     obtenerSucursales();
   }, []);
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <div className="mx-auto border-t pt-12 border-b border-gray-900/10 pb-12">
-        <h2
-          className="text-base font-semibold leading-7 text-gray-900
-        dark:text-slate-300 sm:text-3xl sm:truncate
-        "
-        >
-          Creacion de ordenes de trabajo
-        </h2>
-        <p className="mt-1 text-sm leading-6 text-gray-600 dark:text-slate-300">
-          Bienvenido a la seccion de creacion de ordenes de trabajo, por favor
-          ingrese los datos solicitados para crear una orden de trabajo.
-        </p>
-      </div>
-
-      <div className="mt-10 sm:grid-cols-6">
-        <label
-          htmlFor="marca"
-          className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
-        >
-          Fecha de creacion
-        </label>
-        <div className="mt-2">
-          <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
+  const renderStep = () => {
+    switch (currentStep) {
+      case 0:
+        return (
+          <div className="grid grid-cols-3 gap-4 p-6">
+            <label
+              htmlFor="fecha_creacion"
+              className="col-span-1 text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
+            >
+              Fecha de creación
+            </label>
             <input
               {...fecha_creacion}
               id="fecha_creacion"
               autoComplete="fecha_creacion"
               required
-              className="dark:bg-sky-950 dark:border-white text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 
-              focus:ring-0 sm:text-sm sm:leading-6  dark:text-white"
+              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+            />
+
+            <label
+              htmlFor="fecha_finalizacion"
+              className="col-span-1 text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
+            >
+              Fecha finalización
+            </label>
+            <input
+              {...fecha_finalizacion}
+              id="fecha_finalizacion"
+              autoComplete="fecha_finalizacion"
+              required
+              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+            />
+
+            <label
+              htmlFor="tipo"
+              className="col-span-1 text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
+            >
+              Tipo
+            </label>
+            <select
+              {...tipo}
+              id="tipo"
+              autoComplete="tipo"
+              required
+              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+            >
+              <option value="">Seleccione un tipo</option>
+              <option value="Procedimiento con repuestos">
+                Procedimiento con repuestos
+              </option>
+              <option value="Procedimiento sin repuestos">
+                Procedimiento sin repuestos
+              </option>
+              <option value="Solo repuestos">Solo repuestos</option>
+            </select>
+          </div>
+        );
+      case 1:
+        return (
+          <div className="grid grid-cols-3 gap-4 p-6">
+            <label
+              htmlFor="placa"
+              className="col-span-1 text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
+            >
+              Placa
+            </label>
+            <input
+              {...placa}
+              id="placa"
+              autoComplete="placa"
+              required
+              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+            />
+
+            <label
+              htmlFor="valor_mano_obra"
+              className="col-span-1 text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
+            >
+              Valor mano de obra
+            </label>
+            <input
+              {...valor_mano_obra}
+              id="valor_mano_obra"
+              autoComplete="valor_mano_obra"
+              required
+              min="0"
+              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+            />
+
+            <label
+              htmlFor="valor_total"
+              className="col-span-1 text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
+            >
+              Valor total
+            </label>
+            <input
+              {...valor_total}
+              id="valor_total"
+              autoComplete="valor_total"
+              required
+              min="0"
+              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
             />
           </div>
-        </div>
+        );
 
-        <div className="mt-10 ">
-          <div className="">
+      // Caso 2
+      case 2:
+        return (
+          <div className="grid grid-cols-3 gap-4 p-6">
             <label
-              htmlFor="linea"
-              className=" text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
+              htmlFor="estado"
+              className="col-span-1 text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
             >
-              Fecha finalizacion
+              Estado
             </label>
-            <div className="mt-2">
-              <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md ">
-                <input
-                  {...fecha_finalizacion}
-                  id="fecha_finalizacion"
-                  autoComplete="fecha_finalizacion"
-                  required
-                  className="dark:bg-sky-950 dark:border-white text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-10 sm:grid-cols-6">
-            <div className="sm:col-span-4">
-              <label
-                htmlFor="tipo"
-                className=" text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
-              >
-                Tipo
-              </label>
-              <div className="mt-2">
-                <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300 sm:max-w-md">
-                  <select
-                    {...tipo}
-                    id="tipo"
-                    autoComplete="tipo"
-                    required
-                    className="dark:bg-sky-950 dark:border-white text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
-                  >
-                    <option value="Sedan">Sedan</option>
-                    <option value="Hatchback">Hatchback</option>
-                    <option value="Camioneta">Camioneta</option>
-                    <option value="SUV">SUV</option>
-                    <option value="Pickup">Pickup</option>
-                    <option value="Van">Van</option>
-                    <option value="Deportivo">Deportivo</option>
-                    <option value="Convertible">Convertible</option>
-                    <option value="Coupe">Coupe</option>
-                    <option value="Furgon">Furgon</option>
-                    <option value="Microbus">Microbus</option>
-                    <option value="Jeep">Jeep</option>
-                    <option value="Todo terreno">Todo terreno</option>
-                    <option value="Otros">Otros</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-10 sm:grid-cols-6">
-              <div className="sm:col-span-4">
-                <label
-                  htmlFor="precio"
-                  className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
-                >
-                  placa
-                </label>
-                <div className="mt-2">
-                  <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
-                    <input
-                      {...placa}
-                      id="placa"
-                      autoComplete="placa"
-                      required
-                      className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-10 sm:grid-cols-6">
-                <div className="sm:col-span-4">
-                  <label
-                    htmlFor="precio"
-                    className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
-                  >
-                    Valor mano de obra
-                  </label>
-                  <div className="mt-2">
-                    <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
-                      <input
-                        {...valor_mano_obra}
-                        id="valor_mano_obra"
-                        autoComplete="valor_mano_obra"
-                        required
-                        min="0"
-                        className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-10 sm:grid-cols-6">
-                  <div className="sm:col-span-4">
-                    <label
-                      htmlFor="precio"
-                      className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
-                    >
-                      Valor total
-                    </label>
-                    <div className="mt-2">
-                      <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
-                        <input
-                          {...valor_total}
-                          id="valor_total"
-                          autoComplete="valor_total"
-                          required
-                          min="0"
-                          className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-10 sm:grid-cols-6">
-                    <div className="sm:col-span-4">
-                      <label
-                        htmlFor="precio"
-                        className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
-                      >
-                        Estado
-                      </label>
-                      <div className="mt-2">
-                        <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
-                          <select
-                            {...estado}
-                            id="estado"
-                            required
-                            className="dark:bg-sky-950 dark:border-white text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
-                          >
-                            <option value="Finalizado">Finalizado</option>
-                            <option value="Cancelado">Cancelado</option>
-                          </select>
-                        </div>
-                      </div>
-
-                      <div className="mt-10 sm:grid-cols-6">
-                        <div className="sm:col-span-4">
-                          <label
-                            htmlFor="precio"
-                            className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
-                          >
-                            Id cliente
-                          </label>
-                          <div className="mt-2">
-                            <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md mb-8">
-                              <input
-                                {...id_cliente}
-                                id="id_cliente"
-                                autoComplete="id_cliente"
-                                required
-                                min="0"
-                                className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
-                              />
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="sm:col-span-4">
-                          <label
-                            className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300 "
-                          >
-                            Sucursal
-                          </label>
-                          <div className="mt-2">
-                            <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
-                              <select
-                                {...id_sucursal}
-                                id="estado"
-                                required
-                                className="dark:bg-sky-950 dark:border-white text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
-                              >
-                                <option value="">
-                                  Seleccione una sucursal
-                                </option>
-                                {sucursales.map((sucursal) => (
-                                  <option key={sucursal.id} value={sucursal.id}>
-                                    {sucursal.nombre}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <Modal open={openFirstModal} onClose={() => setOpenFirstModal(false)}>
-        <div className="flex justify-center items-center min-h-screen">
-          <div className="bg-white dark:bg-slate-950 rounded-lg p-8 mb-5 sm:max-w-md ">
-            <Typography
-              id="modal-modal-title"
-              variant="h4"
-              component="h2"
-              className="text-xl dark:text-slate-300 mb-4"
+            <select
+              {...estado}
+              id="estado"
+              required
+              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
             >
-              ¿ Desea agregar piezas a la orden ?
-            </Typography>
-            <div className="flex mb-2 justify-center mt-4">
-              <button
-                className="bg-lime-600 text-white rounded-md p-2  w-16"
-                onClick={onClickOpen}
+              <option value="Finalizado">Finalizado</option>
+              <option value="Cancelado">Cancelado</option>
+            </select>
+
+            <label
+              htmlFor="id_cliente"
+              className="col-span-1 text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
+            >
+              Id cliente
+            </label>
+            <input
+              {...id_cliente}
+              id="id_cliente"
+              autoComplete="id_cliente"
+              required
+              min="0"
+              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+            />
+
+            <label
+              htmlFor="id_sucursal"
+              className="col-span-1 text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
+            >
+              Sucursal
+            </label>
+            <select
+              {...id_sucursal}
+              id="id_sucursal"
+              required
+              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+            >
+              <option value="">Seleccione una sucursal</option>
+              {sucursales.map((sucursal) => (
+                <option key={sucursal.id} value={sucursal.id}>
+                  {sucursal.nombre}
+                </option>
+              ))}
+            </select>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <>
+      <h2 className="mt-5 text-base font-semibold leading-7 text-gray-900 dark:text-slate-300 sm:text-3xl sm:truncate">
+        Crear órden de trabajo
+      </h2>
+      <div className="mt-4 flex flex-row gap-3 ">
+        <div className="w-full sm:w-1/2 rounded-xl border-2 border-black dark:border-white">
+          <form onSubmit={handleSubmit}>
+            {renderStep()}
+            <div className="flex justify-between mt-4 p-4">
+              {currentStep > 0 && (
+                <button
+                  type="button"
+                  onClick={prevStep}
+                  className="bg-blue-500 text-white rounded-md p-2"
+                >
+                  Anterior
+                </button>
+              )}
+              {currentStep < 2 ? (
+                <button
+                  type="button"
+                  onClick={nextStep}
+                  className="bg-blue-500 text-white rounded-md p-2"
+                >
+                  Siguiente
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  className="bg-green-500 text-white rounded-md p-2"
+                >
+                  Enviar
+                </button>
+              )}
+            </div>
+            <p>Paso {currentStep+1} de 3</p>
+          </form>
+        </div>
+        <div className="flex items-center">
+          <h1>HOLA MUNDO</h1>
+        </div>
+
+        {/* Modal and Toaster components here */}
+        <Modal open={openFirstModal} onClose={() => setOpenFirstModal(false)}>
+          <div className="flex justify-center items-center min-h-screen">
+            <div className="bg-white dark:bg-slate-950 rounded-lg p-8 mb-5 sm:max-w-md ">
+              <Typography
+                id="modal-modal-title"
+                variant="h4"
+                component="h2"
+                className="text-xl dark:text-slate-300 mb-4"
               >
-                Si
-              </button>
-              <button
-                className="bg-red-600 text-white rounded-md p-2 ml-2 w-16"
-                onClick={() => {
-                  setOpenFirstModal(false);
-                  clearForm();
-                }}
-              >
-                No
-              </button>
+                ¿ Desea agregar piezas a la orden ?
+              </Typography>
+              <div className="flex mb-2 justify-center mt-4">
+                <button
+                  className="bg-lime-600 text-white rounded-md p-2  w-16"
+                  onClick={onClickOpen}
+                >
+                  Si
+                </button>
+                <button
+                  className="bg-red-600 text-white rounded-md p-2 ml-2 w-16"
+                  onClick={() => {
+                    setOpenFirstModal(false);
+                    clearForm();
+                  }}
+                >
+                  No
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </Modal>
-      {openSecondModal && (
-        <ModalPieza
-          open={open}
-          setOpen={setOpen}
-          setOrdenPiezas={setOrdenPiezas}
-          idOrden={idOrden}
+        </Modal>
+        {openSecondModal && (
+          <>
+            <ModalPieza
+              open={open}
+              setOpen={setOpen}
+              setOrdenPiezas={setOrdenPiezas}
+              idOrden={idOrden}
+            />
+            
+          </>
+        )}
+
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          toastOptions={{
+            success: {
+              style: {
+                background: "green",
+                color: "white",
+              },
+            },
+            error: {
+              style: {
+                background: "red",
+                color: "white",
+              },
+            },
+          }}
         />
-      )}
-      <button className=" mb-5 mt-5 p-2 bg-lime-600 rounded " type="submit">
-        Crear
-      </button>
-      <Toaster />
-    </form>
+      </div>
+    </>
   );
 }

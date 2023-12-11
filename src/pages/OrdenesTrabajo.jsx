@@ -106,7 +106,7 @@ const OrdenesTrabajo = () => {
         </h1>
       </div>
       <div className="min-h-screen w-auto container mx-auto py-8">
-        <div className="mt-16 grid gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
           <div
             className="flex flex-col items-center justify-center p-5 border-2 border-black dark:border-white rounded-lg cursor-pointer"
             onClick={orderFormView}

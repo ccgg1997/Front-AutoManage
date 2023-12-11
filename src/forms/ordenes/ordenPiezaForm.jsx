@@ -142,7 +142,6 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden }) => {
           setFormActive(false);
           setPiezasOrden(piezas);
         } else {
-          toast.error("No hay piezas agregadas, agregue una pieza");
           setPiezasAgregadasActive(false);
           setFormActive(true);
         }

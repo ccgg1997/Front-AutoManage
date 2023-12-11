@@ -36,6 +36,7 @@ const Inventario = () => {
   const cantidad = useField({ type: "number", placeholder: "Cantidad" });
   const [piezaId, setPiezaId] = useState(null);
 
+
   const deleteItemInventarioClick = async (row) => {
     setOpenDeleteModalVehiculo(true);
     setRowDelete(row);
@@ -279,6 +280,13 @@ const ModalEdit = ({
   row,
   sucursales,
 }) => {
+  const handleQuantityChange = (e) => {
+    if (e.target.value < 0) {
+      cantidad.onChange({ target: { value: 0 } });
+    } else {
+      cantidad.onChange(e);
+    }
+  };
   return (
     <Modal
       open={open}
@@ -312,6 +320,9 @@ const ModalEdit = ({
             <input
               className="border-2 border-gray-300 p-2 rounded-lg m-2"
               {...cantidad}
+              onChange={handleQuantityChange}
+              type="number"
+              min="0"
             ></input>
           </Typography>
         </div>
