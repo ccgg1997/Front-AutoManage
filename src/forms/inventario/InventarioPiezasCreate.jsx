@@ -114,7 +114,7 @@ const InventarioPiezasCreate = () => {
           {...cantidad}
           id="Cantidad"
           autoComplete="Cantidad"
-          min="0"
+          min="1"
           required
           className="shadow-sm focus:ring-indigo-500 focus:border-black w-full border-2 border-black rounded-md  dark:bg-sky-950 dark:border-inherit mb-5 h-9"
         />
