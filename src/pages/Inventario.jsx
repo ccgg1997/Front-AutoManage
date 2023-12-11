@@ -6,18 +6,73 @@ import {
   getInventario,
   deleteVehiculoInventario,
   getRepuestos,
+  deleteInventarioPieza,
+  updateInventarioPieza,
+  getInventarioPiezaById,
+  getSucursalesByRol,
 } from "../components/api/adress.js";
 import InventarioCreate from "../forms/inventario/InventarioCreate.jsx";
 import { ArchiveBoxIcon } from "@heroicons/react/24/outline";
+import { Modal, Typography, Box } from "@mui/material";
+
+const useField = ({ type, placeholder }) => {
+  const [value, setValue] = useState("");
+  const onChange = ({ target }) => {
+    setValue(target.value);
+  };
+  return { type, placeholder, value, onChange };
+};
 
 const Inventario = () => {
   const [dataVehiculo, setDataVehiculo] = useState([]);
   const [dataPiezas, setDataPiezas] = useState([]);
-  const deleteItemInventarioClick = async (row) => {
-    console.log(row);
-    await deleteVehiculoInventario(row, token);
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [sucursales, setSucursales] = useState([]);
+  const [row, setRow] = useState(null);
+  const sucursal = useField({ type: "text", placeholder: "Sucursal" });
+  const cantidad = useField({ type: "number", placeholder: "Cantidad" });
+  const [piezaId,setPiezaId] = useState(null);
 
+  const deleteItemInventarioClick = async (row) => {
+    await deleteVehiculoInventario(row, token);
     setDataVehiculo(dataVehiculo.filter((vehiculo) => vehiculo.id !== row));
+  };
+
+  const editItemInventarioPieza = async (row) => {
+    const piezaEdit = {
+      id: row,
+      pieza_id: piezaId,
+      sucursal_id: sucursal.value,
+      cantidad_disponible: cantidad.value,
+    };
+  
+    await updateInventarioPieza(piezaEdit, token);
+    setOpenEditModal(false);
+    const piezas = await getRepuestos(token);
+    piezas.map((pieza) => {
+      (pieza.nombre = pieza.pieza.nombre),
+        (pieza.precio = pieza.pieza.precio),
+        (pieza.sucursal = pieza.sucursal.direccion);
+    });
+    setDataPiezas(piezas);
+  };
+
+  const editItemInventarioPiezaClick = async (row) => {
+    setOpenEditModal(true);
+    setRow(row);
+  };
+  
+
+  const deleteItemInventarioPiezaClick = async (row) => {
+    setOpenDeleteModal(true);
+    setRow(row);
+  };
+
+  const deleteItemInventarioPieza = async (row) => {
+    await deleteInventarioPieza(row, token);
+    setDataPiezas(dataPiezas.filter((pieza) => pieza.id !== row));
+    setOpenDeleteModal(false);
   };
 
   const { token } = useSelector((state) => state.auth);
@@ -47,6 +102,28 @@ const Inventario = () => {
     };
     piezasFetch();
   }, [setDataVehiculo, setDataPiezas]);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const pieza = await getInventarioPiezaById(row, token);
+      sucursal.onChange({ target: { value: pieza.sucursal.id } });
+      cantidad.onChange({ target: { value: pieza.cantidad_disponible } });
+      setPiezaId(pieza.pieza.id); 
+    };
+
+    fetchData();
+
+  }, [row]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const sucursales = await getSucursalesByRol(token);
+      setSucursales(sucursales);
+    };
+    fetchData();
+  }
+  ,[]);
 
   //titulos de tabla de vehiculos
   const titles = [
@@ -85,6 +162,29 @@ const Inventario = () => {
       field: "cantidad_disponible",
       headerName: "Cantidad Disponible",
       width: 130,
+    },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      width: 200,
+      renderCell: (params) => (
+        <div className="flex flex-row">
+          <button
+            className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 rounded"
+            onClick={() => editItemInventarioPiezaClick(params.row.id)}
+          >
+            Editar
+          </button>
+        <div>
+          <button
+            className=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-2 rounded"
+            onClick={() => deleteItemInventarioPiezaClick(params.row.id)}
+          >
+            Eliminar
+          </button>
+        </div>
+        </div>
+      ),
     },
   ];
 
@@ -127,8 +227,121 @@ const Inventario = () => {
         </h1>
       </div>
       <Tabs tabs={tabs} />
+      <ModalEdit
+        open={openEditModal}
+        handleClose={() => setOpenEditModal(false)}
+        sucursal={sucursal}
+        cantidad={cantidad}
+        editItemInventarioPieza={editItemInventarioPieza}
+        row={row}
+        sucursales={sucursales}
+      />
+      <ModalDelete
+        open={openDeleteModal}
+        handleClose={() => setOpenDeleteModal(false)}
+        deleteItemInventarioPiezaClick={deleteItemInventarioPieza}
+        row={row}
+      />
     </>
   );
 };
+
+const ModalEdit = ({ open, handleClose, sucursal, cantidad,editItemInventarioPieza,row,sucursales }) => {
+  return (
+    <Modal open={open} onClose={handleClose}
+     className="flex items-center justify-center"
+      
+    >
+      
+      <Box
+        className="bg-white dark:bg-slate-950 rounded-lg p-8 "
+      >
+        <Typography 
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            className="text-xl mb-9 dark:text-slate-300 ">
+          Editar pieza
+        </Typography>
+        <Typography className=" text-sm font-medium leading-6 text-gray-900 ">
+          <div className="flex flex-col ">
+            <label className="text-xl dark:text-white">Sucursal</label>
+            <select
+              className="border-2 border-gray-300 p-2 rounded-lg m-2 "
+              {...sucursal}
+            >
+              <option value="">Seleccione una sucursal</option>
+              {sucursales.map((sucursal) => (
+                <option value={sucursal.id} key={sucursal.id}>{sucursal.direccion}</option>
+              ))}
+            </select>
+            <label className="text-xl dark:text-white">Cantidad</label>
+            <input
+              className="border-2 border-gray-300 p-2 rounded-lg m-2"
+              {...cantidad}
+            ></input>
+          </div>
+        </Typography>
+        <div className="flex flex-row center mt-5">
+          <button
+            className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 rounded"
+            onClick={() => editItemInventarioPieza(row)}
+          >
+            Editar
+          </button>
+          <button
+            className=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-2 rounded"
+            onClick={() => handleClose()}
+          >
+            Cancelar
+          </button>
+          
+        </div>
+      </Box>
+    </Modal>
+  );
+};
+
+const ModalDelete = ({ open, handleClose,deleteItemInventarioPiezaClick,row }) => {
+  return (
+    <Modal open={open} onClose={handleClose}
+     className="flex items-center justify-center"
+      
+    >
+      <Box
+        className="bg-white dark:bg-slate-950 rounded-lg p-8 "
+      >
+        <Typography 
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            className="text-xl mb-9 dark:text-slate-300 ">
+          Eliminar pieza
+        </Typography>
+        <Typography className=" text-sm font-medium leading-6 text-gray-900 dark:text-slate-300">
+          <div className="flex flex-col">
+            <label className="text-xl">¿Está seguro que desea eliminar esta pieza?</label>
+          </div>
+        </Typography>
+        <div className="flex flex-row center mt-5">
+          <button
+            className=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-2 rounded"
+            onClick={() => deleteItemInventarioPiezaClick(row)}
+          >
+            Eliminar
+          </button>
+          <button
+            className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 rounded"
+            onClick={() => handleClose()}
+          >
+            Cancelar
+          </button>
+
+        </div>
+      </Box>
+    </Modal>
+  );
+};
+
 
 export default Inventario;

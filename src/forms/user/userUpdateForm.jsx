@@ -212,13 +212,13 @@ const ModalName = ({ openNombreModal, setOpenNombreModal, nombre }) => {
             />
           </div>
           <div className="flex justify-between">
+            <button className="mb-5 p-2 bg-blue-500 hover:bg-blue-700 rounded mr-7">Actualizar</button>
             <button
               onClick={() => setOpenNombreModal(false)}
-              className="mb-5 p-2 bg-lime-600 rounded mr-4"
+              className="mb-5 p-2 bg-red-500 hover:bg-red-700 rounded"
             >
-              Cancel
+              Cancelar
             </button>
-            <button className="mb-5 p-2 bg-lime-600 rounded">Submit</button>
           </div>
         </Box>
       </form>
@@ -286,13 +286,13 @@ const ModalCorreo = ({ openCorreoModal, setOpenCorreoModal, correo }) => {
             />
           </div>
           <div className="flex justify-between">
+            <button className="mb-5 p-2 bg-blue-500  hover:bg-blue-700 rounded ">Actualizar</button>
             <button
               onClick={() => setOpenCorreoModal(false)}
-              className="mb-5 p-2 bg-lime-600 rounded mr-4"
+              className="mb-5 p-2  bg-red-500 hover:bg-red-700 rounded "
             >
-              Cancel
+              Cancelar
             </button>
-            <button className="mb-5 p-2 bg-lime-600 rounded">Submit</button>
           </div>
         </Box>
       </form>
@@ -387,6 +387,7 @@ const ModalContrasena = ({
               {...contrasenaAnterior}
               id="contrasenaAnterior"
               required
+              autoFocus
               className="text-center flex-1 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 
                 focus:ring-0 sm:text-sm sm:leading-6 border rounded-full border-black  dark:text-white w-full dark:bg-slate-950 dark:border-white mb-4 mt-2"
             />
@@ -412,14 +413,14 @@ const ModalContrasena = ({
             />
           </div>
           <div className="flex justify-between">
+            <button className="mb-5 p-2 bg-blue-500 hover:bg-blue-700 rounded" type="submit">
+              Actualizar
+            </button>
             <button
               onClick={() => setOpenContrasenaModal(false)}
-              className="mb-5 p-2 bg-lime-600 rounded "
+              className="mb-5 p-2 bg-red-500 hover:bg-red-700 rounded "
             >
-              Cancel
-            </button>
-            <button className="mb-5 p-2 bg-lime-600 rounded" type="submit">
-              Submit
+              Cancelar
             </button>
           </div>
         </Box>

@@ -886,6 +886,24 @@ export const getInventarioPiezas = async (useToken) => {
   }
 }
 
+export const getInventarioPiezaById = async (id, useToken) => {
+
+  const inventarioPiezasAdress = apiAddress + "/inventario_piezas/" + id + "/";
+  try {
+
+    const response = await axios.get(inventarioPiezasAdress, {
+
+      headers: {
+        Authorization: "Bearer " + useToken,
+      },
+    });
+    return response.data
+  } catch (error) {
+
+    throw new Error("Error al obtener el inventario de piezas", error);
+  }
+}
+
 export const createInventarioPieza = async (inventarioPieza, useToken) => {
   const inventarioPiezasAdress = apiAddress + "/inventario_piezas/";
   try {
