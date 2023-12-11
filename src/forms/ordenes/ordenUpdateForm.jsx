@@ -65,7 +65,6 @@ export default function OrdenUpdateForm({ ordenData }) {
     try {
       const response = await getSucursales(token);
       setSucursales(response);
-      console.log(response);
     } catch (error) {
       console.error(error);
     }

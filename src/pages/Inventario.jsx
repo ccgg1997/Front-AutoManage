@@ -28,15 +28,30 @@ const Inventario = () => {
   const [dataPiezas, setDataPiezas] = useState([]);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openDeleteModalVehiculo, setOpenDeleteModalVehiculo] = useState(false);
   const [sucursales, setSucursales] = useState([]);
   const [row, setRow] = useState(null);
+  const [rowDelete, setRowDelete] = useState(null);
   const sucursal = useField({ type: "text", placeholder: "Sucursal" });
   const cantidad = useField({ type: "number", placeholder: "Cantidad" });
-  const [piezaId,setPiezaId] = useState(null);
+  const [piezaId, setPiezaId] = useState(null);
 
   const deleteItemInventarioClick = async (row) => {
-    await deleteVehiculoInventario(row, token);
-    setDataVehiculo(dataVehiculo.filter((vehiculo) => vehiculo.id !== row));
+    setOpenDeleteModalVehiculo(true);
+    setRowDelete(row);
+  };
+
+  const deleteItemInventario = async (rowDelete) => {
+    await deleteVehiculoInventario(rowDelete, token);
+    setOpenDeleteModalVehiculo(false);
+    const vehiculos = await getInventario(token);
+    vehiculos.map((vehiculo) => {
+      vehiculo.concesionario = vehiculo.sucursal.direccion;
+      vehiculo.marca = vehiculo.vehiculo.marca;
+      vehiculo.precio = "$ " + vehiculo.vehiculo.precio;
+      vehiculo.linea = vehiculo.vehiculo.linea;
+    });
+    setDataVehiculo(vehiculos);
   };
 
   const editItemInventarioPieza = async (row) => {
@@ -46,7 +61,7 @@ const Inventario = () => {
       sucursal_id: sucursal.value,
       cantidad_disponible: cantidad.value,
     };
-  
+
     await updateInventarioPieza(piezaEdit, token);
     setOpenEditModal(false);
     const piezas = await getRepuestos(token);
@@ -62,7 +77,6 @@ const Inventario = () => {
     setOpenEditModal(true);
     setRow(row);
   };
-  
 
   const deleteItemInventarioPiezaClick = async (row) => {
     setOpenDeleteModal(true);
@@ -71,8 +85,14 @@ const Inventario = () => {
 
   const deleteItemInventarioPieza = async (row) => {
     await deleteInventarioPieza(row, token);
-    setDataPiezas(dataPiezas.filter((pieza) => pieza.id !== row));
     setOpenDeleteModal(false);
+    const piezas = await getRepuestos(token);
+    piezas.map((pieza) => {
+      (pieza.nombre = pieza.pieza.nombre),
+        (pieza.precio = pieza.pieza.precio),
+        (pieza.sucursal = pieza.sucursal.direccion);
+    });
+    setDataPiezas(piezas);
   };
 
   const { token } = useSelector((state) => state.auth);
@@ -103,17 +123,16 @@ const Inventario = () => {
     piezasFetch();
   }, [setDataVehiculo, setDataPiezas]);
 
-
   useEffect(() => {
+    if (row == null) return;
     const fetchData = async () => {
       const pieza = await getInventarioPiezaById(row, token);
       sucursal.onChange({ target: { value: pieza.sucursal.id } });
       cantidad.onChange({ target: { value: pieza.cantidad_disponible } });
-      setPiezaId(pieza.pieza.id); 
+      setPiezaId(pieza.pieza.id);
     };
 
     fetchData();
-
   }, [row]);
 
   useEffect(() => {
@@ -122,8 +141,7 @@ const Inventario = () => {
       setSucursales(sucursales);
     };
     fetchData();
-  }
-  ,[]);
+  }, []);
 
   //titulos de tabla de vehiculos
   const titles = [
@@ -175,14 +193,14 @@ const Inventario = () => {
           >
             Editar
           </button>
-        <div>
-          <button
-            className=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-2 rounded"
-            onClick={() => deleteItemInventarioPiezaClick(params.row.id)}
-          >
-            Eliminar
-          </button>
-        </div>
+          <div>
+            <button
+              className=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-2 rounded"
+              onClick={() => deleteItemInventarioPiezaClick(params.row.id)}
+            >
+              Eliminar
+            </button>
+          </div>
         </div>
       ),
     },
@@ -242,29 +260,42 @@ const Inventario = () => {
         deleteItemInventarioPiezaClick={deleteItemInventarioPieza}
         row={row}
       />
+      <ModalDeleteVehiculo
+        open={openDeleteModalVehiculo}
+        handleClose={() => setOpenDeleteModalVehiculo(false)}
+        deleteItemInventario={deleteItemInventario}
+        rowDelete={rowDelete}
+      />
     </>
   );
 };
 
-const ModalEdit = ({ open, handleClose, sucursal, cantidad,editItemInventarioPieza,row,sucursales }) => {
+const ModalEdit = ({
+  open,
+  handleClose,
+  sucursal,
+  cantidad,
+  editItemInventarioPieza,
+  row,
+  sucursales,
+}) => {
   return (
-    <Modal open={open} onClose={handleClose}
-     className="flex items-center justify-center"
-      
+    <Modal
+      open={open}
+      onClose={handleClose}
+      className="flex items-center justify-center"
     >
-      
-      <Box
-        className="bg-white dark:bg-slate-950 rounded-lg p-8 "
-      >
-        <Typography 
-            id="modal-modal-title"
-            variant="h6"
-            component="h2"
-            className="text-xl mb-9 dark:text-slate-300 ">
+      <Box className="bg-white dark:bg-slate-950 rounded-lg p-8 ">
+        <Typography
+          id="modal-modal-title"
+          variant="h6"
+          component="h2"
+          className="text-xl mb-9 dark:text-slate-300 "
+        >
           Editar pieza
         </Typography>
-        <Typography className=" text-sm font-medium leading-6 text-gray-900 ">
-          <div className="flex flex-col ">
+        <div className="flex flex-col ">
+          <Typography className="flex flex-col text-sm font-medium leading-6 text-gray-900 ">
             <label className="text-xl dark:text-white">Sucursal</label>
             <select
               className="border-2 border-gray-300 p-2 rounded-lg m-2 "
@@ -272,7 +303,9 @@ const ModalEdit = ({ open, handleClose, sucursal, cantidad,editItemInventarioPie
             >
               <option value="">Seleccione una sucursal</option>
               {sucursales.map((sucursal) => (
-                <option value={sucursal.id} key={sucursal.id}>{sucursal.direccion}</option>
+                <option value={sucursal.id} key={sucursal.id}>
+                  {sucursal.direccion}
+                </option>
               ))}
             </select>
             <label className="text-xl dark:text-white">Cantidad</label>
@@ -280,8 +313,8 @@ const ModalEdit = ({ open, handleClose, sucursal, cantidad,editItemInventarioPie
               className="border-2 border-gray-300 p-2 rounded-lg m-2"
               {...cantidad}
             ></input>
-          </div>
-        </Typography>
+          </Typography>
+        </div>
         <div className="flex flex-row center mt-5">
           <button
             className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 rounded"
@@ -295,33 +328,37 @@ const ModalEdit = ({ open, handleClose, sucursal, cantidad,editItemInventarioPie
           >
             Cancelar
           </button>
-          
         </div>
       </Box>
     </Modal>
   );
 };
 
-const ModalDelete = ({ open, handleClose,deleteItemInventarioPiezaClick,row }) => {
+const ModalDelete = ({
+  open,
+  handleClose,
+  deleteItemInventarioPiezaClick,
+  row,
+}) => {
   return (
-    <Modal open={open} onClose={handleClose}
-     className="flex items-center justify-center"
-      
+    <Modal
+      open={open}
+      onClose={handleClose}
+      className="flex items-center justify-center"
     >
-      <Box
-        className="bg-white dark:bg-slate-950 rounded-lg p-8 "
-      >
-        <Typography 
-            id="modal-modal-title"
-            variant="h6"
-            component="h2"
-            className="text-xl mb-9 dark:text-slate-300 ">
+      <Box className="bg-white dark:bg-slate-950 rounded-lg p-8 ">
+        <Typography
+          id="modal-modal-title"
+          variant="h6"
+          component="h2"
+          className="text-xl mb-9 dark:text-slate-300 "
+        >
           Eliminar pieza
         </Typography>
         <Typography className=" text-sm font-medium leading-6 text-gray-900 dark:text-slate-300">
-          <div className="flex flex-col">
-            <label className="text-xl">¿Está seguro que desea eliminar esta pieza?</label>
-          </div>
+          <label className="text-xl">
+            ¿Está seguro que desea eliminar esta pieza?
+          </label>
         </Typography>
         <div className="flex flex-row center mt-5">
           <button
@@ -336,12 +373,55 @@ const ModalDelete = ({ open, handleClose,deleteItemInventarioPiezaClick,row }) =
           >
             Cancelar
           </button>
-
         </div>
       </Box>
     </Modal>
   );
 };
 
+const ModalDeleteVehiculo = ({
+  open,
+  handleClose,
+  deleteItemInventario,
+  rowDelete,
+}) => {
+  return (
+    <Modal
+      open={open}
+      onClose={handleClose}
+      className="flex items-center justify-center"
+    >
+      <Box className="bg-white dark:bg-slate-950 rounded-lg p-8 ">
+        <Typography
+          id="modal-modal-title"
+          variant="h6"
+          component="h2"
+          className="text-xl mb-9 dark:text-slate-300 "
+        >
+          Eliminar vehiculo
+        </Typography>
+        <Typography className=" text-sm font-medium leading-6 text-gray-900 dark:text-slate-300">
+          <label className="text-xl">
+            ¿Está seguro que desea eliminar este vehiculo?
+          </label>
+        </Typography>
+        <div className="flex flex-row center mt-5">
+          <button
+            className=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-2 rounded"
+            onClick={() => deleteItemInventario(rowDelete)}
+          >
+            Eliminar
+          </button>
+          <button
+            className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 rounded"
+            onClick={() => handleClose()}
+          >
+            Cancelar
+          </button>
+        </div>
+      </Box>
+    </Modal>
+  );
+};
 
 export default Inventario;
