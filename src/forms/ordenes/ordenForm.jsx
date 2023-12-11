@@ -4,6 +4,7 @@ import { Toaster, toast } from "sonner";
 import { useSelector } from "react-redux";
 import ModalPieza from "./ordenPiezaForm";
 import { Modal, Typography } from "@mui/material";
+import { Description } from "@mui/icons-material";
 
 const useField = ({ type, placeholder, defect }) => {
   const [value, setValue] = React.useState("");
@@ -26,7 +27,9 @@ export default function OrdenForm() {
   const id_cliente = useField({ type: "number" });
   const id_sucursal = useField({ type: "number" });
   const id_vendedor = useField({ type: "number" });
+  const description = useField({ type: "text" });
 
+  const [valorTotalPiezas, setTotalPiezas] = useState(1);
   const [currentStep, setCurrentStep] = useState(0);
   const [open, setOpen] = React.useState(false);
   const [ordenPiezas, setOrdenPiezas] = React.useState([]);
@@ -34,24 +37,27 @@ export default function OrdenForm() {
   const [idOrden, setIdOrden] = React.useState({});
   const [openFirstModal, setOpenFirstModal] = React.useState(false);
   const [openSecondModal, setOpenSecondModal] = React.useState(false);
+  const valor_mano_obra_parser = parseFloat(valor_mano_obra.value) || 0;
+  const sumaTotal = valor_mano_obra_parser + valorTotalPiezas;
 
   const nextStep = () => currentStep < 2 && setCurrentStep(currentStep + 1);
   const prevStep = () => currentStep > 0 && setCurrentStep(currentStep - 1);
-
+  const orden = {
+    fecha_creacion: fecha_creacion.value,
+    fecha_finalizacion: fecha_finalizacion.value,
+    valor_mano_obra: valor_mano_obra.value,
+    valor_total: sumaTotal,
+    tipo: tipo.value,
+    placa: placa.value,
+    estado: estado.value,
+    cliente_id: id_cliente.value,
+    sucursal_id: id_sucursal.value,
+    vendedor_id: id_vendedor.value,
+    description: description.value,
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const orden = {
-      fecha_creacion: fecha_creacion.value,
-      fecha_finalizacion: fecha_finalizacion.value,
-      tipo: tipo.value,
-      placa: placa.value,
-      valor_mano_obra: valor_mano_obra.value,
-      valor_total: valor_total.value,
-      estado: estado.value,
-      cliente_id: id_cliente.value,
-      sucursal_id: id_sucursal.value,
-      vendedor_id: id_vendedor.value,
-    };
+
     try {
       if (orden.fecha_creacion > orden.fecha_finalizacion) {
         toast.error(
@@ -84,7 +90,7 @@ export default function OrdenForm() {
     estado.onChange({ target: { value: "" } });
     id_cliente.onChange({ target: { value: "" } });
     id_sucursal.onChange({ target: { value: "" } });
-    id_vendedor.onChange({ target: { value: "" } });
+    description.onChange({ target: { value: "" } });
     setCurrentStep(0);
   };
 
@@ -119,7 +125,7 @@ export default function OrdenForm() {
               id="fecha_creacion"
               autoComplete="fecha_creacion"
               required
-              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-slate-300 py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
             />
 
             <label
@@ -133,7 +139,7 @@ export default function OrdenForm() {
               id="fecha_finalizacion"
               autoComplete="fecha_finalizacion"
               required
-              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-slate-300 py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
             />
 
             <label
@@ -147,7 +153,7 @@ export default function OrdenForm() {
               id="tipo"
               autoComplete="tipo"
               required
-              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-slate-300 py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
             >
               <option value="">Seleccione un tipo</option>
               <option value="Procedimiento con repuestos">
@@ -158,6 +164,19 @@ export default function OrdenForm() {
               </option>
               <option value="Solo repuestos">Solo repuestos</option>
             </select>
+            <label
+              htmlFor="placa"
+              className="col-span-1 text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
+            >
+              Descripción
+            </label>
+            <input
+              {...description}
+              id="description"
+              autoComplete="description"
+              required
+              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-slate-300 py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+            />
           </div>
         );
       case 1:
@@ -174,7 +193,7 @@ export default function OrdenForm() {
               id="placa"
               autoComplete="placa"
               required
-              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-slate-300 py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
             />
 
             <label
@@ -189,7 +208,7 @@ export default function OrdenForm() {
               autoComplete="valor_mano_obra"
               required
               min="0"
-              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-slate-300 py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
             />
 
             <label
@@ -203,8 +222,10 @@ export default function OrdenForm() {
               id="valor_total"
               autoComplete="valor_total"
               required
+              value={sumaTotal}
+              readOnly
               min="0"
-              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-slate-300 py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
             />
           </div>
         );
@@ -223,8 +244,11 @@ export default function OrdenForm() {
               {...estado}
               id="estado"
               required
-              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-slate-300 py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
             >
+              <option value="" disabled>
+                Seleccione un valor
+              </option>
               <option value="Finalizado">Finalizado</option>
               <option value="Cancelado">Cancelado</option>
             </select>
@@ -241,7 +265,7 @@ export default function OrdenForm() {
               autoComplete="id_cliente"
               required
               min="0"
-              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-slate-300 py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
             />
 
             <label
@@ -254,7 +278,7 @@ export default function OrdenForm() {
               {...id_sucursal}
               id="id_sucursal"
               required
-              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+              className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-slate-300 py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
             >
               <option value="">Seleccione una sucursal</option>
               {sucursales.map((sucursal) => (
@@ -272,19 +296,22 @@ export default function OrdenForm() {
 
   return (
     <>
-      <h2 className="mt-5 text-base font-semibold leading-7 text-gray-900 dark:text-slate-300 sm:text-3xl sm:truncate">
-        Crear órden de trabajo
-      </h2>
-      <div className="mt-4 flex flex-row gap-3 ">
-        <div className="w-full sm:w-1/2 rounded-xl border-2 border-black dark:border-white">
-          <form onSubmit={handleSubmit}>
+      <div className="mt-4 flex flex-col gap-3 md:flex-row ">
+        <div className="w-full flex flex-col justify-around content-center sm:w-1/2 rounded-xl border-2 border-black dark:border-white">
+          <h2 className="mb-5 text-base font-semibold leading-7 text-gray-900 dark:text-slate-300 sm:text-3xl sm:truncate">
+            Crear órden de trabajo
+          </h2>
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col content-center justify-center"
+          >
             {renderStep()}
             <div className="flex justify-between mt-4 p-4">
               {currentStep > 0 && (
                 <button
                   type="button"
                   onClick={prevStep}
-                  className="bg-blue-500 text-white rounded-md p-2"
+                  className="bg-orange-500 text-white rounded-md p-2"
                 >
                   Anterior
                 </button>
@@ -306,11 +333,32 @@ export default function OrdenForm() {
                 </button>
               )}
             </div>
-            <p>Paso {currentStep+1} de 3</p>
+            <p>Paso {currentStep + 1} de 3</p>
           </form>
         </div>
-        <div className="flex items-center">
-          <h1>HOLA MUNDO</h1>
+        <div className="w-full sm:w-1/2 rounded-xl border-2 border-black dark:border-white overflow-y-auto">
+          <h2 className="mt-5 mb-5 text-base font-semibold leading-7 text-gray-900 dark:text-slate-300 sm:text-3xl sm:truncate">
+            Orden de trabajo
+          </h2>
+          <div className="grid grid-cols-2 gap-4 p-6">
+            {Object.keys(orden).map((key) => (
+              <div key={key}>
+                <label
+                  htmlFor={key}
+                  className="col-span-1 text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
+                >
+                  {key}
+                </label>
+                <input
+                  type="text"
+                  id={key}
+                  value={orden[key]}
+                  readOnly
+                  className="col-span-2 dark:bg-sky-950 dark:border-white text-center w-full border-0 bg-slate-300 py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 dark:text-white"
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Modal and Toaster components here */}
@@ -323,7 +371,7 @@ export default function OrdenForm() {
                 component="h2"
                 className="text-xl dark:text-slate-300 mb-4"
               >
-                ¿ Desea agregar piezas a la orden ?
+                ¿ Desea agregar o modificar piezas a la orden ?
               </Typography>
               <div className="flex mb-2 justify-center mt-4">
                 <button
@@ -337,6 +385,7 @@ export default function OrdenForm() {
                   onClick={() => {
                     setOpenFirstModal(false);
                     clearForm();
+                    toast.success("Piezas agregadas con exito");
                   }}
                 >
                   No
@@ -353,7 +402,6 @@ export default function OrdenForm() {
               setOrdenPiezas={setOrdenPiezas}
               idOrden={idOrden}
             />
-            
           </>
         )}
 

@@ -18,7 +18,7 @@ const useField = ({ type, placeholder }) => {
   return { type, placeholder, value, onChange };
 };
 
-const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden }) => {
+const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden, setValorTotalPiezas = () => {} }) => {
   const { token } = useSelector((state) => state.auth);
   const [piezas, setPiezas] = React.useState([]);
   const [piezasOrden, setPiezasOrden] = React.useState([]);
@@ -56,15 +56,22 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden }) => {
     pieza: pieza.id_pieza,
     precio: pieza.precio,
     cantidad: pieza.cantidad,
-    valor_total: valorTotal,
+    valor_total: pieza.precio* pieza.cantidad,
   };
 
   const generarValorTotal = () => {
     let valorTotal = 0;
-    piezasOrden.forEach((pieza) => {
-      valorTotal += pieza.precio * pieza.cantidad;
+    piezasOrden.forEach((pieza,index) => {
+      console.log("probnado las piezas" + index)
+      console.log(pieza.precio);
+      console.log(pieza.cantidad);
+      const precioParseado = parseInt(pieza.precio);
+      const cantidadParseada = infoPieza(pieza.cantidad);
+      valorTotal += precioParseado * cantidadParseada;
     });
+    console.log("valor total" + valorTotal);
     setValorTotal(valorTotal);
+    setValorTotalPiezas(valorTotal);
   };
 
   const onClickDelete = async (id) => {
@@ -117,7 +124,7 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden }) => {
       ...pieza,
       id_orden: idOrden,
       id_pieza: piezaSeleccionada ? piezaSeleccionada.id : "",
-      precio: piezaSeleccionada ? piezaSeleccionada.precio : "",
+      precio: piezaSeleccionada ? parseInt(piezaSeleccionada.precio) : "",
       cantidad: parseInt(cantidad.value, 10),
     });
 
