@@ -75,8 +75,6 @@ export default function RecuperacionContrasena() {
     }
     //verificamos si el codigo es correcto
     const parsetCodigo = parseInt(codigoIngresado.value);
-    console.log(parsetCodigo);
-    console.log(codigo);
     if (parsetCodigo === codigo) {
       toast.success("El código ingresado es correcto");
       setTimeout(() => {

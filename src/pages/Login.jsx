@@ -12,6 +12,7 @@ import Chat from "../components/Chat.jsx";
 import Tarjet from "../components/Target.jsx";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useWindowSize } from 'react-use';
+import { useNavigate } from "react-router-dom";
 /**
  * Summary: This code defines a React functional component called 'Login' that handles the login functionality of a user.
  *
@@ -26,6 +27,7 @@ import { useWindowSize } from 'react-use';
 function LoginForm({ actualizar }) {
   const dispatch = useDispatch();
   const { width } = useWindowSize();
+  const navigate = useNavigate();
 
   // Tamaño del ReCAPTCHA según el ancho de la ventana
   const [captchaSize, setCaptchaSize] = useState("normal");
@@ -131,7 +133,7 @@ function LoginForm({ actualizar }) {
             </div>
             <div className="mb-6 flex flex-col">
               <a
-                href="/RecuperarContrasena"
+                onClick={() => navigate("/RecuperarContrasena")}
                 className="text-sm font-medium text-primary hover:underline"
               >
                 ¿Olvidaste tu contraseña?
