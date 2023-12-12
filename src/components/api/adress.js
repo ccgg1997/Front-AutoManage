@@ -1,6 +1,6 @@
 import axios from "axios";
-export const apiAddress = "https://jose-manuel.tech/api/v1";
-// export const apiAddress = "http://localhost:8000/api/v1";
+// export const apiAddress = "https://jose-manuel.tech/api/v1";
+export const apiAddress = "http://localhost:8000/api/v1";
 
 /* ------------------------------------Vehiculo----------------------------------------------*/
 /**
@@ -584,6 +584,7 @@ export const createOrden = async (orden, useToken) => {
 
 export const updateOrden = async (orden, useToken) => {
   const ordenesAdress = apiAddress + "/ordenes/" + orden.id + "/";
+  console.log("enviando orden", orden.id);
   try {
     const response = await axios.put(ordenesAdress, orden, {
       headers: {

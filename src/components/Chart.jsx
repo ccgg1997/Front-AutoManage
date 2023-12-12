@@ -2,28 +2,32 @@ import * as React from 'react';
 import { LineChart } from '@mui/x-charts/LineChart';
 
 export default function Chart({ data }) {
-
   // Extraer y convertir las fechas a solo el día del mes
-  const xAxisData = data.axisArray.map(dateStr => {
+  const xAxisData = [0, ...data.axisArray.map(dateStr => {
     const date = new Date(dateStr);
-    return date.getDate(); // Obtener solo el día del mes
-  });
+    return parseInt(date.getDate());
+  })];
 
+  const seriesArray = [0, ...data.seriesArray]
+  console.log(xAxisData);
+ 
   return (
     <LineChart
       xAxis={[
         {
           data: xAxisData,
-          type: 'category', // Cambiar a 'category' si solo mostramos números de día
+          type: 'number',
+          tickInterval: xAxisData
         }
       ]}
       series={[
         {
-          data: data.seriesArray,
+          data: seriesArray,
         },
       ]}
       width={900}
-      height={400}
+      height={395}
     />
   );
 }
+
