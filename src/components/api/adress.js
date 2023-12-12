@@ -584,6 +584,7 @@ export const createOrden = async (orden, useToken) => {
 
 export const updateOrden = async (orden, useToken) => {
   const ordenesAdress = apiAddress + "/ordenes/" + orden.id + "/";
+  console.log("enviando orden", orden.id);
   try {
     const response = await axios.put(ordenesAdress, orden, {
       headers: {

@@ -32,6 +32,12 @@ const Hero = () => {
   const [cantidadClientes, setCantidadClientes] = React.useState(0);
   const [arregloVentasUltimoMes, setArregloVentasUltimoMes] = React.useState([]);
   const [arregloVentasUltimoMesFechas, setArregloVentasUltimoMesFechas] =React.useState([])
+  const obtenerNombreMes = () => {
+    const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    const fechaActual = new Date();
+    return meses[fechaActual.getMonth()];
+  };
+  const nombreMesActual = obtenerNombreMes();  
 
   const [sucursales, setSucursales] = React.useState("");
 
@@ -152,7 +158,7 @@ const Hero = () => {
           <div className="text-xl">Ventas</div>
           <CardContent>
             <div className="flex flex-col items-center">
-              <span className="text-3xl font-bold">{totalVentas}</span>
+              <span className="text-3xl font-bold">{totalVentas.toLocaleString('es-CO')}</span>
               <span className="text-sm text-zinc-700 dark:text-zinc-400">
                 Total Ingresos del mes
               </span>
@@ -201,9 +207,9 @@ const Hero = () => {
           </CardContent>
         </Card>
       </aside>
-      <div className="flex flex-col gap-6 font-bold">
-        <Card className=" flex flex-col p-3  dark:bg-sky-950 dark:text-white justify-center content-center">
-          <div className="flex content-center justify-center  text-xl">Total mes actual </div>
+      <div className="flex flex-col gap-6 font-bold ">
+        <Card className=" flex flex-col p-3  dark:bg-slate-10 ">
+          <div className="flex text-2xl content-center justify-center"> Análisis de Ventas Diarias {nombreMesActual} </div>
           <CardContent className="flex content-center justify-center">
             <Chart data={{ axisArray: arregloVentasUltimoMesFechas, seriesArray: arregloVentasUltimoMes }} />
           </CardContent>

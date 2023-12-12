@@ -6,10 +6,13 @@ import {
   getPiezas,
   getOrdenPiezaById,
   deleteOrdenPieza,
+  getOneOrden,
+  updateOrden,
 } from "../../components/api/adress";
 import { Modal } from "@mui/material";
 import { Box, Typography } from "@mui/material";
 import { XCircleIcon } from "@heroicons/react/24/outline";
+import { to } from "@react-spring/web";
 const useField = ({ type, placeholder }) => {
   const [value, setValue] = React.useState("");
   const onChange = ({ target }) => {
@@ -18,7 +21,7 @@ const useField = ({ type, placeholder }) => {
   return { type, placeholder, value, onChange };
 };
 
-const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden, setValorTotalPiezas = () => {} }) => {
+const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden}) => {
   const { token } = useSelector((state) => state.auth);
   const [piezas, setPiezas] = React.useState([]);
   const [piezasOrden, setPiezasOrden] = React.useState([]);
@@ -26,6 +29,7 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden, setValorTotalPieza
   const [formActive, setFormActive] = React.useState(false);
   const [ordenModificada, setOrdenModificada] = React.useState(false);
   const [valorTotal, setValorTotal] = React.useState(0);
+  const [ordenCompleta, setOrdenCompleta] = React.useState({});
   const [piezasAgregadasActive, setPiezasAgregadasActive] =
     React.useState(false);
 
@@ -51,6 +55,18 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden, setValorTotalPieza
     }
   };
 
+  const obtenerOrden = async () => {
+    try {
+      const Ord = await getOneOrden(idOrden, token);
+      setOrdenCompleta(Ord);
+      console.log("orden: "+Ord);
+      console.log(Ord);
+    } catch (error) {
+      console.error(error);
+      toast.error(error.message);
+    }
+  };
+
   const piezaToOrden = {
     orden: idOrden,
     pieza: pieza.id_pieza,
@@ -62,17 +78,43 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden, setValorTotalPieza
   const generarValorTotal = () => {
     let valorTotal = 0;
     piezasOrden.forEach((pieza,index) => {
-      console.log("probnado las piezas" + index)
-      console.log(pieza.precio);
-      console.log(pieza.cantidad);
       const precioParseado = parseInt(pieza.precio);
       const cantidadParseada = infoPieza(pieza.cantidad);
       valorTotal += precioParseado * cantidadParseada;
     });
-    console.log("valor total" + valorTotal);
     setValorTotal(valorTotal);
-    setValorTotalPiezas(valorTotal);
   };
+
+  const actualizarTotalOrden = async() => {
+    console.log("actualizando total orden");
+    const totalPiezasOrden=piezasOrden.reduce((acc, pieza) => {
+      return acc + parseInt(pieza.valor_total);
+    }, 0);
+    const valor_mano_obra = parseInt(ordenCompleta.valor_mano_obra);
+    const nuevoValorTotal = totalPiezasOrden + valor_mano_obra;
+
+    const orden = {
+      ...ordenCompleta,
+      cliente_id: ordenCompleta.cliente.id,
+      sucursal_id: ordenCompleta.sucursal.id,
+      vendedor_id: ordenCompleta.vendedor.id,
+      valor_total: nuevoValorTotal,
+  
+    };
+    console.log("orden: "+orden.id);
+    console.log(orden.valor_total);
+    console.log(orden);
+    try {
+      await updateOrden(orden, token);
+      toast.success("Orden actualizada con exito");
+    } catch (error) {
+      console.error(error);
+      toast.error(error.message);
+    }
+
+
+  };
+
 
   const onClickDelete = async (id) => {
     try {
@@ -82,6 +124,7 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden, setValorTotalPieza
       setOrdenPiezas(piezasOrden);
       setOrdenModificada(!ordenModificada);
       obtenerPiezas();
+
     } catch (error) {
       console.error(error);
       toast.error(error.message);
@@ -116,6 +159,7 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden, setValorTotalPieza
 
   useEffect(() => {
     obtenerPiezas();
+    obtenerOrden();
   }, []);
 
   useEffect(() => {
@@ -134,6 +178,11 @@ const ModalPieza = ({ open, setOpen, setOrdenPiezas, idOrden, setValorTotalPieza
 
     generarValorTotal();
   }, [nombre.value, piezas, cantidad.value]);
+
+  useEffect(() => {
+    actualizarTotalOrden();
+  }, [piezasOrden]);
+  
 
   const infoPieza = (id) => {
     const piezaSeleccionada = piezas.find((p) => p.id === parseInt(id, 10));
