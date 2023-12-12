@@ -129,6 +129,14 @@ function LoginForm({ actualizar }) {
                 name="password"
               />
             </div>
+            <div className="mb-6 flex flex-col">
+              <a
+                href="/RecuperarContrasena"
+                className="text-sm font-medium text-primary hover:underline"
+              >
+                ¿Olvidaste tu contraseña?
+              </a>
+            </div>
             <div className="recaptcha mb-6 flex flex-col">
               <ReCAPTCHA
                 sitekey="6LfeEycpAAAAAOPIgiLL7_73s7eEXVSsW1YGpkml"

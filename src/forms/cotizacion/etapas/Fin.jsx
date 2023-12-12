@@ -58,7 +58,7 @@ export default function Fin({ formData, actionAfterSubmit }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await createCotizacion(model, token);
+            await createCotizacion(model, token);
             toast.success("Cotizacion creada con exito");
             setTimeout(function () {
                 actionAfterSubmit();

@@ -58,6 +58,8 @@ export default function UserUpdate() {
     getUserData();
   }, []);
 
+  
+
   return (
     <section className="flex flex-col items-center justify-center w-full h-screen py-12 bg-gray-50 dark:bg-slate-950 sm:px-6 lg:px-8">
       <ul className=" w-1/2 mx-auto ">
@@ -337,10 +339,18 @@ const ModalContrasena = ({
     try {
       if (verifyPasswords()) {
         if (differentPasswords()) {
+          if (!validarContrasenaSegura(contrasena.value)) {
+            toast.error(
+              "La contraseña debe tener al menos 8 caracteres, una letra mayuscula, una minuscula y un numero"
+            );
+            clearForm();
+            return;
+          } else {
           await userUpdatePassword(user, token);
           toast.success("Informacion actualizada con exito");
           clearForm();
           setOpenContrasenaModal(false);
+          }
         } else {
           toast.error("La contraseña anterior no puede ser igual a la nueva");
           clearForm();
@@ -360,6 +370,12 @@ const ModalContrasena = ({
     } else {
       return false;
     }
+  };
+
+  const validarContrasenaSegura = (contrasena) => {
+    //Valida que la contraseña tenga al menos 8 caracteres, una letra mayuscula, una minuscula y un numero
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    return regex.test(contrasena);
   };
 
   return (
