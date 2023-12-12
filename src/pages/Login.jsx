@@ -95,8 +95,8 @@ function LoginForm({ actualizar }) {
     <section className="flex items-center justify-center min-h-screen overflow-y-auto ">
       <Toaster />
       <div className="w-full px-4 flex flex-wrap justify-center md:pb-5">
-        <div className="sm:mb-0 md:w-9/12 lg:w-6/12  xl:w-6/12">
-          <div className="hidden md:flex z-10 mb-6 text-4xl font-bold justify-center items-center">
+        <div className="sm:mb-0 md:w-6/12 lg:w-6/12  xl:w-6/12">
+          <div className="hidden lg:flex z-10 mb-6 text-4xl font-bold justify-center items-center">
             Bienvenido
           </div>
           <img
