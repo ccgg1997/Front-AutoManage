@@ -250,7 +250,7 @@ export default function OrdenForm() {
                 Seleccione un valor
               </option>
               <option value="Finalizado">Finalizado</option>
-              <option value="Cancelado">Cancelado</option>
+              <option value="En Proceso">En Proceso</option>
             </select>
 
             <label
