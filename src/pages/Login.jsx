@@ -28,6 +28,7 @@ function LoginForm({ actualizar }) {
   const dispatch = useDispatch();
   const { width } = useWindowSize();
   const navigate = useNavigate();
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   // Tamaño del ReCAPTCHA según el ancho de la ventana
   const [captchaSize, setCaptchaSize] = useState("normal");
@@ -124,12 +125,25 @@ function LoginForm({ actualizar }) {
               />
 
               <Input
-                type="password"
+                type={passwordVisible ? "text" : "password"}
                 placeholder="Contraseña"
                 size="lg mt-3"
                 onChange={handleChange}
                 name="password"
               />
+            </div>
+            <div className="mb-6 flex flex-col">
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                  onClick={() => setPasswordVisible(!passwordVisible)}
+                />
+                <span className="ml-2 text-sm text-gray-600">
+                  Mostrar contraseña
+                </span>
+
+              </div>
             </div>
             <div className="mb-6 flex flex-col">
               <a

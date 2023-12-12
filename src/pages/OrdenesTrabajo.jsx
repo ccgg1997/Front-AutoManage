@@ -18,21 +18,22 @@ const OrdenesTrabajo = () => {
 
   const titles = [
     { headerName: "ID", field: "id", maxWidth: 50 },
-    { headerName: "Fecha de creacion", field: "fecha_creacion" },
-    { headerName: "Fecha de finalizacion", field: "fecha_finalizacion" },
-    { headerName: "Tipo", field: "tipo" },
-    { headerName: "Placa", field: "placa", maxWidth: 75 },
-    { headerName: "Mano de obra", field: "valor_mano_obra" },
-    { headerName: "Valor total", field: "valor_total" },
-    { headerName: "Estado", field: "estado" },
-    { headerName: "Cliente", field: "cliente" },
-    { headerName: "Sucursal", field: "sucursal", maxWidth: 100 },
-    { headerName: "Vendedor", field: "vendedor" },
+    { headerName: "Fecha de creacion", field: "fecha_creacion",minWidth:150,with: 200 },
+    { headerName: "Fecha de finalizacion", field: "fecha_finalizacion",minWidth:150,with: 200 },
+    { headerName: "Tipo", field: "tipo" ,minWidth:150,with: 200},
+    { headerName: "Placa", field: "placa",minWidth:80,with: 80 },
+    { headerName: "Mano de obra", field: "valor_mano_obra",minWidth:120,with: 120 },
+    { headerName: "Valor total", field: "valor_total",minWidth:120,with: 120 },
+    { headerName: "Estado", field: "estado",minWidth:100,with: 100 },
+    { headerName: "Cliente", field: "cliente",minWidth:120,with: 120 },
+    { headerName: "Sucursal", field: "sucursal",minWidth:100,with: 100},
+    { headerName: "Vendedor", field: "vendedor",minWidth:120,with: 120 },
     {
       title: "Acciones",
       field: "acciones",
       headerName: "Accion",
-      width: 300,
+      minWidth:200,with: 200,
+      disableColumnFilter: true,
       renderCell: (params) => (
         <div>
           <button

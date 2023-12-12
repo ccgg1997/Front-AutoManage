@@ -21,14 +21,15 @@ const Pieza = () => {
   const [editActive, setEditActive] = useState(false);
   const [deleteActive, setDeleteActive] = useState(false);
   const titles = [
-    { field: "id", headerName: "ID" },
-    { field: "nombre", headerName: "Nombre", width: 150 },
-    { field: "serie", headerName: "Serie", width: 150 },
-    { field: "precio", headerName: "Precio", width: 150, type: "number" },
+    { field: "id", headerName: "ID", minWidth: 50,maxWidth: 50 },
+    { field: "nombre", headerName: "Nombre",minWidth:150,with: 150},
+    { field: "serie", headerName: "Serie",minWidth:150,with: 150 },
+    { field: "precio", headerName: "Precio",minWidth:150,with: 150, type: "number" },
     {
       field: "accion",
       headerName: "Accion",
-      width: 200,
+      minWidth:200,
+      with: 200,
       renderCell: (params) => (
         <div>
           <button

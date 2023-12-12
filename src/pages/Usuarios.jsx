@@ -25,17 +25,18 @@ const Usuarios = () => {
 
   const titless = ["ID", "Nombre", "Email", "Identificacion", "Estado", "Rol"];
   const titles = [
-    { field: "id", headerName: "ID", maxWidth: 50 },
-    { field: "nombre", headerName: "Nombre", width: 130 },
-    { field: "apellido", headerName: "Apellido", width: 130 },
-    { field: "email", headerName: "Email", width: 130 },
-    { field: "identificacion", headerName: "Identificación", width: 130 },
-    { field: "estado", headerName: "Estado", width: 130 },
-    { field: "rol_descripcion", headerName: "Rol", width: 130 },
+    { field: "id", headerName: "ID", minWidth: 50,maxWidth: 50 },
+    { field: "nombre", headerName: "Nombre",minWidth:150,with: 150},
+    { field: "apellido", headerName: "Apellido",minWidth:110,with: 110},
+    { field: "email", headerName: "Email",minWidth:200,with: 200},
+    { field: "identificacion", headerName: "Identificación",minWidth:150,with: 150},
+    { field: "estado", headerName: "Estado",minWidth:100,with: 100 },
+    { field: "rol_descripcion", headerName: "Rol",minWidth:100,with: 100 },
     {
       field: "accion",
       headerName: "Acción",
-      width: 200,
+      minWidth:200,
+      with: 200,
       renderCell: (params) => (
         <div>
           <button

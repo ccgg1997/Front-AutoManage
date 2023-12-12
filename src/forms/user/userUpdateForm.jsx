@@ -58,8 +58,6 @@ export default function UserUpdate() {
     getUserData();
   }, []);
 
-  
-
   return (
     <section className="flex flex-col items-center justify-center w-full h-screen py-12 bg-gray-50 dark:bg-slate-950 sm:px-6 lg:px-8">
       <ul className=" w-1/2 mx-auto ">
@@ -214,7 +212,9 @@ const ModalName = ({ openNombreModal, setOpenNombreModal, nombre }) => {
             />
           </div>
           <div className="flex justify-between">
-            <button className="mb-5 p-2 bg-blue-500 hover:bg-blue-700 rounded mr-7">Actualizar</button>
+            <button className="mb-5 p-2 bg-blue-500 hover:bg-blue-700 rounded mr-7">
+              Actualizar
+            </button>
             <button
               onClick={() => setOpenNombreModal(false)}
               className="mb-5 p-2 bg-red-500 hover:bg-red-700 rounded"
@@ -288,7 +288,9 @@ const ModalCorreo = ({ openCorreoModal, setOpenCorreoModal, correo }) => {
             />
           </div>
           <div className="flex justify-between">
-            <button className="mb-5 p-2 bg-blue-500  hover:bg-blue-700 rounded ">Actualizar</button>
+            <button className="mb-5 p-2 bg-blue-500  hover:bg-blue-700 rounded ">
+              Actualizar
+            </button>
             <button
               onClick={() => setOpenCorreoModal(false)}
               className="mb-5 p-2  bg-red-500 hover:bg-red-700 rounded "
@@ -326,6 +328,10 @@ const ModalContrasena = ({
     new_password: contrasena.value,
   };
 
+  const [showLastPassword, setShowLastPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const[showPassword2, setShowPassword2] = useState(false);
+
   const differentPasswords = () => {
     if (contrasenaAnterior.value !== confirmarContrasena.value) {
       return true;
@@ -346,10 +352,10 @@ const ModalContrasena = ({
             clearForm();
             return;
           } else {
-          await userUpdatePassword(user, token);
-          toast.success("Informacion actualizada con exito");
-          clearForm();
-          setOpenContrasenaModal(false);
+            await userUpdatePassword(user, token);
+            toast.success("Informacion actualizada con exito");
+            clearForm();
+            setOpenContrasenaModal(false);
           }
         } else {
           toast.error("La contraseña anterior no puede ser igual a la nueva");
@@ -378,6 +384,7 @@ const ModalContrasena = ({
     return regex.test(contrasena);
   };
 
+ 
   return (
     <Modal
       className="flex items-center justify-center"
@@ -399,37 +406,71 @@ const ModalContrasena = ({
             <Typography className=" text-sm font-medium leading-6 text-gray-900 dark:text-slate-300">
               Contraseña anterior:
             </Typography>
+            <div className="flex items-center text-center flex-1 bg-transparent pl-1 text-gray-900 placeholder:text-gray-400
+      focus:ring-0 sm:text-sm sm:leading-6 border rounded-full border-black dark:text-white w-full dark:bg-slate-950 dark:border-white mb-4 mt-2">
             <input
               {...contrasenaAnterior}
               id="contrasenaAnterior"
+              type={showLastPassword ? "text" : "password"}
               required
               autoFocus
-              className="text-center flex-1 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 
-                focus:ring-0 sm:text-sm sm:leading-6 border rounded-full border-black  dark:text-white w-full dark:bg-slate-950 dark:border-white mb-4 mt-2"
+              className="flex-1 bg-transparent py-1.5 pl-1 text-gray-900 dark:text-white focus:outline-none"
             />
+            <button
+              type="button"
+              className="p-2 focus:outline-none"
+              onClick={() => setShowLastPassword(!showLastPassword)}
+            >
+              {showLastPassword ? "👁️" : "👁️‍🗨️"}
+            </button>
+          </div>
             <Typography className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300">
               Nueva contraseña:
             </Typography>
-            <input
-              {...contrasena}
-              id="contrasena"
-              required
-              className="text-center flex-1 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400
-                focus:ring-0 sm:text-sm sm:leading-6 border rounded-full border-black  dark:text-white w-full dark:bg-slate-950 dark:border-white mb-4 mt-2"
-            />
+            <div className="flex items-center text-center flex-1 bg-transparent pl-1 text-gray-900 placeholder:text-gray-400
+      focus:ring-0 sm:text-sm sm:leading-6 border rounded-full border-black dark:text-white w-full dark:bg-slate-950 dark:border-white mb-4 mt-2">
+              <input
+                {...contrasena}
+                id="contrasena"
+                type={showPassword ? "text" : "password"}
+                required
+                className="flex-1 bg-transparent py-1.5 pl-1 text-gray-900 dark:text-white focus:outline-none"
+                />
+              <button
+                type="button"
+                className="p-2 focus:outline-none"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? "👁️" : "👁️‍🗨️"}
+              </button>
+            </div>
+
             <Typography className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300">
               Confirmar contraseña:
             </Typography>
+            <div className="flex items-center text-center flex-1 bg-transparent pl-1 text-gray-900 placeholder:text-gray-400
+      focus:ring-0 sm:text-sm sm:leading-6 border rounded-full border-black dark:text-white w-full dark:bg-slate-950 dark:border-white mb-4 mt-2">
             <input
               {...confirmarContrasena}
               id="contrasenaConfirm"
               required
-              className="text-center flex-1 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400
-                focus:ring-0 sm:text-sm sm:leading-6 border rounded-full border-black  dark:text-white w-full dark:bg-slate-950 dark:border-white mb-4 mt-2"
+              type={showPassword2 ? "text" : "password"}
+              className="flex-1 bg-transparent py-1.5 pl-1 text-gray-900 dark:text-white focus:outline-none"
             />
+            <button
+              type="button"
+              className="p-2 focus:outline-none"
+              onClick={() => setShowPassword2(!showPassword2)}
+            >
+              {showPassword2 ? "👁️" : "👁️‍🗨️"}
+            </button>
+            </div>
           </div>
           <div className="flex justify-between">
-            <button className="mb-5 p-2 bg-blue-500 hover:bg-blue-700 rounded" type="submit">
+            <button
+              className="mb-5 p-2 bg-blue-500 hover:bg-blue-700 rounded"
+              type="submit"
+            >
               Actualizar
             </button>
             <button
