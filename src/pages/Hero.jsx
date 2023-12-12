@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Card from "@mui/material/Card";
+import Chart from "../components/Chart.jsx";
 import CardContent from "@mui/material/CardContent";
 import {
   getInventario,
@@ -29,8 +30,52 @@ const Hero = () => {
   const [cantidadVendedores, setCantidadVendedores] = React.useState(0);
   const [cantidadGerentes, setCantidadGerentes] = React.useState(0);
   const [cantidadClientes, setCantidadClientes] = React.useState(0);
+  const [arregloVentasUltimoMes, setArregloVentasUltimoMes] = React.useState([]);
+  const [arregloVentasUltimoMesFechas, setArregloVentasUltimoMesFechas] =React.useState([])
 
   const [sucursales, setSucursales] = React.useState("");
+
+  function filtrarYAgruparVentas(ventas) {
+    // Obtener la fecha actual
+    const fechaActual = new Date();
+
+    // Obtener el mes y año actual
+    const mesActual = fechaActual.getMonth();
+    const añoActual = fechaActual.getFullYear();
+
+    // Filtrar las ventas del mes actual
+    const ventasMesActual = ventas.filter((venta) => {
+        const fechaVenta = new Date(venta.fecha_creacion);
+        return fechaVenta.getMonth() === mesActual && fechaVenta.getFullYear() === añoActual;
+    });
+    setTotalVentas(ventasMesActual.reduce((total, venta) => {
+        return total + parseFloat(venta.valor_total);
+    }, 0))
+
+    // Crear objetos para agrupar las ventas por día
+    const ventasAgrupadas = {};
+    ventasMesActual.forEach((venta) => {
+        const fechaVenta = new Date(venta.fecha_creacion);
+        const fechaKey = fechaVenta.toISOString().slice(0, 10); // Formatea la fecha como "YYYY-MM-DD"
+        if (!ventasAgrupadas[fechaKey]) {
+            ventasAgrupadas[fechaKey] = 0;
+        }
+        ventasAgrupadas[fechaKey] += parseFloat(venta.valor_total);
+    });
+
+    const ventasTotales = ventasMesActual.reduce((total, venta) => {
+        return total + parseFloat(venta.valor_total);
+    }, 0);
+    
+
+    // Obtener arreglos de fechas y valores totales
+    const fechas = Object.keys(ventasAgrupadas);
+    const valoresTotales = fechas.map((fecha) => ventasAgrupadas[fecha]);
+
+    return { ventasMesActual, fechas, valoresTotales };
+}
+
+  
 
   useEffect(() => {
     const inventarioInfo = async () => {
@@ -66,11 +111,14 @@ const Hero = () => {
     const ventasInfo = async () => {
       const res = await getVentas(token);
       let total = 0;
+      const { fechas, valoresTotales } = filtrarYAgruparVentas(res);
+      setArregloVentasUltimoMes(valoresTotales);
+      setArregloVentasUltimoMesFechas(fechas);
       res.map((venta) => {
         let precio = parseFloat(venta.valor_total);
         total += precio;
       });
-      setTotalVentas(total);
+      
       setCantidadVentas(res.length);
     };
 
@@ -100,13 +148,24 @@ const Hero = () => {
   return (
     <div className="grid min-h-screen w-full grid-cols-1 lg:grid-cols-[1fr_3fr] gap-6 p-6">
       <aside className="flex flex-col gap-6 font-bold ">
+      <Card className="p-3 dark:bg-sky-950 dark:text-white">
+          <div className="text-xl">Ventas</div>
+          <CardContent>
+            <div className="flex flex-col items-center">
+              <span className="text-3xl font-bold">{totalVentas}</span>
+              <span className="text-sm text-zinc-700 dark:text-zinc-400">
+                Total Ingresos del mes
+              </span>
+            </div>
+          </CardContent>
+        </Card>
         <Card className="p-3 dark:bg-sky-950 dark:text-white">
           <div className="text-xl">Ventas</div>
           <CardContent>
             <div className="flex flex-col items-center">
               <span className="text-3xl font-bold">{cantidadVentas}</span>
               <span className="text-sm text-zinc-700 dark:text-zinc-400">
-                Ventas completadas
+                Cantidad completadas
               </span>
             </div>
           </CardContent>
@@ -142,34 +201,14 @@ const Hero = () => {
           </CardContent>
         </Card>
       </aside>
-      <div className="flex flex-col gap-6 font-bold ">
-        <Card className="p-3 dark:bg-sky-950 dark:text-white">
-          <div className="text-xl">Total</div>
-          <CardContent>
-            <div className="flex flex-col items-center">
-              <span className="text-3xl font-bold">${totalVentas}</span>
-              <span className="text-sm text-zinc-700 dark:text-zinc-400">
-                Valor total de ventas
-              </span>
-            </div>
+      <div className="flex flex-col gap-6 font-bold">
+        <Card className=" flex flex-col p-3  dark:bg-sky-950 dark:text-white justify-center content-center">
+          <div className="flex content-center justify-center  text-xl">Total mes actual </div>
+          <CardContent className="flex content-center justify-center">
+            <Chart data={{ axisArray: arregloVentasUltimoMesFechas, seriesArray: arregloVentasUltimoMes }} />
           </CardContent>
         </Card>
-        <Card className="p-3 dark:bg-sky-950 dark:text-white">
-          <div className="text-xl">Inventario de autos por sucursal</div>
-          <CardContent>
-            <div className="grid grid-cols-4 gap-4">
-              <div className="flex flex-col items-center"></div>
-              {Object.keys(sucursales).map((key, index) => (
-                <div className="flex flex-col items-center" key={index}>
-                  <span className="text-3xl font-bold">{sucursales[key]}</span>
-                  <span className="text-sm text-zinc-700 dark:text-zinc-400">
-                    {key}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        
         <Card className="p-3 dark:bg-sky-950 dark:text-white">
           <div className="text-xl">Usuarios</div>
           <CardContent>

@@ -29,7 +29,7 @@ export default function OrdenForm() {
   const id_vendedor = useField({ type: "number" });
   const description = useField({ type: "text" });
 
-  const [valorTotalPiezas, setTotalPiezas] = useState(1);
+  const [valorTotalPiezas, setTotalPiezas] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
   const [open, setOpen] = React.useState(false);
   const [ordenPiezas, setOrdenPiezas] = React.useState([]);
