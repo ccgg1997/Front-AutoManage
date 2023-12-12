@@ -146,18 +146,18 @@ const Inventario = () => {
 
   //titulos de tabla de vehiculos
   const titles = [
-    { field: "id", headerName: "ID", width: 130 },
-    { field: "marca", headerName: "Marca", width: 130 },
-    { field: "linea", headerName: "Linea", width: 130 },
-    { field: "precio", headerName: "Precio", width: 130 },
-    { field: "modelo", headerName: "Modelo", width: 130 },
-    { field: "condicion", headerName: "Condicion", width: 130 },
-    { field: "concesionario", headerName: "Concesionario", width: 13 },
-    { field: "color", headerName: "Color" },
+    { field: "id", headerName: "ID", minWidth: 50,maxWidth: 50 },
+    { field: "marca", headerName: "Marca",minWidth:100,with: 100 },
+    { field: "linea", headerName: "Linea",minWidth:100,with: 100},
+    { field: "precio", headerName: "Precio",minWidth:130,with: 130 },
+    { field: "modelo", headerName: "Modelo",minWidth:80,with: 80 },
+    { field: "condicion", headerName: "Condicion",minWidth:100,with: 100 },
+    { field: "concesionario", headerName: "Concesionario",minWidth:130,with: 130 },
+    { field: "color", headerName: "Color" ,minWidth:100,with: 100},
     {
       field: "accion",
       headerName: "Accion",
-      width: 200,
+      minWidth:150,with: 150,
       renderCell: (params) => (
         <div>
           <button
@@ -173,19 +173,20 @@ const Inventario = () => {
 
   //titulo de tabla de respuestos
   const titlePiezas = [
-    { field: "id", headerName: "ID", width: 130 },
-    { field: "nombre", headerName: "Nombre", width: 130 },
-    { field: "precio", headerName: "Precio", width: 130 },
-    { field: "sucursal", headerName: "Sucursal", width: 130 },
+    { field: "id", headerName: "ID", minWidth: 50,maxWidth: 50 },
+    { field: "nombre", headerName: "Nombre",minWidth:140,with: 140 },
+    { field: "precio", headerName: "Precio",minWidth:120,with: 120},
+    { field: "sucursal", headerName: "Sucursal",minWidth:120,with: 120},
     {
       field: "cantidad_disponible",
       headerName: "Cantidad Disponible",
-      width: 130,
+      minWidth:80,with: 80
     },
     {
       field: "acciones",
       headerName: "Acciones",
-      width: 200,
+      minWidth:190,with: 190,
+      disableColumnFilter: true,
       renderCell: (params) => (
         <div className="flex flex-row">
           <button

@@ -9,14 +9,14 @@ import { getVentasDetalle } from "../../../components/api/adress.js";
 export default function Resumen({ actionVender }) {
     const { token, rol } = useSelector((state) => state.auth);
     const titles = [
-        { field: "id", headerName: "ID", width: 5 },
-        { field: "fecha_creacion", headerName: "Fecha Creación", width: 130 },
-        { field: "estado", headerName: "Estado", width: 130 },
-        { field: "vehiculo", headerName: "Vehiculo", width: 130 },
-        { field: "modelo", headerName: "Modelo", width: 130 },
-        { field: "valor_total", headerName: "Valor Total", width: 130 },
-        { field: "sucursal", headerName: "Sucursal", width: 130 },
-        { field: "cotizacion", headerName: "Nº Cotización", width: 60 }
+        { field: "id", headerName: "ID",  minWidth: 50,maxWidth: 50 },
+        { field: "fecha_creacion", headerName: "Fecha Creación",minWidth:120,with: 120 },
+        { field: "estado", headerName: "Estado",minWidth:150,with: 150 },
+        { field: "vehiculo", headerName: "Vehiculo",minWidth:200,with: 200},
+        { field: "modelo", headerName: "Modelo",minWidth:90,with: 90 },
+        { field: "valor_total", headerName: "Valor Total",minWidth:120,with: 120},
+        { field: "sucursal", headerName: "Sucursal",minWidth:120,with: 120},
+        { field: "cotizacion", headerName: "Nº Cotización",minWidth:120,with: 120 }
     ];
     const [dataSucursal, setDataSucursal] = useState({});
     const [dataVentas, setDataVentas] = useState([]);

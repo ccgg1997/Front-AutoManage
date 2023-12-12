@@ -9,7 +9,6 @@ import {
 import { Toaster, toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 
-
 const useField = (type) => {
   const [value, setValue] = useState("");
   const onChange = (event) => {
@@ -29,6 +28,8 @@ export default function RecuperacionContrasena() {
   const generarCodigoNumerico = () => {
     return Math.floor(Math.random() * (999999 - 100000)) + 100000;
   };
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [passwordVisibleAgain, setPasswordVisibleAgain] = useState(false);
 
   const navigate = useNavigate();
 
@@ -42,7 +43,7 @@ export default function RecuperacionContrasena() {
     const emailToSend = {
       email: correo.value,
       codigo: codigo,
-    }
+    };
     const response = await sendEmail(emailToSend);
     console.log(response);
   };
@@ -79,10 +80,8 @@ export default function RecuperacionContrasena() {
     const parsetCodigo = parseInt(codigoIngresado.value);
     if (parsetCodigo === codigo) {
       toast.success("El código ingresado es correcto");
-      setTimeout(() => {
-        setMostrarIngreseCodigo(false);
-        setMostrarNuevaContrasena(true);
-      }, 2000);
+      setMostrarIngreseCodigo(false);
+      setMostrarNuevaContrasena(true);
     } else {
       toast.error("El código ingresado no es correcto");
     }
@@ -101,7 +100,7 @@ export default function RecuperacionContrasena() {
           const user = {
             email: correo.value,
             new_password: password.value,
-          }
+          };
           const response = userUpdatePasswordLost(user);
           if (response === null) {
             toast.error("Error al cambiar la contraseña");
@@ -174,7 +173,10 @@ export default function RecuperacionContrasena() {
                 <span className="text-neutral-500">
                   Recuerdas tu contraseña?
                 </span>{" "}
-                <a className="text-primary hover:underline" onClick={() => navigate("/login")}>
+                <a
+                  className="text-primary hover:underline"
+                  onClick={() => navigate("/login")}
+                >
                   Iniciar sesión
                 </a>
               </div>
@@ -222,7 +224,10 @@ export default function RecuperacionContrasena() {
                 <span className="text-neutral-500">
                   Recuerdas tu contraseña?
                 </span>{" "}
-                <a className="text-primary hover:underline" onClick={() => navigate("/login")}>
+                <a
+                  className="text-primary hover:underline"
+                  onClick={() => navigate("/login")}
+                >
                   Iniciar sesión
                 </a>
               </div>
@@ -247,14 +252,24 @@ export default function RecuperacionContrasena() {
                     {" "}
                     Nueva Contraseña{" "}
                   </label>
-                  <div className="relative rounded-md shadow-sm">
+                  <div
+                    className="flex items-center text-center flex-1 bg-transparent pl-1 text-gray-900 placeholder:text-gray-400
+      focus:ring-0 sm:text-sm sm:leading-6 border rounded-full border-black dark:text-white w-full dark:bg-slate-950 dark:border-white mb-4 mt-2"
+                  >
                     <input
                       {...password}
+                      type= {passwordVisible ? "text" : "password"}
                       required
                       autoFocus
-                      className="text-center flex-1 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 
-                focus:ring-0 sm:text-sm sm:leading-6 border rounded-full border-black  dark:text-white w-full dark:bg-slate-950 dark:border-white mb-4 mt-2"
+                      className="flex-1 bg-transparent py-1.5 pl-1 text-gray-900 dark:text-white focus:outline-none"
                     />
+                    <button
+                      type="button"
+                      className="p-2 focus:outline-none"
+                      onClick={() => setPasswordVisible(!passwordVisible)}
+                    >
+                      {passwordVisible ? "👁️" : "👁️‍🗨️"}
+                    </button>
                   </div>
                 </div>
                 <div className="space-y-1">
@@ -262,14 +277,26 @@ export default function RecuperacionContrasena() {
                     {" "}
                     Verificar Contraseña{" "}
                   </label>
-                  <div className="relative rounded-md shadow-sm">
+                  <div
+                    className="flex items-center text-center flex-1 bg-transparent pl-1 text-gray-900 placeholder:text-gray-400
+      focus:ring-0 sm:text-sm sm:leading-6 border rounded-full border-black dark:text-white w-full dark:bg-slate-950 dark:border-white mb-4 mt-2"
+                  >
                     <input
                       {...passwordAgain}
+                      type = {passwordVisibleAgain ? "text" : "password"}
                       required
                       autoFocus
-                      className="text-center flex-1 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400
-                focus:ring-0 sm:text-sm sm:leading-6 border rounded-full border-black  dark:text-white w-full dark:bg-slate-950 dark:border-white mb-4 mt-2"
+                      className="flex-1 bg-transparent py-1.5 pl-1 text-gray-900 dark:text-white focus:outline-none"
                     />
+                    <button
+                      type="button"
+                      className="p-2 focus:outline-none"
+                      onClick={() =>
+                        setPasswordVisibleAgain(!passwordVisibleAgain)
+                      }
+                    >
+                      {passwordVisibleAgain ? "👁️" : "👁️‍🗨️"}
+                    </button>
                   </div>
                 </div>
                 <button
@@ -283,7 +310,10 @@ export default function RecuperacionContrasena() {
                 <span className="text-neutral-500">
                   Recuerdas tu contraseña?
                 </span>{" "}
-                <a className="text-primary hover:underline" onClick={() => navigate("/login")}>
+                <a
+                  className="text-primary hover:underline"
+                  onClick={() => navigate("/login")}
+                >
                   Iniciar sesión
                 </a>
               </div>

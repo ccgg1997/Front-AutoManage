@@ -6,10 +6,11 @@ export default function BasicTable({ data, titles }) {
   const adjustedTitles = titles.map((title) => ({
     ...title,
     flex: 1,
+    headerClassName: "custom-header",
   }));
 
   return (
-    <Box className="h-80vh w-full">
+    <Box className="h-80vh w-full overflow-x-auto">
       <DataGrid
         className="bg-white dark:bg-sky-950 dark:text-white"
         rows={data}
@@ -23,7 +24,8 @@ export default function BasicTable({ data, titles }) {
         }}
         pageSizeOptions={[10]}
         disableRowSelectionOnClick
-        autoHeight
+        autoHeight = {true}
+        columnHeaderHeight={56}
       />
     </Box>
   );

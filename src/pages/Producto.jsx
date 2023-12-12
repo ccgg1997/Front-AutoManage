@@ -27,11 +27,11 @@ const Producto = () => {
   const [editActive, setEditActive] = useState(false);
   const [deleteActive, setDeleteActive] = useState(false);
   const titles = [
-    { field: "id", headerName: "ID" },
-    { field: "marca", headerName: "Marca", width: 150 },
-    { field: "linea", headerName: "Modelo", width: 150 },
-    { field: "tipo", headerName: "Tipo", width: 150 },
-    { field: "precio", headerName: "Precio", width: 150, type: "number" },
+    { field: "id", headerName: "ID", minWidth: 50,maxWidth: 50 },
+    { field: "marca", headerName: "Marca",minWidth:100,with: 100 },
+    { field: "linea", headerName: "Modelo",minWidth:150,with: 150},
+    { field: "tipo", headerName: "Tipo",minWidth:100,with: 100},
+    { field: "precio", headerName: "Precio" ,minWidth:150,with: 150, type: "number" },
   ];
 
   const { token } = useSelector((state) => state.auth);
