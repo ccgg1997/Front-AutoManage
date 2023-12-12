@@ -7,6 +7,7 @@ import {
   sendEmail,
 } from "../components/api/adress";
 import { Toaster, toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 
 const useField = (type) => {
@@ -29,12 +30,13 @@ export default function RecuperacionContrasena() {
     return Math.floor(Math.random() * (999999 - 100000)) + 100000;
   };
 
+  const navigate = useNavigate();
+
   const correo = useField("email");
   const codigoIngresado = useField("number");
   const password = useField("password");
   const passwordAgain = useField("password");
   const [codigo, setCodigo] = useState(generarCodigoNumerico());
-
 
   const enviarCorreo = async () => {
     const emailToSend = {
@@ -109,7 +111,7 @@ export default function RecuperacionContrasena() {
               "La contraseña se ha cambiado correctamente, rediriendo..."
             );
             setTimeout(() => {
-              window.location.href = "/login";
+              navigate("/login");
             }, 1500);
           }
           console.log(response);
@@ -172,7 +174,7 @@ export default function RecuperacionContrasena() {
                 <span className="text-neutral-500">
                   Recuerdas tu contraseña?
                 </span>{" "}
-                <a className="text-primary hover:underline" href="/login">
+                <a className="text-primary hover:underline" onClick={() => navigate("/login")}>
                   Iniciar sesión
                 </a>
               </div>
@@ -281,7 +283,7 @@ export default function RecuperacionContrasena() {
                 <span className="text-neutral-500">
                   Recuerdas tu contraseña?
                 </span>{" "}
-                <a className="text-primary hover:underline" href="/login">
+                <a className="text-primary hover:underline" onClick={() => navigate("/login")}>
                   Iniciar sesión
                 </a>
               </div>
