@@ -233,7 +233,7 @@ export const createUsuario = async (user, useToken) => {
 export const updateUsers = async (user, useToken) => {
   const usuariosAdress = apiAddress + "/usuarios/" + user.id + "/";
   try {
-    const response = await axios.put(usuariosAdress, user, {
+    const response = await axios.patch(usuariosAdress, user, {
       headers: {
         Authorization: "Bearer " + useToken,
       },

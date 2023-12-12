@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { createUsuario } from "../../components/api/adress";
 import { Toaster, toast } from "sonner";
 import { useSelector } from "react-redux";
+import SelectorSucursal from "../../components/SelectorSucursal.jsx";
 
 const useField = ({ type, placeholder, options }) => {
   const [value, setValue] = React.useState("");
@@ -31,7 +32,7 @@ export default function UsuarioForm() {
   const apellido = useField({ type: "text" });
   const identificacion = useField({ type: "number" });
   const email = useField({ type: "email" });
-  const sucursal = useField({ type: "number" });
+  const [sucursal_id, setSucursalId] = useState("");
   const password = useField({ type: "password" });
   const estado = "ACTIVO";
   const [is_superuser, setIsSuperuser] = useState(false);
@@ -42,7 +43,7 @@ export default function UsuarioForm() {
     apellido: apellido.value,
     identificacion: identificacion.value,
     email: email.value,
-    sucursal_id: sucursal.value,
+    sucursal_id: sucursal_id.id,
     is_superuser,
     password: password.value,
     estado,
@@ -88,7 +89,6 @@ export default function UsuarioForm() {
     apellido.onChange({ target: { value: "" } });
     identificacion.onChange({ target: { value: "" } });
     email.onChange({ target: { value: "" } });
-    sucursal.onChange({ target: { value: "" } });
     password.onChange({ target: { value: "" } });
   };
 
@@ -198,16 +198,8 @@ export default function UsuarioForm() {
                   Sucursal
                 </label>
                 <div className="mt-2">
-                  <div className="mx-auto flex rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
-                    <input
-                      {...sucursal}
-                      id="sucursal"
-                      autoComplete="sucursal"
-                      min="1"
-                      required
-                      className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 
-                focus:ring-0 sm:text-sm sm:leading-6  dark:text-white"
-                    />
+                  <div className="mx-auto rounded-md ring-1 ring-inset ring-gray-300  sm:max-w-md">
+                    <SelectorSucursal onChange={setSucursalId} />
                   </div>
                 </div>
               </div>
@@ -264,26 +256,26 @@ export default function UsuarioForm() {
                       className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400
                         focus:ring-0 sm:text-sm sm:leading-6  dark:text-white"
                     />
-                        <button
-                          type="button"
-                          className="ml-2 p-2 focus:outline-none"
-                          onClick={alternarVisibilidadContraseña}
-                        >
-                          {showPassword ? "👁️" : "👁️‍🗨️"}
-                        </button>
-                      </div>
-                    </div>
+                    <button
+                      type="button"
+                      className="ml-2 p-2 focus:outline-none"
+                      onClick={alternarVisibilidadContraseña}
+                    >
+                      {showPassword ? "👁️" : "👁️‍🗨️"}
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
 
 
-          <button className=" mb-5 mt-5 p-2 bg-lime-600 rounded " type="submit">
-            Crear
-          </button>
-          <Toaster />
-        </form>
-        );
+      <button className=" mb-5 mt-5 p-2 bg-lime-600 rounded " type="submit">
+        Crear
+      </button>
+      <Toaster />
+    </form>
+  );
 }

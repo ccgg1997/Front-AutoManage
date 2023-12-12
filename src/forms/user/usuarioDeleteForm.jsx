@@ -4,15 +4,7 @@ import { Toaster, toast } from "sonner";
 import { useSelector } from "react-redux";
 import { Modal, Box, Typography } from "@mui/material";
 
-const useField = ({ type, placeholder }) => {
-  const [value, setValue] = React.useState("");
-  const onChange = ({ target }) => {
-    setValue(target.value);
-  };
-  return { type, placeholder, value, onChange };
-};
-
-export default function UsuarioDeleteForm() {
+export default function UsuarioDeleteForm({ targetId, clearForm }) {
   /**
    * Renders a form for deleting a vehicle.
    *
@@ -20,80 +12,52 @@ export default function UsuarioDeleteForm() {
    */
   const { token } = useSelector((state) => state.auth);
   const { id } = useSelector((state) => state.auth);
-  const [isOpen, setIsOpen] = React.useState(false);
-  const identificacion = useField({ type: "number" });
 
-  const handleSubmit = async () => {
-    const idUsuario = parseInt(identificacion.value);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      if (idUsuario === id) {
+      if (targetId === id) {
         toast.error("No puede eliminar su propio usuario");
         return;
       }
-      await deleteUsuario(idUsuario, token);
+      await deleteUsuario(targetId, token);
       toast.success("Usuario eliminado con exito");
-      clearForm();
+      setTimeout(() => {
+        clearForm();
+      }, 2000);
     } catch (error) {
       toast.error(error.message);
       console.error(error);
-    } finally {
-      setIsOpen(false);
     }
   };
 
-  const openModal = (e) => {
-    e.preventDefault();
-    setIsOpen(true);
-  };
-
-  const clearForm = () => {
-    identificacion.onChange({ target: { value: "" } });
-  };
 
   return (
-    <form onSubmit={openModal}>
+    <form onSubmit={handleSubmit}>
       <div className="border-t pt-12 border-b border-gray-900/10 pb-12">
         <h2
           className="text-base font-semibold leading-7 text-gray-900
-        dark:text-slate-300 sm:text-3xl sm:truncate
-        "
+      dark:text-slate-300 sm:text-3xl sm:truncate
+      "
         >
-          Eliminación de usuarios
+          Deshabilitación de usuarios
         </h2>
-        <p className="mt-1 text-sm leading-6 text-gray-600 dark:text-slate-300">
-          Bienvenido al portal de usuarios, Antes de eliminar un usuario tenga a
-          la mano la identificación del usuario
-        </p>
+        <h4>
+          ¿Está seguro de deshabilitar el usuario?
+        </h4>
       </div>
-
-      <div className="mt-10">
-        <label
-          htmlFor="marca"
-          className="text-sm font-medium leading-6 text-gray-900 dark:text-slate-300"
-        >
-          Identificación del usuario
-        </label>
-        <div className="mt-2">
-          <div className="mx-auto flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-md dark:text-slate-300">
-            <input
-              {...identificacion}
-              id="identificacion"
-              autoComplete="identificacion"
-              required
-              className="text-center flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 
-                focus:ring-0 sm:text-sm sm:leading-6  dark:text-white"
-            />
-          </div>
-        </div>
-      </div>
-
-      <SureModal
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        handleDelete={handleSubmit}
-      />
-      <button className=" mb-5 p-2 bg-lime-600 rounded mt-5" type="submit">
-        Eliminar
+      <button
+        className=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 ml-2 rounded "
+        type="submit"
+      >
+        Deshabilitar
+      </button>
+      <button
+        className=" bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 ml-2 rounded "
+        type="button"
+        onClick={() => clearForm()}
+      >
+        Cancelar
       </button>
       <Toaster />
     </form>

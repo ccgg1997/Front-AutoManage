@@ -30,7 +30,7 @@ export default function SelectorSucursal({ onChange }) {
             value={defaultSelected}
             displayEmpty
             inputProps={{ 'aria-label': 'Without label' }}
-            className="dark:bg-sky-950 dark:border-white text-white dark:text-white"
+            className="dark:bg-sky-950 dark:border-white text-white dark:text-white w-full"
             onChange={seleccionarSucursal}
         >
             <MenuItem value="">
