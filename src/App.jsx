@@ -11,6 +11,7 @@ import Pieza from "./pages/Pieza";
 import Profile from "./pages/Profile";
 import Producto from "./pages/Producto";
 import ConsultaReparaciones from "./pages/ConsultaReparacion";
+import RecuperacionContrasena from "./pages/RecuperacionContrasena";
 import React from "react";
 import { clearAuthData } from "./store/features/auth/auth";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -30,7 +31,17 @@ function App() {
 
   return (
     <div className=" dark:bg-slate-950">
-      {!auth && <Login actualizar={actualizarAuth} />}
+      {!auth && (
+        <Router>
+          <Routes>
+            <Route
+              path="/RecuperarContrasena"
+              element={<RecuperacionContrasena />}
+            ></Route>
+            <Route path="/*" element={<Login actualizar={actualizarAuth} />} />
+          </Routes>
+        </Router>
+      )}
       {auth && (
         <Router>
           <Navbar logOut={logOut} />

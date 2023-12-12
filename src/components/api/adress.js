@@ -291,6 +291,20 @@ export const userUpdatePassword = async (user, useToken) => {
   }
 }
 
+export const userUpdatePasswordLost = async (user) => {
+  const userAdress = apiAddress + "/usuarios/change_password_lost/"
+  try {
+    const response = await axios.post(userAdress, user);
+    return response.data;
+  } catch (error) {
+    if (error.response.status === 404) {
+      return null;
+    } else {
+      throw new Error("Error al actualizar el usuario", error);
+    }
+  }
+}
+
 export const getUsuarioById = async (id, useToken) => {
   const usuariosAdress = apiAddress + "/usuarios/" + id + "/";
   try {
@@ -305,7 +319,19 @@ export const getUsuarioById = async (id, useToken) => {
   }
 }
 
-
+export const getUsuarioByEmail = async (email) => {
+  const usuariosAdress = apiAddress + "/usuarios/buscar_por_correo/?email=" + email;
+  try {
+    const response = await axios.get(usuariosAdress, {
+    });
+    return response.data
+  } catch (error) {
+    if (error.response.status === 404) {
+      return null;
+    }
+    throw new Error("Error al obtener el usuario", error);
+  }
+}
 
 export const deleteUsuario = async (id, useToken) => {
   const usuariosAdress = apiAddress + "/usuarios/" + id + "/";
@@ -953,6 +979,20 @@ export const deleteInventarioPieza = async (id, useToken) => {
     throw new Error("Error al eliminar el inventario de piezas", error);
   }
 }
+
+//-------------------------------Enviar Correo--------------------------------
+
+export const sendEmail = async (email) => {
+  const emailAdress = apiAddress + "/enviar_email/send_email/";
+  try {
+    const response = await axios.post(emailAdress, email);
+    return response.data
+  } catch (error) {
+
+    throw new Error("Error al enviar el correo", error);
+  }
+}
+
 
 //-------------------------Chat------------------------------
 
