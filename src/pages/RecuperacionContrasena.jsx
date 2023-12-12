@@ -222,7 +222,7 @@ export default function RecuperacionContrasena() {
                 <span className="text-neutral-500">
                   Recuerdas tu contraseña?
                 </span>{" "}
-                <a className="text-primary hover:underline" href="/login">
+                <a className="text-primary hover:underline" onClick={() => navigate("/login")}>
                   Iniciar sesión
                 </a>
               </div>
