@@ -144,6 +144,7 @@ export default function Navbar({ logOut }) {
                   </div>
                 </div>
               </div>
+              <div className="bold text-white ">{rol}</div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <button
                   type="button"
@@ -210,7 +211,7 @@ export default function Navbar({ logOut }) {
               </div>
             </div>
           </div>
-
+          
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 px-2 pb-3 pt-2">
               {navigation.map((item) => (
